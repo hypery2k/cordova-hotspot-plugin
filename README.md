@@ -48,6 +48,57 @@ cordova.plugins.hotspot.isWifiDirectSupported(
 );
 ```
 
+
+### Create Hotspot
+
+```javascript
+cordova.plugins.hotspot.createHotspot(ssid, mode, password, 
+    function () {
+        // Hotspot is created
+    },function () {
+        // Error
+    }
+);
+```
+
+### Stop Hotspot
+
+```javascript
+cordova.plugins.hotspot.stopHotspot(
+    function () {
+        // Hotspot is disabled
+    },function () {
+        // Error
+    }
+);
+```
+
+### Check if Hotspot is enabled
+
+```javascript
+cordova.plugins.hotspot.isHotspotEnabled(
+    function () {
+        // Hotspot is on
+    },function () {
+        // Hotspot is off
+    }
+);
+```
+
+### Get all connected devices
+
+```javascript
+cordova.plugins.hotspot.getAllHotspotDevices(
+    function (devices) {
+        // array of JSON objects:
+        // -> ip
+        // -> mac
+    },function () {
+        // error
+    }
+);
+```
+
 ### Check if Wifi is enabled
    
 ```javascript

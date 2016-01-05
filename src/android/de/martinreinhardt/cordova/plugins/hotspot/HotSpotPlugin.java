@@ -24,16 +24,29 @@
 package de.martinreinhardt.cordova.plugins.hotspot;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+import com.mady.wifi.api.WifiAddresses;
 import com.mady.wifi.api.WifiHotSpots;
 import com.mady.wifi.api.WifiStatus;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class HotSpotPlugin extends CordovaPlugin {
 
+    /**
+     * Logging Tag
+     */
+    private static final String LOG_TAG = "HotSpotPlugin";
 
     private CallbackContext command;
 
@@ -62,14 +75,37 @@ public class HotSpotPlugin extends CordovaPlugin {
         if ("isWifiOn".equals(action)) {
             if (isWifiOn()) {
                 callback.success();
+                return true;
             } else {
                 callback.error("Wifi is off.");
             }
         }
 
+        if ("createHotspot".equals(action)) {
+            return createHotspot(args, callback);
+        }
+
+        if ("stopHotspot".equals(action)) {
+            return stopHotspot(callback);
+        }
+
+        if ("isHotspotEnabled".equals(action)) {
+            if (isHotspotEnabled()) {
+                callback.success();
+                return true;
+            } else {
+                callback.error("Hotspot check failed.");
+            }
+        }
+
+        if ("getAllHotspotDevices".equals(action)) {
+            return getAllHotspotDevices(callback);
+        }
+
         if ("isWifiSupported".equals(action)) {
             if (isWifiSupported()) {
                 callback.success();
+                return true;
             } else {
                 callback.error("Wifi is not supported.");
             }
@@ -79,6 +115,7 @@ public class HotSpotPlugin extends CordovaPlugin {
 
             if (isWifiDirectSupported()) {
                 callback.success();
+                return true;
             } else {
                 callback.error("Wifi direct is not supported.");
             }
@@ -96,8 +133,97 @@ public class HotSpotPlugin extends CordovaPlugin {
         // Returning false results in a "MethodNotFound" error.
         return false;
     }
-
     // IMPLEMENTATION
+
+    public boolean isHotspotEnabled() {
+        return new WifiHotSpots(this.cordova.getActivity()).isWifiApEnabled();
+    }
+
+    public boolean createHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String ssid = args.getString(0);
+        final String password = args.getString(1);
+        final String mode = args.getString(2);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                if (isHotspotEnabled()) {
+                    hotspot.startHotSpot(false);
+                }
+                if (hotspot.setHotSpot(ssid, mode, password)) {
+
+                    try {
+                        // Wait to connect
+                        Thread.sleep(4000);
+                        if (hotspot.startHotSpot(true)) {
+                            callback.success();
+                        } else {
+                            callback.error("Hotspot customization failed.");
+                        }
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "Got unkown error during hotspot configuration", e);
+                        callback.error("Hotspot configuration failed.");
+                    }
+                } else {
+                    callback.error("Hotspot creation failed.");
+                }
+            }
+        });
+        return true;
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+
+        return networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public boolean stopHotspot(CallbackContext callback) throws JSONException {
+        WifiHotSpots hotspot = new WifiHotSpots(this.cordova.getActivity());
+        if (isHotspotEnabled()) {
+            if (!hotspot.startHotSpot(false)) {
+                callback.error("Hotspot creation failed.");
+            }
+        }
+        callback.success();
+        return true;
+    }
+
+    public boolean getAllHotspotDevices(CallbackContext callback) {
+        WifiAddresses au = new WifiAddresses(this.cordova.getActivity());
+        ArrayList<String> ipList = au.getAllDevicesIp();
+        if (ipList != null) {
+            try {
+                Log.d(LOG_TAG, "Checking following IPs: " + ipList);
+                JSONArray result = new JSONArray();
+                for (String ip : ipList) {
+                    String mac = au.getArpMacAddress(ip);
+                    JSONObject entry = new JSONObject();
+                    entry.put("ip", ip);
+                    entry.put("mac", mac);
+                    // push entry to list
+                    result.put(entry);
+                }
+                callback.success(result);
+                return true;
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, "Got JSON error during device listing", e);
+                callback.error("Hotspot device listing failed.");
+                return false;
+            }
+        } else {
+            callback.error("Hotspot device listing failed.");
+            return false;
+        }
+    }
+
 
     public boolean connectToHotspot(JSONArray args) throws JSONException {
         String ssid = args.getString(0);

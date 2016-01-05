@@ -14,6 +14,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,8 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-
 public class WifiHotSpots {
+    /**
+     * Logging Tag
+     */
+    private static final String LOG_TAG = "WifiHotSpots";
+
     public static boolean isConnectToHotSpotRunning = false;
     WifiManager mWifiManager;
     WifiInfo mWifiInfo;
@@ -67,8 +72,8 @@ public class WifiHotSpots {
 
             return (retval == 0);
 
-        } catch (Exception e) {
-
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, "Unkown error during running as root.", ex);
             return false;
 
         }
@@ -334,6 +339,7 @@ public class WifiHotSpots {
                     mMethod.invoke(mWifiManager, null, enable);
                     return true;
                 } catch (Exception ex) {
+                    Log.e(LOG_TAG, "Unkown error during hotspot creation.", ex);
                 }
                 break;
             }
@@ -359,6 +365,7 @@ public class WifiHotSpots {
                     try {
                         mMethod.invoke(mWifiManager, netConfig, true);
                     } catch (Exception e) {
+                        Log.e(LOG_TAG, "Unkown error during setting hotspot.", e);
                         return false;
                     }
                     startHotSpot(enable);
@@ -372,26 +379,27 @@ public class WifiHotSpots {
      * Method to Change SSID and Password of Device Access Point
      *
      * @param SSID     a new SSID of your Access Point
+     * @param mode     wireless mode
      * @param passWord a new password you want for your Access Point
      */
-    public boolean setHotSpot(String SSID, String passWord) {
+    public boolean setHotSpot(String SSID, String mode, String passWord) {
         /*
          * Before setting the HotSpot with specific Id delete the default AP Name.
     	 */
-        /*
-            List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
-    	 for( WifiConfiguration i : list ) {
-    	  if(i.SSID != null && i.SSID.equals(SSID)) {
-    	     //wm.disconnect();
-    	     //wm.enableNetwork(i.networkId, true);
-    	     //wm.reconnect();
-    		  //mWifiManager.disableNetwork(i.networkId);
-    		  mWifiManager.removeNetwork(i.networkId);
-    		  mWifiManager.saveConfiguration();
-    	     break;
-    	  }
-    	 }
-    	*/
+/*
+        List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
+        for (WifiConfiguration i : list) {
+            if (i.SSID != null && i.SSID.equals(SSID)) {
+                //wm.disconnect();
+                //wm.enableNetwork(i.networkId, true);
+                //wm.reconnect();
+                //mWifiManager.disableNetwork(i.networkId);
+                mWifiManager.removeNetwork(i.networkId);
+                mWifiManager.saveConfiguration();
+                break;
+            }
+        }*/
+
         //mWifiManager.acquire();
         Method[] mMethods = mWifiManager.getClass().getDeclaredMethods();
 
@@ -424,7 +432,7 @@ public class WifiHotSpots {
                     return true;
 
                 } catch (Exception e) {
-
+                    Log.e(LOG_TAG, "Unkown error during saving wifi config.", e);
                 }
             }
         }
@@ -439,7 +447,7 @@ public class WifiHotSpots {
             Method method = mWifiManager.getClass().getMethod("isWifiApEnabled");
             return (Boolean) method.invoke(mWifiManager);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "Unkown error during checking ap wifi.", e);
         }
 
         return false;
@@ -448,7 +456,7 @@ public class WifiHotSpots {
     /**
      * shred all  Configured wifi Networks
      */
-    public boolean shredAllWifi() {
+    public boolean sharedAllWifi() {
         Context context = mContext;
         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
@@ -486,17 +494,13 @@ public class WifiHotSpots {
      * @param netType Network Security Type   OPEN PSK EAP OR WEP
      */
     public void addWifiNetwork(String netSSID, String netPass, String netType) {
-
         WifiConfiguration wifiConf = new WifiConfiguration();
         if (netType.equalsIgnoreCase("OPEN")) {
-
             wifiConf.SSID = "\"" + netSSID + "\"";
             wifiConf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
             mWifiManager.addNetwork(wifiConf);
             mWifiManager.saveConfiguration();
-
         } else if (netType.equalsIgnoreCase("WEP")) {
-
             wifiConf.SSID = "\"" + netSSID + "\"";
             wifiConf.wepKeys[0] = "\"" + netPass + "\"";
             wifiConf.wepTxKeyIndex = 0;
@@ -504,10 +508,7 @@ public class WifiHotSpots {
             wifiConf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
             mWifiManager.addNetwork(wifiConf);
             mWifiManager.saveConfiguration();
-
-
         } else {
-
             wifiConf.SSID = "\"" + netSSID + "\"";
             wifiConf.preSharedKey = "\"" + netPass + "\"";
             wifiConf.hiddenSSID = true;
@@ -521,11 +522,7 @@ public class WifiHotSpots {
             wifiConf.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
             mWifiManager.addNetwork(wifiConf);
             mWifiManager.saveConfiguration();
-
-
         }
-
-
     }
 
     /**
@@ -609,6 +606,7 @@ public class WifiHotSpots {
             }
             bufRead.close();
         } catch (Exception e) {
+            Log.e(LOG_TAG, "Interrupt error during get password.", e);
             Toast.makeText(mContext, "error read wpa_supplicant.conf file", Toast.LENGTH_LONG)
                     .show();
             return null;
@@ -638,9 +636,11 @@ public class WifiHotSpots {
                     this.gotRoot = false;
                 }
             } catch (InterruptedException e) {
+                Log.e(LOG_TAG, "Interrupt error during check root.", e);
                 this.gotRoot = false;
             }
-        } catch (IOException e) {
+        } catch (IOException ex) {
+            Log.e(LOG_TAG, "Unkown IO error during check root", ex);
             this.gotRoot = false;
         }
     }

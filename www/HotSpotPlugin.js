@@ -45,6 +45,45 @@ HotSpotPlugin.prototype = {
         }
     },
     /**
+     * Create a WiFi Hotspot
+     *
+     * @param {String} ssid
+     *      SSID to connect
+     * @param {String} mode
+     *      wireless mode
+     * @param {String} password
+     *      password to use
+     * @param {Function} successCB
+     *      A callback function to be called when connected successful
+     * @param {Object} errorCB
+     *      A callback function to be called when connection was not successful
+     */
+    createHotspot: function (ssid, mode, password, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "createHotspot", [ssid, password, mode]);
+    },
+    stopHotspot: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "stopHotspot", []);
+    },
+
+
+    isHotspotEnabled: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "isHotspotEnabled", []);
+    },
+
+
+    getAllHotspotDevices: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "getAllHotspotDevices", []);
+    },
+
+    /**
      * Connect to a WiFi Hotspot
      *
      * @param {String} ssid
