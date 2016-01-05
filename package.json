@@ -1,0 +1,23 @@
+{
+  "name": "cordova-plugin-hotspot",
+  "version": "0.1.0",
+  "description": "Cordova WiFi Hotspot Plugin",
+  "cordova": {
+    "id": "cordova-plugin-hotspot",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hypery2k/cordova-hotspot-plugin.git"
+  },
+  "keywords": [
+    "cordova",
+    "hotspot",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Martin Reinhardt",
+  "license": "MIT"
+}
