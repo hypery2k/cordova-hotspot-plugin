@@ -36,6 +36,102 @@ cordova.plugins.hotspot.isConnectedToInternet(
 );
 ```
 
+### Get network configuration
+   
+```javascript
+cordova.plugins.hotspot.getNetConfig(
+   function (result) {
+       // deviceIPAddress
+       // deviceMacAddress
+       // gatewayIPAddress
+       // gatewayMacAddress
+   },function () {
+       // error
+   }
+);
+```
+
+### Ping a host
+      
+```javascript
+cordova.plugins.hotspot.pingHost(ip,
+  function (result) {
+      if(result){
+        // host is up
+      } else {
+        // host is not responsing
+      }
+  },function () {
+      // error
+  }
+);
+```
+
+### Get MAC address of host
+      
+```javascript
+cordova.plugins.hotspot.getMacAddressOfHost(ip,
+  function (result) {
+      if(result){
+        // MAC address of host
+      } else {
+        // host is not responsing
+      }
+  },function () {
+      // error
+  }
+);
+```
+
+### Check DNS is alive
+      
+```javascript
+cordova.plugins.hotspot.isDnsLive(ip,
+  function (live) {
+      if(live){
+        // DNS is live
+      } else {
+        // DNS is not live
+      }
+  },function () {
+      // error
+  }
+);
+```
+
+### Check port is alive
+      
+```javascript
+cordova.plugins.hotspot.isPortLive(ip,
+  function (live) {
+      if(live){
+        // DNS is live
+      } else {
+        // DNS is not live
+      }
+  },function () {
+      // error
+  }
+);
+```
+
+### Check if device is rooted
+      
+```javascript
+cordova.plugins.hotspot.isRooted(
+  function (rooted) {
+      if(rooted){
+        // device is rooted
+      } else {
+        // device is not rooted
+      }
+  },function () {
+      // error
+  }
+);
+```
+
+
 ### Hotspot functionality
 
 #### Create Hotspot

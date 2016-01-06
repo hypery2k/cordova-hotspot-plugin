@@ -236,7 +236,7 @@ public class WifiAddresses {
 
     }
 
-    public void CheckRoot() {
+    public boolean CheckRoot() {
         Process pro;
         try {
             pro = Runtime.getRuntime().exec("su");
@@ -259,6 +259,7 @@ public class WifiAddresses {
         } catch (IOException e) {
             this.gotRoot = false;
         }
+        return this.gotRoot;
     }
 
     /**

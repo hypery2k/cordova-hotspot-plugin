@@ -138,6 +138,36 @@ public class HotSpotPlugin extends CordovaPlugin {
             return true;
         }
 
+        if ("getNetConfig".equals(action)) {
+            getNetConfig(callback);
+            return true;
+        }
+
+        if ("pingHost".equals(action)) {
+            pingHost(args, callback);
+            return true;
+        }
+
+        if ("dnsLive".equals(action)) {
+            dnsLive(args, callback);
+            return true;
+        }
+
+        if ("portLive".equals(action)) {
+            portLive(args, callback);
+            return true;
+        }
+
+        if ("getMacAddressOfHost".equals(action)) {
+            getMacAddressOfHost(args, callback);
+            return true;
+        }
+
+        if ("checkRoot".equals(action)) {
+            checkRoot(callback);
+            return true;
+        }
+
         if ("isWifiSupported".equals(action)) {
             if (isWifiSupported()) {
                 callback.success();
@@ -179,7 +209,105 @@ public class HotSpotPlugin extends CordovaPlugin {
         // Returning false results in a "MethodNotFound" error.
         return false;
     }
+
     // IMPLEMENTATION
+
+    private void checkRoot(CallbackContext callback) {
+        WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
+        if (wu.CheckRoot()) {
+            callback.success(1);
+        } else {
+            callback.success(0);
+        }
+    }
+
+    private void dnsLive(JSONArray args, CallbackContext callback) {
+        try {
+            final String host = args.getString(0);
+            WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
+            if (wu.dnsIsALive(host)) {
+                callback.success(1);
+            } else {
+                callback.success(0);
+            }
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "Error checking DNS.", e);
+            callback.error("Error checking DNS.");
+        }
+    }
+
+    private void portLive(JSONArray args, CallbackContext callback) {
+        try {
+            final String host = args.getString(0);
+            WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
+            if (wu.portIsALive(host)) {
+                callback.success(1);
+            } else {
+                callback.success(0);
+            }
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "Error checking port.", e);
+            callback.error("Error checking port.");
+        }
+    }
+
+    private void getNetConfig(CallbackContext callback) {
+
+        WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
+        JSONObject result = new JSONObject();
+        try {
+            result.put("deviceIPAddress", wu.getDeviceIPAddress());
+            result.put("deviceMacAddress", wu.getDeviceMacAddress());
+            result.put("gatewayIPAddress", wu.getGatewayIPAddress());
+            result.put("gatewayMacAddress", wu.getGatWayMacAddress());
+            callback.success(result);
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "Error during reading network config.", e);
+            callback.error("Error during reading network config.");
+        }
+    }
+
+    private void pingHost(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String host = args.getString(0);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    WifiAddresses wu = new WifiAddresses(activity);
+                    if (wu.pingCmd(host)) {
+                        callback.success(wu.getPingResulta(host));
+                    } else {
+                        callback.success();
+                    }
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Ping to host " + host + " failed", e);
+                    callback.error("Ping failed");
+                }
+            }
+        });
+    }
+
+    private void getMacAddressOfHost(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String host = args.getString(0);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    WifiAddresses wu = new WifiAddresses(activity);
+                    if (wu.pingCmd(host)) {
+                        callback.success(wu.getArpMacAddress(host));
+                    } else {
+                        callback.success();
+                    }
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "ARP request to host " + host + " failed", e);
+                    callback.error("ARP request");
+                }
+            }
+        });
+    }
 
     private void startPeriodicallyScan(JSONArray args, CallbackContext pCallback) throws JSONException {
         final long interval = args.getLong(0);

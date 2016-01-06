@@ -276,6 +276,106 @@ HotSpotPlugin.prototype = {
         cordova.exec(successCB, function (err) {
             errorCB(err);
         }, 'HotSpotPlugin', 'stopPeriodicallyScan', []);
+    },
+    /**
+     * Get network information, e.g Gateway Ip/Mac Device Mac/Ip etc
+     *
+     * @param {Function} successCB
+     *      A callback function to be called with all information
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    getNetConfig: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'getNetConfig', []);
+    },
+    /**
+     * Ping a host
+     *
+     * @param {String} ip
+     *      host IP
+     * @param {Function} successCB
+     *      A callback function to be called with all information
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    pingHost: function (ip, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'pingHost', [ip]);
+    },
+    /**
+     * Get MAC address of host
+     *
+     * @param {String} ip
+     *      host IP
+     * @param {Function} successCB
+     *      A callback function to be called with all information
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    getMacAddressOfHost: function (ip, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'getMacAddressOfHost', [ip]);
+    },
+    /**
+     * dnsLive
+     *
+     * @param {String} ip
+     *      host IP
+     * @param {Function} successCB
+     *      A callback function to be called with all information
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    isDnsLive: function (ip, successCB, errorCB) {
+        cordova.exec(function (code) {
+            if (code === 1) {
+                successCB(true);
+            } else {
+                successCB(false);
+            }
+        }, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'dnsLive', [ip]);
+    },
+    /**
+     * portLive
+     *
+     * @param {String} ip
+     *      host IP
+     * @param {Function} successCB
+     *      A callback function to be called with all information
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    isPortLive: function (ip, successCB, errorCB) {
+        cordova.exec(function (code) {
+            if (code === 1) {
+                successCB(true);
+            } else {
+                successCB(false);
+            }
+        }, errorCB, 'HotSpotPlugin', 'portLive', [ip]);
+    },
+    /**
+     * Check Device is Rooted
+     *
+     * @param {Function} successCB
+     *      A callback function to be called with all information
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    isRooted: function (successCB, errorCB) {
+        cordova.exec(function (code) {
+            if (code === 1) {
+                successCB(true);
+            } else {
+                successCB(false);
+            }
+        }, errorCB, 'HotSpotPlugin', 'checkRoot', []);
     }
 }
 ;
