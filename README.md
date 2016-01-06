@@ -24,15 +24,81 @@ cordova.plugins.hotspot.isAvailable(
 );
 ```
 
-### Check if Wifi is supported
+### Hotspot functionality
+
+#### Create Hotspot
 
 ```javascript
-cordova.plugins.hotspot.isWifiSupported(
+cordova.plugins.hotspot.createHotspot(ssid, mode, password, 
     function () {
-        // wifi is on
+        // Hotspot is created
     },function () {
-        // wifi is off
+        // Error
     }
+);
+```
+
+#### Stop Hotspot
+
+```javascript
+cordova.plugins.hotspot.stopHotspot(
+    function () {
+        // Hotspot is disabled
+    },function () {
+        // Error
+    }
+);
+```
+
+#### Check if Hotspot is enabled
+
+```javascript
+cordova.plugins.hotspot.isHotspotEnabled(
+    function () {
+        // Hotspot is on
+    },function () {
+        // Hotspot is off
+    }
+);
+```
+
+#### Get all connected devices
+
+```javascript
+cordova.plugins.hotspot.getAllHotspotDevices(
+    function (devices) {
+        // array of JSON objects:
+        // -> ip
+        // -> mac
+    },function (err) {
+        // error
+    }
+);
+```
+
+### Wifi
+
+### Check if Wifi is supported
+   
+```javascript
+cordova.plugins.hotspot.isWifiSupported(
+   function () {
+       // wifi is on
+   },function () {
+       // wifi is off
+   }
+);
+   ```
+
+#### Check if Wifi is enabled
+   
+```javascript
+cordova.plugins.hotspot.isWifiOn(
+   function () {
+       // wifi is on
+   },function () {
+       // wifi is off
+   }
 );
 ```
 
@@ -48,65 +114,27 @@ cordova.plugins.hotspot.isWifiDirectSupported(
 );
 ```
 
-
-### Create Hotspot
-
-```javascript
-cordova.plugins.hotspot.createHotspot(ssid, mode, password, 
-    function () {
-        // Hotspot is created
-    },function () {
-        // Error
-    }
-);
+#### Add a network config
+     
+  ```javascript
+  cordova.plugins.hotspot.addWifiNetwork(ssid, mode, password,
+     function () {
+         // wifi is added
+     },function (err) {
+         // error
+     }
+  );
 ```
 
-### Stop Hotspot
-
-```javascript
-cordova.plugins.hotspot.stopHotspot(
-    function () {
-        // Hotspot is disabled
-    },function () {
-        // Error
-    }
-);
+#### Delete a network config
+     
+  ```javascript
+  cordova.plugins.hotspot.removeWifiNetwork(ssid, 
+     function () {
+         // wifi is deleted
+     },function (err) {
+         // error
+     }
+  );
 ```
 
-### Check if Hotspot is enabled
-
-```javascript
-cordova.plugins.hotspot.isHotspotEnabled(
-    function () {
-        // Hotspot is on
-    },function () {
-        // Hotspot is off
-    }
-);
-```
-
-### Get all connected devices
-
-```javascript
-cordova.plugins.hotspot.getAllHotspotDevices(
-    function (devices) {
-        // array of JSON objects:
-        // -> ip
-        // -> mac
-    },function () {
-        // error
-    }
-);
-```
-
-### Check if Wifi is enabled
-   
-```javascript
-cordova.plugins.hotspot.isWifiOn(
-   function () {
-       // wifi is on
-   },function () {
-       // wifi is off
-   }
-);
-```
