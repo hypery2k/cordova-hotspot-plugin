@@ -138,3 +138,51 @@ cordova.plugins.hotspot.isWifiDirectSupported(
   );
 ```
 
+#### Start a periodically scan
+     
+  ```javascript
+  cordova.plugins.hotspot.startPeriodicallyScan(interval, duration,
+     function () {
+         // success
+     },function (err) {
+         // error
+     }
+  );
+```
+
+#### Scan network
+     
+  ```javascript
+  cordova.plugins.hotspot.scanWifi( 
+     function (listOfNetworks) {
+         // array of results
+     },function (err) {
+         // error
+     }
+  );
+```
+
+#### Scan network by level
+     
+  ```javascript
+  cordova.plugins.hotspot.scanWifiByLevel(
+     function (listOfNetworks) {
+         // array of results
+     },function (err) {
+         // error
+     }
+  );
+```
+
+#### Stop a periodically scan
+     
+  ```javascript
+  cordova.plugins.hotspot.stopPeriodicallyScan( 
+     function () {
+         // success
+     },function (err) {
+         // error
+     }
+  );
+```
+
