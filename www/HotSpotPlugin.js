@@ -50,7 +50,7 @@ HotSpotPlugin.prototype = {
      * @param {String} ssid
      *      SSID to connect
      * @param {String} mode
-     *      wireless mode
+     *      wireless mode (Open, WEP, WPA, WPA_PSK)
      * @param {String} password
      *      password to use
      * @param {Function} successCB
@@ -99,6 +99,62 @@ HotSpotPlugin.prototype = {
         cordova.exec(successCB, function (err) {
             errorCB(err);
         }, "HotSpotPlugin", "connectToHotspot", [ssid, password]);
+    },
+
+    /**
+     * configure current WiFi Hotspot
+     *
+     * @param {String} ssid
+     *      SSID to connect
+     * @param {String} mode
+     *      mode use (Open, WEP, WPA, WPA_PSK)
+     * @param {String} password
+     *      password to use
+     * @param {Function} successCB
+     *      A callback function to be called when connected successful
+     * @param {Object} errorCB
+     *      A callback function to be called when connection was not successful
+     */
+    configureHotspot: function (ssid, mode, password, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "configureHotspot", [ssid, password, mode]);
+    },
+
+    /**
+     * add a WiFi network
+     *
+     * @param {String} ssid
+     *      SSID to connect
+     * @param {String} mode
+     *      mode use (Open, WEP, WPA, WPA_PSK)
+     * @param {String} password
+     *      password to use
+     * @param {Function} successCB
+     *      A callback function to be called when connected successful
+     * @param {Object} errorCB
+     *      A callback function to be called when connection was not successful
+     */
+    addWifiNetwork: function (ssid, mode, password, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "addWifiNetwork", [ssid, password, mode]);
+    },
+
+    /**
+     * Delete a WiFi network
+     *
+     * @param {String} ssid
+     *      SSID to connect
+     * @param {Function} successCB
+     *      A callback function to be called when connected successful
+     * @param {Object} errorCB
+     *      A callback function to be called when connection was not successful
+     */
+    removeWifiNetwork: function (ssid, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "removeWifiNetwork", [ssid]);
     },
     /**
      * Check if WiFi is enabled

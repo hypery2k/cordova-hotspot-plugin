@@ -25,10 +25,7 @@ package de.martinreinhardt.cordova.plugins.hotspot;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 import com.mady.wifi.api.WifiAddresses;
 import com.mady.wifi.api.WifiHotSpots;
@@ -75,71 +72,139 @@ public class HotSpotPlugin extends CordovaPlugin {
         if ("isWifiOn".equals(action)) {
             if (isWifiOn()) {
                 callback.success();
-                return true;
             } else {
                 callback.error("Wifi is off.");
             }
+            return true;
         }
 
         if ("createHotspot".equals(action)) {
-            return createHotspot(args, callback);
+            createHotspot(args, callback);
+            return true;
         }
 
         if ("stopHotspot".equals(action)) {
-            return stopHotspot(callback);
+            stopHotspot(callback);
+            return true;
         }
 
         if ("isHotspotEnabled".equals(action)) {
-            if (isHotspotEnabled()) {
-                callback.success();
-                return true;
-            } else {
-                callback.error("Hotspot check failed.");
-            }
+            isHotspotEnabled(callback);
+            return true;
         }
 
         if ("getAllHotspotDevices".equals(action)) {
-            return getAllHotspotDevices(callback);
+            getAllHotspotDevices(callback);
+            return true;
         }
 
         if ("isWifiSupported".equals(action)) {
             if (isWifiSupported()) {
                 callback.success();
-                return true;
             } else {
                 callback.error("Wifi is not supported.");
             }
+            return true;
         }
 
         if ("isWifiDirectSupported".equals(action)) {
-
             if (isWifiDirectSupported()) {
                 callback.success();
-                return true;
             } else {
                 callback.error("Wifi direct is not supported.");
             }
+            return true;
+        }
+
+        if ("addWifiNetwork".equals(action)) {
+            addWifiNetwork(args, callback);
+            return true;
+        }
+
+        if ("removeWifiNetwork".equals(action)) {
+            removeWifiNetwork(args, callback);
+            return true;
         }
 
         if ("connectToHotspot".equals(action)) {
-            if (connectToHotspot(args)) {
-                callback.success();
-            } else {
-                callback.error("Connection was not successfull");
-            }
+            connectToHotspot(args, callback);
+            return true;
         }
 
+        if ("configureHotspot".equals(action)) {
+            configureHotspot(args, callback);
+            return true;
+        }
 
         // Returning false results in a "MethodNotFound" error.
         return false;
     }
     // IMPLEMENTATION
 
-    public boolean isHotspotEnabled() {
-        return new WifiHotSpots(this.cordova.getActivity()).isWifiApEnabled();
+    private void configureHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String ssid = args.getString(0);
+        final String password = args.getString(1);
+        final String mode = args.getString(2);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                if (isHotspotEnabled()) {
+                    WifiHotSpots hotspot = new WifiHotSpots(activity);
+                    if (hotspot.setHotSpot(ssid, mode, password)) {
+                        callback.success();
+                    } else {
+                        callback.error("Hotspot config was not successfull");
+                    }
+                } else {
+                    callback.error("Hotspot not enabled");
+                }
+            }
+        });
     }
 
-    public boolean createHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
+    private void removeWifiNetwork(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String ssid = args.getString(0);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                hotspot.removeWifiNetwork(ssid);
+                callback.success();
+            }
+        });
+    }
+
+    public void addWifiNetwork(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String ssid = args.getString(0);
+        final String password = args.getString(1);
+        final String mode = args.getString(2);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                hotspot.addWifiNetwork(ssid, password, mode);
+                callback.success();
+            }
+        });
+    }
+
+    public void isHotspotEnabled(CallbackContext pCallback) {
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                if (isHotspotEnabled()) {
+                    callback.success();
+                } else {
+                    callback.error("Hotspot check failed.");
+                }
+            }
+        });
+    }
+
+    public void createHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
         final String password = args.getString(1);
         final String mode = args.getString(2);
@@ -171,32 +236,26 @@ public class HotSpotPlugin extends CordovaPlugin {
                 }
             }
         });
-        return true;
     }
 
-    public static boolean isConnected(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
-        if (connectivityManager != null) {
-            networkInfo = connectivityManager.getActiveNetworkInfo();
-        }
+    public void stopHotspot(CallbackContext pCallback) throws JSONException {
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
 
-        return networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED;
-    }
-
-    public boolean stopHotspot(CallbackContext callback) throws JSONException {
-        WifiHotSpots hotspot = new WifiHotSpots(this.cordova.getActivity());
-        if (isHotspotEnabled()) {
-            if (!hotspot.startHotSpot(false)) {
-                callback.error("Hotspot creation failed.");
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                if (isHotspotEnabled()) {
+                    if (!hotspot.startHotSpot(false)) {
+                        callback.error("Hotspot creation failed.");
+                    }
+                }
+                callback.success();
             }
-        }
-        callback.success();
-        return true;
+        });
     }
 
-    public boolean getAllHotspotDevices(CallbackContext callback) {
+    public void getAllHotspotDevices(CallbackContext callback) {
         WifiAddresses au = new WifiAddresses(this.cordova.getActivity());
         ArrayList<String> ipList = au.getAllDevicesIp();
         if (ipList != null) {
@@ -212,23 +271,42 @@ public class HotSpotPlugin extends CordovaPlugin {
                     result.put(entry);
                 }
                 callback.success(result);
-                return true;
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "Got JSON error during device listing", e);
                 callback.error("Hotspot device listing failed.");
-                return false;
             }
         } else {
             callback.error("Hotspot device listing failed.");
-            return false;
         }
     }
 
 
-    public boolean connectToHotspot(JSONArray args) throws JSONException {
-        String ssid = args.getString(0);
-        String password = args.getString(1);
-        return new WifiHotSpots(this.cordova.getActivity()).connectToHotspot(ssid, password);
+    public boolean connectToHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String ssid = args.getString(0);
+        final String password = args.getString(1);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                if (hotspot.connectToHotspot(ssid, password)) {
+                    callback.success();
+                } else {
+                    callback.error("Connection was not successfull");
+                }
+            }
+        });
+        return true;
+    }
+
+    public boolean isHotspotEnabled() {
+        if (new WifiHotSpots(this.cordova.getActivity()).isWifiApEnabled()) {
+            return true;
+        } else {
+
+            return false;
+        }
     }
 
     public boolean isWifiOn() {
