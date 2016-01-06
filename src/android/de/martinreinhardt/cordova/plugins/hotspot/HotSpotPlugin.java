@@ -120,6 +120,24 @@ public class HotSpotPlugin extends CordovaPlugin {
             return true;
         }
 
+        if ("isConnectedToInternet".equals(action)) {
+            if (isConnectedToInternet()) {
+                callback.success();
+            } else {
+                callback.error("Wifi is not supported.");
+            }
+            return true;
+        }
+
+        if ("isConnectedToInternetViaWifi".equals(action)) {
+            if (isConnectedToInternetViaWifi()) {
+                callback.success();
+            } else {
+                callback.error("Wifi is not supported.");
+            }
+            return true;
+        }
+
         if ("isWifiSupported".equals(action)) {
             if (isWifiSupported()) {
                 callback.success();
@@ -396,6 +414,17 @@ public class HotSpotPlugin extends CordovaPlugin {
     public boolean isWifiDirectSupported() {
         WifiStatus wu = new WifiStatus(this.cordova.getActivity());
         return wu.isSupportWifiDirect();
+    }
+
+    private boolean isConnectedToInternetViaWifi() {
+        WifiStatus wu = new WifiStatus(this.cordova.getActivity());
+        return wu.isConnectedToInternet();
+
+    }
+
+    private boolean isConnectedToInternet() {
+        WifiStatus wu = new WifiStatus(this.cordova.getActivity());
+        return wu.checkWifi(WifiStatus.TYPE_WIFI);
     }
 
     // HELPER

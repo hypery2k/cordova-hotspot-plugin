@@ -24,6 +24,18 @@ cordova.plugins.hotspot.isAvailable(
 );
 ```
 
+### Check if device is connected to internet
+   
+```javascript
+cordova.plugins.hotspot.isConnectedToInternet(
+   function () {
+       // is connected
+   },function () {
+       // is not connected
+   }
+);
+```
+
 ### Hotspot functionality
 
 #### Create Hotspot
@@ -88,7 +100,7 @@ cordova.plugins.hotspot.isWifiSupported(
        // wifi is off
    }
 );
-   ```
+```
 
 #### Check if Wifi is enabled
    
@@ -98,6 +110,18 @@ cordova.plugins.hotspot.isWifiOn(
        // wifi is on
    },function () {
        // wifi is off
+   }
+);
+```
+
+### Check if device is connected to internet via Wifi
+   
+```javascript
+cordova.plugins.hotspot.isConnectedToInternetViaWifi(
+   function () {
+       // is connected
+   },function () {
+       // is not connected
    }
 );
 ```

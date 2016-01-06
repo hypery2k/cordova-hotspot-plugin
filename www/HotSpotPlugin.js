@@ -157,6 +157,32 @@ HotSpotPlugin.prototype = {
         }, "HotSpotPlugin", "removeWifiNetwork", [ssid]);
     },
     /**
+     * Check if connection to internet is active
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when connection is active
+     * @param {Object} errorCB
+     *      A callback function to be called when not
+     */
+    isConnectedToInternet: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'isConnectedToInternet', []);
+    },
+    /**
+     * Check if connection to internet is active via WiFi
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when connection is done via wifi
+     * @param {Object} errorCB
+     *      A callback function to be called when not
+     */
+    isConnectedToInternetViaWifi: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'isConnectedToInternetViaWifi', []);
+    },
+    /**
      * Check if WiFi is enabled
      *
      * @param {Function} successCB
@@ -181,6 +207,19 @@ HotSpotPlugin.prototype = {
         cordova.exec(successCB, function (err) {
             errorCB(err);
         }, 'HotSpotPlugin', 'isWifiSupported', []);
+    },
+    /**
+     * Check if WiFi Direct is supported
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when WiFi Direct is supported
+     * @param {Object} errorCB
+     *      A callback function to be called when WiFi Direct is not supported
+     */
+    isWifiDirectSupported: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'isWifiDirectSupported', []);
     },
     /**
      * Scan wifi
@@ -237,19 +276,6 @@ HotSpotPlugin.prototype = {
         cordova.exec(successCB, function (err) {
             errorCB(err);
         }, 'HotSpotPlugin', 'stopPeriodicallyScan', []);
-    },
-    /**
-     * Check if WiFi Direct is supported
-     *
-     * @param {Function} successCB
-     *      A callback function to be called when WiFi Direct is supported
-     * @param {Object} errorCB
-     *      A callback function to be called when WiFi Direct is not supported
-     */
-    isWifiDirectSupported: function (successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
-            errorCB(err);
-        }, 'HotSpotPlugin', 'isWifiDirectSupported', []);
     }
 }
 ;
