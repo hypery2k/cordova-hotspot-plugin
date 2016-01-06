@@ -26,6 +26,7 @@ package de.martinreinhardt.cordova.plugins.hotspot;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.wifi.ScanResult;
 import android.util.Log;
 import com.mady.wifi.api.WifiAddresses;
 import com.mady.wifi.api.WifiHotSpots;
@@ -37,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HotSpotPlugin extends CordovaPlugin {
 
@@ -98,6 +100,26 @@ public class HotSpotPlugin extends CordovaPlugin {
             return true;
         }
 
+        if ("scanWifi".equals(action)) {
+            scanWifi(callback);
+            return true;
+        }
+
+        if ("scanWifiByLevel".equals(action)) {
+            scanWifiByLevel(callback);
+            return true;
+        }
+
+        if ("startPeriodicallyScan".equals(action)) {
+            startPeriodicallyScan(args, callback);
+            return true;
+        }
+
+        if ("stopPeriodicallyScan".equals(action)) {
+            stopPeriodicallyScan(callback);
+            return true;
+        }
+
         if ("isWifiSupported".equals(action)) {
             if (isWifiSupported()) {
                 callback.success();
@@ -141,6 +163,38 @@ public class HotSpotPlugin extends CordovaPlugin {
     }
     // IMPLEMENTATION
 
+    private void startPeriodicallyScan(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final long interval = args.getLong(0);
+        final long duration = args.getLong(1);
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    new WifiHotSpots(activity).startScan(interval, duration);
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Got unkown error during starting scan", e);
+                    callback.error("Scan start failed");
+                }
+            }
+        });
+    }
+
+    private void stopPeriodicallyScan(CallbackContext pCallback) {
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    new WifiHotSpots(activity).stopScan();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Got unkown error during stopping scan", e);
+                    callback.error("Scan stop failed");
+                }
+            }
+        });
+    }
+
     private void configureHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
         final String password = args.getString(1);
@@ -161,6 +215,26 @@ public class HotSpotPlugin extends CordovaPlugin {
                 }
             }
         });
+    }
+
+    private void scanWifi(CallbackContext pCallback, final boolean sortByLevel) {
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                List<ScanResult> results = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+                callback.success(new JSONArray(results));
+            }
+        });
+    }
+
+    private void scanWifi(CallbackContext pCallback) {
+        scanWifi(pCallback, false);
+    }
+
+    private void scanWifiByLevel(CallbackContext pCallback) {
+        scanWifi(pCallback, true);
     }
 
     private void removeWifiNetwork(JSONArray args, CallbackContext pCallback) throws JSONException {

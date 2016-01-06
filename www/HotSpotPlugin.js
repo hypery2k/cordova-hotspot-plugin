@@ -183,6 +183,62 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'isWifiSupported', []);
     },
     /**
+     * Scan wifi
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when scan is done
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    scanWifi: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'scanWifi', []);
+    },
+    /**
+     * Scan wifi by level
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when scan is done
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    scanWifiByLevel: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'scanWifiByLevel', []);
+    },
+    /**
+     * Start a perodically scan wifi
+     *
+     * @param {long} interval
+     *      interval to use
+     * @param {long} duration
+     *      duration to use
+     * @param {Function} successCB
+     *      A callback function to be called when scan is started
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    startPeriodicallyScan: function (interval, duration, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'startPeriodicallyScan', [interval, duration]);
+    },
+    /**
+     * Stop a perodically scan wifi
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when scan is stopped
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    stopPeriodicallyScan: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'stopPeriodicallyScan', []);
+    },
+    /**
      * Check if WiFi Direct is supported
      *
      * @param {Function} successCB
