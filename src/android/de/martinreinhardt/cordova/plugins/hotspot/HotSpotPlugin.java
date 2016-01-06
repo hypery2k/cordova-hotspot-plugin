@@ -124,7 +124,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             if (isConnectedToInternet()) {
                 callback.success();
             } else {
-                callback.error("Wifi is not supported.");
+                callback.error("Device is not connected to internet");
             }
             return true;
         }
@@ -133,7 +133,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             if (isConnectedToInternetViaWifi()) {
                 callback.success();
             } else {
-                callback.error("Wifi is not supported.");
+                callback.error("Device is not connected to internet via WiFi");
             }
             return true;
         }
@@ -546,13 +546,13 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     private boolean isConnectedToInternetViaWifi() {
         WifiStatus wu = new WifiStatus(this.cordova.getActivity());
-        return wu.isConnectedToInternet();
+        return wu.checkWifi(wu.DATA_BY_WIFI) && wu.isConnectedToInternet();
 
     }
 
     private boolean isConnectedToInternet() {
         WifiStatus wu = new WifiStatus(this.cordova.getActivity());
-        return wu.checkWifi(WifiStatus.TYPE_WIFI);
+        return wu.isConnectedToInternet();
     }
 
     // HELPER
