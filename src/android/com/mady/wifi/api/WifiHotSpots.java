@@ -379,7 +379,7 @@ public class WifiHotSpots {
      * Method to Change SSID and Password of Device Access Point
      *
      * @param SSID     a new SSID of your Access Point
-     * @param mode     wireless mode
+     * @param mode     wireless mode (Open, WEP, WPA, WPA_PSK
      * @param passWord a new password you want for your Access Point
      */
     public boolean setHotSpot(String SSID, String mode, String passWord) {
@@ -400,35 +400,61 @@ public class WifiHotSpots {
             }
         }*/
 
+        if (SSID == null) {
+            Log.e(LOG_TAG, "Please provide a SSID");
+            return false;
+        }
+        if (mode == null) {
+            Log.e(LOG_TAG, "Please provide the networking mode");
+            return false;
+        }
+        if (passWord == null) {
+            Log.e(LOG_TAG, "Please provide the password");
+            return false;
+        }
+
         //mWifiManager.acquire();
         Method[] mMethods = mWifiManager.getClass().getDeclaredMethods();
 
+        Log.v(LOG_TAG, "Creating hotspot with mode " + mode);
         for (Method mMethod : mMethods) {
 
             if (mMethod.getName().equals("setWifiApEnabled")) {
                 WifiConfiguration netConfig = new WifiConfiguration();
-                if (passWord == "") {
+                if (mode.equalsIgnoreCase("OPEN")) {
                     netConfig.SSID = SSID;
-                    netConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-                    netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-                    netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
                     netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-                } else {
+                } else if (mode.equalsIgnoreCase("WEP")) {
                     netConfig.SSID = SSID;
-                    netConfig.preSharedKey = passWord;
-                    netConfig.hiddenSSID = true;
-                    netConfig.status = WifiConfiguration.Status.ENABLED;
-                    netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-                    netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-                    netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-                    netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-                    netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-                    netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-                    netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+                    netConfig.wepKeys[0] = passWord;
+                    netConfig.wepTxKeyIndex = 0;
+                    netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                    netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+                } else {
+                    if (passWord == "" && mode.equalsIgnoreCase("WPA")) {
+                        netConfig.SSID = SSID;
+                        netConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+                        netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                    } else {
+                        netConfig.SSID = SSID;
+                        netConfig.preSharedKey = passWord;
+                        netConfig.hiddenSSID = true;
+                        netConfig.status = WifiConfiguration.Status.ENABLED;
+                        netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+                        netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+                        netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+                        netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+                        netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+                    }
                 }
                 try {
                     mMethod.invoke(mWifiManager, netConfig, true);
                     mWifiManager.saveConfiguration();
+                    Log.v(LOG_TAG, "Sucessfully created hotspot");
                     return true;
 
                 } catch (Exception e) {
