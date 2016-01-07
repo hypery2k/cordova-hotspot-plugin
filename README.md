@@ -163,7 +163,7 @@ cordova.plugins.hotspot.createHotspot(ssid, mode, password,
 ```javascript
    cordova.plugins.hotspot.configureHotspot(ssid, mode, password, 
        function () {
-           // Hotspot is started
+           // Hotspot is configured
        },function () {
            // Error
        }
