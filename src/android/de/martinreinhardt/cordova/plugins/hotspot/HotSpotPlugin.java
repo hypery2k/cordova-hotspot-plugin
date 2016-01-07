@@ -380,13 +380,26 @@ public class HotSpotPlugin extends CordovaPlugin {
             public void run() {
                 try {
                     WifiHotSpots hotspot = new WifiHotSpots(activity);
-                    List<ScanResult> results = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+                    List<ScanResult> response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
                     // if null wait and try again
-                    if (results == null || results.size() == 0) {
+                    if (response == null || response.size() == 0) {
                         Thread.sleep(4000);
-                        results = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+                        response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
                     }
-                    callback.success(new JSONArray(results));
+                    JSONArray results = new JSONArray();
+                    if (response != null && response.size() > 0) {
+                        for (ScanResult scanResult : response) {
+                            JSONObject result = new JSONObject();
+                            result.put("SSID", scanResult.SSID);
+                            result.put("BSSID", scanResult.BSSID);
+                            result.put("frequency", scanResult.frequency);
+                            result.put("level", scanResult.level);
+                            result.put("timestamp", String.valueOf(scanResult.timestamp));
+                            result.put("capabilities", scanResult.capabilities);
+                            results.put(result);
+                        }
+                    }
+                    callback.success(results);
                 } catch (Exception e) {
                     Log.e(LOG_TAG, "Wifi scan failed", e);
                     callback.error("Wifi scan failed.");
