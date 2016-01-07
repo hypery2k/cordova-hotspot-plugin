@@ -54,7 +54,7 @@ HotSpotPlugin.prototype = {
      * @param {String} password
      *      password to use
      * @param {Function} successCB
-     *      A callback function to be called when connected successful
+     *      A callback function to be called when start was successful
      * @param {Object} errorCB
      *      A callback function to be called when connection was not successful
      */
@@ -63,6 +63,46 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, "HotSpotPlugin", "createHotspot", [ssid, password, mode]);
     },
+    /**
+     * Start a default WiFi Hotspot
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when start was successful
+     * @param {Object} errorCB
+     *      A callback function to be called when start was not successful
+     */
+    startHotspot: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "startHotspot", []);
+    },
+    /**
+     * Configure a running WiFi Hotspot
+     *
+     * @param {String} ssid
+     *      SSID to connect
+     * @param {String} mode
+     *      wireless mode (Open, WEP, WPA, WPA_PSK)
+     * @param {String} password
+     *      password to use
+     * @param {Function} successCB
+     *      A callback function to be called when configuration was successful
+     * @param {Object} errorCB
+     *      A callback function to be called when configuration was not successful
+     */
+    configureHotspot: function (ssid, mode, password, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "configureHotspot", [ssid, password, mode]);
+    },
+    /**
+     * Stop a running default WiFi Hotspot
+     *
+     * @param {Function} successCB
+     *      A callback function to be called when stop was successful
+     * @param {Object} errorCB
+     *      A callback function to be called when stop was not successful
+     */
     stopHotspot: function (successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);

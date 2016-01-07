@@ -146,6 +146,30 @@ cordova.plugins.hotspot.createHotspot(ssid, mode, password,
 );
 ```
 
+#### Start Hotspot
+   
+   ```javascript
+   cordova.plugins.hotspot.startHotspot(
+       function () {
+           // Hotspot is started
+       },function () {
+           // Error
+       }
+   );
+```
+
+#### Configure Hotspot
+   
+```javascript
+   cordova.plugins.hotspot.configureHotspot(ssid, mode, password, 
+       function () {
+           // Hotspot is started
+       },function () {
+           // Error
+       }
+   );
+```
+
 #### Stop Hotspot
 
 ```javascript
@@ -206,6 +230,18 @@ cordova.plugins.hotspot.isWifiOn(
        // wifi is on
    },function () {
        // wifi is off
+   }
+);
+```
+
+#### Connect to Wifi
+   
+```javascript
+cordova.plugins.hotspot.connectToHotspot(ssid, password, 
+   function () {
+       // connected
+   },function () {
+       // not connected
    }
 );
 ```

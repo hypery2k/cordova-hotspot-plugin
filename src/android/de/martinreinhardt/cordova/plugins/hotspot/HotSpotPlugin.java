@@ -81,7 +81,17 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
 
         if ("createHotspot".equals(action)) {
-            createHotspot(args, callback);
+            createHotspot(args, true, true, callback);
+            return true;
+        }
+
+        if ("configureHotspot".equals(action)) {
+            createHotspot(args, false, true, callback);
+            return true;
+        }
+
+        if ("startHotspot".equals(action)) {
+            createHotspot(null, true, false, callback);
             return true;
         }
 
@@ -434,38 +444,68 @@ public class HotSpotPlugin extends CordovaPlugin {
         });
     }
 
-    public void createHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
-        final String ssid = args.getString(0);
-        final String password = args.getString(1);
-        final String mode = args.getString(2);
+    public void createHotspot(JSONArray args, final boolean start, boolean configure, CallbackContext pCallback) throws JSONException {
+
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
 
-        cordova.getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                WifiHotSpots hotspot = new WifiHotSpots(activity);
-                if (isHotspotEnabled()) {
-                    hotspot.startHotSpot(false);
+        if (configure) {
+            final String ssid = args.getString(0);
+            final String password = args.getString(1);
+            final String mode = args.getString(2);
+
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    WifiHotSpots hotspot = new WifiHotSpots(activity);
+                    if (isHotspotEnabled() && start) {
+                        hotspot.startHotSpot(false);
+                    }
+                    if (hotspot.setHotSpot(ssid, mode, password)) {
+
+                        try {
+                            // Wait to connect
+                            Thread.sleep(4000);
+                            if (start) {
+                                if (hotspot.startHotSpot(true)) {
+                                    callback.success();
+                                } else {
+                                    callback.error("Hotspot customization failed.");
+                                }
+                            } else {
+                                callback.success();
+                            }
+                        } catch (Exception e) {
+                            Log.e(LOG_TAG, "Got unkown error during hotspot configuration", e);
+                            callback.error("Hotspot configuration failed.");
+                        }
+                    } else {
+                        callback.error("Hotspot creation failed.");
+                    }
                 }
-                if (hotspot.setHotSpot(ssid, mode, password)) {
+            });
+        } else {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    WifiHotSpots hotspot = new WifiHotSpots(activity);
+                    if (isHotspotEnabled()) {
+                        hotspot.startHotSpot(false);
+                    }
 
                     try {
-                        // Wait to connect
-                        Thread.sleep(4000);
                         if (hotspot.startHotSpot(true)) {
+                            // Wait to connect
+                            Thread.sleep(4000);
                             callback.success();
                         } else {
-                            callback.error("Hotspot customization failed.");
+                            callback.error("Hotspot start failed.");
                         }
                     } catch (Exception e) {
-                        Log.e(LOG_TAG, "Got unkown error during hotspot configuration", e);
-                        callback.error("Hotspot configuration failed.");
+                        Log.e(LOG_TAG, "Got unkown error during hotspot start", e);
+                        callback.error("Hotspot start failed.");
                     }
-                } else {
-                    callback.error("Hotspot creation failed.");
                 }
-            }
-        });
+            });
+        }
     }
 
     public void stopHotspot(CallbackContext pCallback) throws JSONException {
