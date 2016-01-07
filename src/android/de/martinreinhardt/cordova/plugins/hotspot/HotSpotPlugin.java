@@ -368,9 +368,19 @@ public class HotSpotPlugin extends CordovaPlugin {
         final CallbackContext callback = pCallback;
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                WifiHotSpots hotspot = new WifiHotSpots(activity);
-                List<ScanResult> results = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
-                callback.success(new JSONArray(results));
+                try {
+                    WifiHotSpots hotspot = new WifiHotSpots(activity);
+                    List<ScanResult> results = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+                    // if null wait and try again
+                    if (results == null || results.size() == 0) {
+                        Thread.sleep(4000);
+                        results = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+                    }
+                    callback.success(new JSONArray(results));
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Wifi scan failed", e);
+                    callback.error("Wifi scan failed.");
+                }
             }
         });
     }
