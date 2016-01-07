@@ -8,7 +8,6 @@ package com.mady.wifi.api;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -36,15 +35,6 @@ public class ScanTimerSimple extends ScanTimer {
     @Override
     protected void onTick() {
         scanNetworks();
-        if (mResults != null) {
-            List<ScanResult> results2 = mResults;
-
-            for (ScanResult result : results2) {
-                Toast.makeText(mContext, result.SSID + " " + result.level,
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-
     }
 
     @Override
@@ -57,26 +47,7 @@ public class ScanTimerSimple extends ScanTimer {
 
         if (scan) {
             mResults = mWifiManager.getScanResults();
-
-
-        } else
-            switch (mWifiManager.getWifiState()) {
-                case WifiManager.WIFI_STATE_DISABLING:
-                    Toast.makeText(mContext, "wifi disabling", Toast.LENGTH_LONG).show();
-                    break;
-                case WifiManager.WIFI_STATE_DISABLED:
-                    Toast.makeText(mContext, "wifi disabled", Toast.LENGTH_LONG).show();
-                    break;
-                case WifiManager.WIFI_STATE_ENABLING:
-                    Toast.makeText(mContext, "wifi enabling", Toast.LENGTH_LONG).show();
-                    break;
-                case WifiManager.WIFI_STATE_ENABLED:
-                    Toast.makeText(mContext, "wifi enabled", Toast.LENGTH_LONG).show();
-                    break;
-                case WifiManager.WIFI_STATE_UNKNOWN:
-                    Toast.makeText(mContext, "wifi unknown state", Toast.LENGTH_LONG).show();
-                    break;
-            }
+        }
 
     }
 }
