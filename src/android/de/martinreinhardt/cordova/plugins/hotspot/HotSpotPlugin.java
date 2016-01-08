@@ -86,7 +86,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
 
         if ("configureHotspot".equals(action)) {
-            createHotspot(args, false, true, callback);
+            createHotspot(null, false, true, callback);
             return true;
         }
 
@@ -485,10 +485,13 @@ public class HotSpotPlugin extends CordovaPlugin {
                                     callback.error("Hotspot customization failed.");
                                 }
                             } else {
+                                if (isHotspotEnabled()) {
+                                    hotspot.startHotSpot(false);
+                                }
                                 callback.success();
                             }
                         } catch (Exception e) {
-                            Log.e(LOG_TAG, "Got unkown error during hotspot configuration", e);
+                            Log.e(LOG_TAG, "Got unknown error during hotspot configuration", e);
                             callback.error("Hotspot configuration failed.");
                         }
                     } else {
@@ -513,7 +516,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                             callback.error("Hotspot start failed.");
                         }
                     } catch (Exception e) {
-                        Log.e(LOG_TAG, "Got unkown error during hotspot start", e);
+                        Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
                         callback.error("Hotspot start failed.");
                     }
                 }
