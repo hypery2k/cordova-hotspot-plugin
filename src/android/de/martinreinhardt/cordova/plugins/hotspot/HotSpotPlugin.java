@@ -476,18 +476,15 @@ public class HotSpotPlugin extends CordovaPlugin {
                     if (hotspot.setHotSpot(ssid, mode, password)) {
 
                         try {
-                            // Wait to connect
-                            Thread.sleep(4000);
                             if (start) {
+                                // Wait to connect
+                                Thread.sleep(4000);
                                 if (hotspot.startHotSpot(true)) {
                                     callback.success();
                                 } else {
                                     callback.error("Hotspot customization failed.");
                                 }
                             } else {
-                                if (isHotspotEnabled()) {
-                                    hotspot.startHotSpot(false);
-                                }
                                 callback.success();
                             }
                         } catch (Exception e) {
