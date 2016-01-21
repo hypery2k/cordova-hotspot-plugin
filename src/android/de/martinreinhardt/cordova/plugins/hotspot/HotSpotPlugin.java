@@ -27,6 +27,7 @@ package de.martinreinhardt.cordova.plugins.hotspot;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.util.Log;
 import com.mady.wifi.api.WifiAddresses;
 import com.mady.wifi.api.WifiHotSpots;
@@ -78,6 +79,20 @@ public class HotSpotPlugin extends CordovaPlugin {
                 callback.error("Wifi is off.");
             }
             return true;
+        }
+
+        if ("toggleWifi".equals(action)) {
+            try {
+                if (toggleWifi()) {
+                    callback.success(1);
+                } else {
+                    callback.success(1);
+                }
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Got unknown error during toggle wifi", e);
+                callback.error("Toggle wifi failed.");
+                return true;
+            }
         }
 
         if ("createHotspot".equals(action)) {
@@ -150,6 +165,11 @@ public class HotSpotPlugin extends CordovaPlugin {
 
         if ("getNetConfig".equals(action)) {
             getNetConfig(callback);
+            return true;
+        }
+
+        if ("getConnectionInfo".equals(action)) {
+            getConnectionInfo(callback);
             return true;
         }
 
@@ -258,6 +278,23 @@ public class HotSpotPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error checking port.", e);
             callback.error("Error checking port.");
+        }
+    }
+
+    private void getConnectionInfo(CallbackContext callback) {
+        WifiInfo wifiInfo = new WifiHotSpots(this.cordova.getActivity()).getConnectionInfo();
+        JSONObject result = new JSONObject();
+        try {
+
+            result.put("SSID", wifiInfo.getSSID());
+            result.put("BSSID", wifiInfo.getBSSID());
+            result.put("linkSpeed", wifiInfo.getLinkSpeed());
+            result.put("IPAddress", wifiInfo.getIpAddress());
+            result.put("networkID", wifiInfo.getNetworkId());
+            callback.success(result);
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "Error during reading connection info.", e);
+            callback.error("Error during reading connection info.");
         }
     }
 
@@ -602,6 +639,12 @@ public class HotSpotPlugin extends CordovaPlugin {
             return false;
         }
     }
+
+    public boolean toggleWifi() {
+        WifiStatus wu = new WifiStatus(this.cordova.getActivity());
+        return wu.wifiToggle();
+    }
+
 
     public boolean isWifiOn() {
         WifiStatus wu = new WifiStatus(this.cordova.getActivity());

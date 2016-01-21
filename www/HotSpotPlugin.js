@@ -44,6 +44,24 @@ HotSpotPlugin.prototype = {
             callback(false);
         }
     },
+
+    /**
+     * Method to Toggle wifi ON/OFF
+     *
+     * @param {Function} callback
+     *      A callback function with true or false as response,true if wifi ON and false if wifi OFF
+     */
+    toggleWifi: function (callback) {
+        cordova.exec(function (code) {
+            if (code === 1) {
+                successCB(true);
+            } else {
+                successCB(false);
+            }
+        }, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "toggleWifi", [ssid, password, mode]);
+    },
     /**
      * Create a WiFi Hotspot
      *
@@ -329,6 +347,19 @@ HotSpotPlugin.prototype = {
         cordova.exec(successCB, function (err) {
             errorCB(err);
         }, 'HotSpotPlugin', 'getNetConfig', []);
+    },
+    /**
+     * Get current connection information, e.g SSID, linkSpeed,IPAddress etc
+     *
+     * @param {Function} successCB
+     *      A callback function to be called with all information
+     * @param {Object} errorCB
+     *      An error callback
+     */
+    getConnectionInfo: function (successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, 'HotSpotPlugin', 'getConnectionInfo', []);
     },
     /**
      * Ping a host

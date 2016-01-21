@@ -36,6 +36,21 @@ cordova.plugins.hotspot.isConnectedToInternet(
 );
 ```
 
+### Get connection configuration
+   
+```javascript
+cordova.plugins.hotspot.getConnectionInfo(
+   function (result) {
+       // SSID
+       // BSSID
+       // linkSpeed
+       // IPAddress
+   },function () {
+       // error
+   }
+);
+```
+
 ### Get network configuration
    
 ```javascript
@@ -230,6 +245,18 @@ cordova.plugins.hotspot.isWifiOn(
        // wifi is on
    },function () {
        // wifi is off
+   }
+);
+```
+
+#### Toggle Wifi
+   
+```javascript
+cordova.plugins.hotspot.toggleWifi(
+   function (isActive) {
+       // wifi is on
+   },function (err) {
+       // error
    }
 );
 ```
