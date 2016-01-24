@@ -26,7 +26,6 @@ package de.martinreinhardt.cordova.plugins.hotspot;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.NetworkUtils;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.util.Log;
@@ -39,6 +38,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -290,7 +291,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             result.put("SSID", wifiInfo.getSSID());
             result.put("BSSID", wifiInfo.getBSSID());
             result.put("linkSpeed", wifiInfo.getLinkSpeed());
-            result.put("IPAddress", NetworkUtils.intToInetAddress(wifiInfo.getIpAddress())).toString();
+            result.put("IPAddress", intToInetAddress(wifiInfo.getIpAddress())).toString();
             result.put("networkID", wifiInfo.getNetworkId());
             callback.success(result);
         } catch (JSONException e) {
@@ -695,5 +696,23 @@ public class HotSpotPlugin extends CordovaPlugin {
     @Override
     public void onActivityResult(int reqCode, int resCode, Intent intent) {
         command.success();
+    }
+
+    /**
+     * Convert a IPv4 address from an integer to an InetAddress.
+     *
+     * @param hostAddress an int corresponding to the IPv4 address in network byte order
+     */
+    public InetAddress intToInetAddress(int hostAddress) {
+        byte[] addressBytes = {(byte) (0xff & hostAddress),
+                (byte) (0xff & (hostAddress >> 8)),
+                (byte) (0xff & (hostAddress >> 16)),
+                (byte) (0xff & (hostAddress >> 24))};
+
+        try {
+            return InetAddress.getByAddress(addressBytes);
+        } catch (UnknownHostException e) {
+            throw new AssertionError();
+        }
     }
 }
