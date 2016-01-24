@@ -60,7 +60,7 @@ HotSpotPlugin.prototype = {
             }
         }, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "toggleWifi", [ssid, password, mode]);
+        }, "HotSpotPlugin", "toggleWifi", []);
     },
     /**
      * Create a WiFi Hotspot
