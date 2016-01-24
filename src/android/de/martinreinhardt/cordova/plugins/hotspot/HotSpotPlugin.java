@@ -246,7 +246,7 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     private void checkRoot(CallbackContext callback) {
         WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
-        if (wu.CheckRoot()) {
+        if (wu.isDevicesRooted()) {
             callback.success(1);
         } else {
             callback.success(0);

@@ -15,8 +15,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -59,10 +57,11 @@ public class WifiHotSpots {
      * @return true, if command was successfully executed
      */
     private static boolean runAsRoot(final String command) {
+        DataOutputStream outStr = null;
         try {
 
             Process pro = Runtime.getRuntime().exec("su");
-            DataOutputStream outStr = new DataOutputStream(pro.getOutputStream());
+            outStr = new DataOutputStream(pro.getOutputStream());
 
             outStr.writeBytes(command);
             outStr.writeBytes("\nexit\n");
@@ -75,7 +74,12 @@ public class WifiHotSpots {
         } catch (Exception ex) {
             Log.e(LOG_TAG, "Unkown error during running as root.", ex);
             return false;
-
+        } finally {
+            try {
+                outStr.close();
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "Unkown error during closing output stream", e);
+            }
         }
     }
 
@@ -285,18 +289,6 @@ public class WifiHotSpots {
         return null;
     }
 
-    /**
-     * Method to Get and showing  List of  WIFI Networks (hotspots) Around you
-     *
-     * @param List a listview for showing list of networks (hotspots)
-     */
-    public void showHotspotsList(ListView List) {
-        if (mWifiManager.isWifiEnabled()) {
-            mReceiver = new WifiReceiver();
-            scanNetworks();
-        } else Toast.makeText(mContext, "wifi is not enabled", Toast.LENGTH_LONG).show();
-    }
-
     public void scanNetworks() {
         boolean scan = mWifiManager.startScan();
 
@@ -306,19 +298,19 @@ public class WifiHotSpots {
         } else
             switch (mWifiManager.getWifiState()) {
                 case WifiManager.WIFI_STATE_DISABLING:
-                    Toast.makeText(mContext, "wifi disabling", Toast.LENGTH_LONG).show();
+                    Log.d(LOG_TAG, "wifi disabling");
                     break;
                 case WifiManager.WIFI_STATE_DISABLED:
-                    Toast.makeText(mContext, "wifi disabled", Toast.LENGTH_LONG).show();
+                    Log.d(LOG_TAG, "wifi disabled");
                     break;
                 case WifiManager.WIFI_STATE_ENABLING:
-                    Toast.makeText(mContext, "wifi enabling", Toast.LENGTH_LONG).show();
+                    Log.d(LOG_TAG, "wifi enabling");
                     break;
                 case WifiManager.WIFI_STATE_ENABLED:
-                    Toast.makeText(mContext, "wifi enabled", Toast.LENGTH_LONG).show();
+                    Log.d(LOG_TAG, "wifi enabled");
                     break;
                 case WifiManager.WIFI_STATE_UNKNOWN:
-                    Toast.makeText(mContext, "wifi unknown state", Toast.LENGTH_LONG).show();
+                    Log.d(LOG_TAG, "wifi unknown state");
                     break;
             }
 
@@ -581,7 +573,7 @@ public class WifiHotSpots {
     public String getWifiPassword(String SSID) {
         File wpaFile = new File(mContext.getCacheDir(), "wpa_supplicant.conf");
         if (!wpaFile.exists()) {
-            CheckRoot();
+            checkForRoot();
             if (this.gotRoot) {
                 final String command = "cat /data/misc/wifi/wpa_supplicant.conf"
                         + " > "
@@ -599,7 +591,7 @@ public class WifiHotSpots {
         }
         wpaFile = new File(wpaFile.getAbsolutePath());
         if (!wpaFile.exists()) {
-            Toast.makeText(mContext, "error read wpa_supplicant.conf file", Toast.LENGTH_LONG).show();
+            Log.e(LOG_TAG, "error read wpa_supplicant.conf file");
             return null;
         }
         try {
@@ -633,9 +625,9 @@ public class WifiHotSpots {
             bufRead.close();
         } catch (Exception e) {
             Log.e(LOG_TAG, "Interrupt error during get password.", e);
-            Toast.makeText(mContext, "error read wpa_supplicant.conf file", Toast.LENGTH_LONG)
-                    .show();
             return null;
+        } finally {
+
         }
         return null;
     }
@@ -644,7 +636,7 @@ public class WifiHotSpots {
      *
      */
 
-    public void CheckRoot() {
+    public void checkForRoot() {
         Process pro;
         try {
             pro = Runtime.getRuntime().exec("su");

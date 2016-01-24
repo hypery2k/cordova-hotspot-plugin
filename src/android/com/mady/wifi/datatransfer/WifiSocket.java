@@ -12,7 +12,6 @@ import android.content.Context;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 
 public class WifiSocket {
@@ -24,26 +23,6 @@ public class WifiSocket {
     public WifiSocket(Context c) {
         mContext = c;
         mTask = new SimpleAsynTask();
-    }
-
-    @SuppressLint("NewApi")
-    public static void SendText(String ipAddr, int port, String sendText) {
-        try {
-            Socket client;
-            PrintWriter printwriter;
-            client = new Socket(ipAddr, port);  //connect to server
-            printwriter = new PrintWriter(client.getOutputStream(), true);
-            printwriter.write(sendText);  //write the message to output stream
-            printwriter.flush();
-            printwriter.close();
-            client.close();   //closing the connection
-        } catch (UnknownHostException e) {
-
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @SuppressLint("NewApi")
@@ -120,20 +99,6 @@ public class WifiSocket {
         }
         bytes.write(buffer);
         return read;
-    }
-
-    /**
-     * Method to send message text in  Network.
-     *
-     * @param ipAddr ,port  receiver of message text,sendText
-     */
-    public void sendMessage(final String ipAddr, final int port, final String sendText) {
-        mTask.runAsynTask(new Runnable() {
-            public void run() {
-                SendText(ipAddr, port, sendText);
-            }
-
-        });
     }
 
     /**

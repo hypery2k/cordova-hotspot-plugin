@@ -5,7 +5,6 @@
  * */
 package com.mady.wifi.api;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +22,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@SuppressLint("NewApi")
 public class WifiAddresses {
 
     private final static String REG_E = "^%s\\s+0x1\\s+0x2\\s+([:0-9a-fA-F]+)\\s+\\*\\s+\\w+$";
@@ -54,9 +52,9 @@ public class WifiAddresses {
      * @return Ip as String
      */
     public static String ipIntToString(int ipInt) {
-        String ip = "";
+        StringBuffer ip = new StringBuffer();
         for (int i = 0; i < 4; i++) {
-            ip = ip + ((ipInt >> i * 8) & 0xFF) + ".";
+            ip.append(((ipInt >> i * 8) & 0xFF)).append(".");
         }
         return ip.substring(0, ip.length() - 1);
     }
@@ -173,13 +171,14 @@ public class WifiAddresses {
      * @return Result of Pinging as String
      */
     public String getPingResulta(String addr) {
+
+        BufferedReader buf = null;
         try {
             String ping = "ping -c 1 -W 1 " + addr;
             String pingResult = "";
             Runtime run = Runtime.getRuntime();
             Process pro = run.exec(ping);
-
-            BufferedReader buf = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+            buf = new BufferedReader(new InputStreamReader(pro.getInputStream()));
 
             String inputLine;
             while ((inputLine = buf.readLine()) != null) {
@@ -188,6 +187,11 @@ public class WifiAddresses {
             buf.close();
             return pingResult;
         } catch (IOException e) {
+        } finally {
+            try {
+                buf.close();
+            } catch (IOException ignored) {
+            }
         }
 
         return "";
@@ -196,7 +200,7 @@ public class WifiAddresses {
     /**
      * Method to Get MAC Address From  ARP File
      *
-     * @param ip address you want to Get it MAC Address
+     * @param addr address you want to Get it MAC Address
      * @return MAC Address as String
      */
     public String getArpMacAddress(String addr) {
@@ -236,7 +240,7 @@ public class WifiAddresses {
 
     }
 
-    public boolean CheckRoot() {
+    public boolean isDevicesRooted() {
         Process pro;
         try {
             pro = Runtime.getRuntime().exec("su");
@@ -379,7 +383,7 @@ public class WifiAddresses {
             }
         }
         int start = getLastIpNubmer(getDeviceIPAddress());
-        String sub = SubIp(getDeviceIPAddress());
+        String sub = extractubIp(getDeviceIPAddress());
 
         for (int i = start + 1; i < start + 6; i++) {
             if (((start + 6) < 255) || ((start + 6) < 255)) {
@@ -421,7 +425,7 @@ public class WifiAddresses {
 
     }
 
-    public String SubIp(String myIp) {
+    public String extractubIp(String myIp) {
 
         return myIp.substring(0, getIndexOfStr(myIp, ".", 3)) + ".";
     }
