@@ -7,6 +7,7 @@
  
 [![NPM](https://nodei.co/npm/cordova-plugin-hotspot.png)](https://nodei.co/npm/cordova-plugin-hotspot/)
 
+
 ## Installation
 
 ```bash
@@ -369,3 +370,11 @@ cordova.plugins.hotspot.isWifiDirectSupported(
   );
 ```
 
+## Dev
+
+### To run the integration tests before
+
+```bash
+export PLATFORM="android" 
+./runIntegrationTests.sh
+```
