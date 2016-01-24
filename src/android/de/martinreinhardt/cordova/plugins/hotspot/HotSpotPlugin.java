@@ -26,6 +26,7 @@ package de.martinreinhardt.cordova.plugins.hotspot;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.NetworkUtils;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.util.Log;
@@ -289,7 +290,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             result.put("SSID", wifiInfo.getSSID());
             result.put("BSSID", wifiInfo.getBSSID());
             result.put("linkSpeed", wifiInfo.getLinkSpeed());
-            result.put("IPAddress", wifiInfo.getIpAddress());
+            result.put("IPAddress", NetworkUtils.intToInetAddress(wifiInfo.getIpAddress())).toString();
             result.put("networkID", wifiInfo.getNetworkId());
             callback.success(result);
         } catch (JSONException e) {
