@@ -41,7 +41,7 @@ SOFTWARE.
     <!-- android -->
     <platform name="android">
 
-        <framework src="com.android.support:support-v4:+"/>
+        <framework src="com.android.support:support-v13:23+"/>
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="HotSpotPlugin">
