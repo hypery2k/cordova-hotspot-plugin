@@ -12,17 +12,23 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
+import android.util.Log;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class WifiAddresses {
+    /**
+     * Logging Tag
+     */
+    private static final String LOG_TAG = "WifiAddresses";
 
     private final static String REG_E = "^%s\\s+0x1\\s+0x2\\s+([:0-9a-fA-F]+)\\s+\\*\\s+\\w+$";
     private final static int BUFFER = 8 * 1024;
@@ -66,10 +72,12 @@ public class WifiAddresses {
      * @return true, if command was successfully executed
      */
     private static boolean runAsRoot(final String command) {
+        Process pro = null;
+        DataOutputStream outStr = null;
         try {
 
-            Process pro = Runtime.getRuntime().exec("su");
-            DataOutputStream outStr = new DataOutputStream(pro.getOutputStream());
+            pro = Runtime.getRuntime().exec("su");
+            outStr = new DataOutputStream(pro.getOutputStream());
 
             outStr.writeBytes(command);
             outStr.writeBytes("\nexit\n");
@@ -80,9 +88,16 @@ public class WifiAddresses {
             return (retval == 0);
 
         } catch (Exception e) {
-
             return false;
 
+        } finally {
+            if (outStr != null) {
+                try {
+                    outStr.close();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "Unkown error uring stream close", e);
+                }
+            }
         }
     }
 
@@ -150,7 +165,7 @@ public class WifiAddresses {
             try {
                 pro.waitFor();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.e(LOG_TAG, "Unkown error.", e);
             }
             int exit = pro.exitValue();
             if (exit == 0) {
@@ -171,26 +186,29 @@ public class WifiAddresses {
      * @return Result of Pinging as String
      */
     public String getPingResulta(String addr) {
-
+        Process pro = null;
         BufferedReader buf = null;
         try {
             String ping = "ping -c 1 -W 1 " + addr;
-            String pingResult = "";
+            StringBuffer pingResult = new StringBuffer();
             Runtime run = Runtime.getRuntime();
-            Process pro = run.exec(ping);
-            buf = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+            pro = run.exec(ping);
+            buf = new BufferedReader(new InputStreamReader(pro.getInputStream(), Charset.forName("UTF-8")));
 
             String inputLine;
             while ((inputLine = buf.readLine()) != null) {
-                pingResult += inputLine;
+                pingResult.append(inputLine);
             }
             buf.close();
-            return pingResult;
+            return pingResult.toString();
         } catch (IOException e) {
         } finally {
             try {
-                buf.close();
-            } catch (IOException ignored) {
+                if (buf != null) {
+                    buf.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing reader.", e);
             }
         }
 
@@ -205,12 +223,13 @@ public class WifiAddresses {
      */
     public String getArpMacAddress(String addr) {
         String macAddr = "00:00:00:00:00:00";
+        BufferedReader buf = null;
         try {
             if (addr != null) {
                 String ptrn = String.format(REG_E, addr.replace(".", "\\."));
                 Pattern pat = Pattern.compile(ptrn);
-
-                BufferedReader buf = new BufferedReader(new FileReader("/proc/net/arp"), BUFFER);
+                buf = new BufferedReader(
+                        new InputStreamReader(new FileInputStream("/proc/net/arp"), Charset.forName("UTF-8")), BUFFER);
                 String line;
                 Matcher mat;
                 while ((line = buf.readLine()) != null) {
@@ -225,6 +244,14 @@ public class WifiAddresses {
             }
         } catch (IOException e) {
             return macAddr;
+        } finally {
+            if (buf != null) {
+                try {
+                    buf.close();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "I/O error during closing reader.", e);
+                }
+            }
         }
         return macAddr;
 
@@ -242,9 +269,10 @@ public class WifiAddresses {
 
     public boolean isDevicesRooted() {
         Process pro;
+        DataOutputStream outStr = null;
         try {
             pro = Runtime.getRuntime().exec("su");
-            DataOutputStream outStr = new DataOutputStream(pro.getOutputStream());
+            outStr = new DataOutputStream(pro.getOutputStream());
 
             outStr.writeBytes("echo \"salam alikoum\" >/data/Test.txt\n");
             outStr.writeBytes("exit\n");
@@ -262,6 +290,14 @@ public class WifiAddresses {
             }
         } catch (IOException e) {
             this.gotRoot = false;
+        } finally {
+            try {
+                if (outStr != null) {
+                    outStr.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing reader.", e);
+            }
         }
         return this.gotRoot;
     }
@@ -351,6 +387,7 @@ public class WifiAddresses {
                 try {
                     soc.close();
                 } catch (Exception e) {
+                    Log.e(LOG_TAG, "I/O error during closing reader.", e);
                 }
             }
         }
@@ -386,7 +423,7 @@ public class WifiAddresses {
         String sub = extractubIp(getDeviceIPAddress());
 
         for (int i = start + 1; i < start + 6; i++) {
-            if (((start + 6) < 255) || ((start + 6) < 255)) {
+            if (((start + 6) < 255)) {
 
                 if (pingCmd(sub + Integer.toString(i))) {
                     if (!addresses.contains(sub + Integer.toString(i))) {
@@ -454,7 +491,9 @@ public class WifiAddresses {
 
         try {
             result = new ArrayList<String>();
-            bufRead = new BufferedReader(new FileReader("/proc/net/arp"));
+
+            bufRead = new BufferedReader(
+                    new InputStreamReader(new FileInputStream("/proc/net/arp"), Charset.forName("UTF-8")));
             String fileLine;
             while ((fileLine = bufRead.readLine()) != null) {
 
@@ -476,9 +515,17 @@ public class WifiAddresses {
 
         } finally {
             try {
-                bufRead.close();
+                if (bufRead != null) {
+                    bufRead.close();
+                }
             } catch (IOException e) {
-
+                try {
+                    if (bufRead != null) {
+                        bufRead.close();
+                    }
+                } catch (IOException ex) {
+                    Log.e(LOG_TAG, "I/O error during closing reader.", ex);
+                }
             }
         }
 

@@ -12,7 +12,7 @@ public class SimpleAsynTask {
 
     }
 
-    class simpleTask extends AsyncTask<Object, Void, String> {
+    static class simpleTask extends AsyncTask<Object, Void, String> {
 
         private Runnable mTask;
 

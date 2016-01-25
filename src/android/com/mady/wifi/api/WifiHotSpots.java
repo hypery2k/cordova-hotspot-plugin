@@ -18,9 +18,9 @@ import android.util.Log;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class WifiHotSpots {
     /**
@@ -33,8 +33,6 @@ public class WifiHotSpots {
     WifiInfo mWifiInfo;
     Context mContext;
     List<ScanResult> mResults;
-    WifiReceiver mReceiver;
-    Timer mTimer;
     /**
      * Get WiFi password From wpa_supplicant.conf file By SSID
      *
@@ -76,7 +74,9 @@ public class WifiHotSpots {
             return false;
         } finally {
             try {
-                outStr.close();
+                if (outStr != null) {
+                    outStr.close();
+                }
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Unkown error during closing output stream", e);
             }
@@ -594,9 +594,9 @@ public class WifiHotSpots {
             Log.e(LOG_TAG, "error read wpa_supplicant.conf file");
             return null;
         }
+        BufferedReader bufRead = null;
         try {
-            @SuppressWarnings("resource")
-            BufferedReader bufRead = new BufferedReader(new FileReader(wpaFile));
+            bufRead = new BufferedReader(new InputStreamReader(new FileInputStream(wpaFile), Charset.forName("UTF-8")));
             String line;
             StringBuffer stringBuf = new StringBuffer();
             while ((line = bufRead.readLine()) != null) {
@@ -627,7 +627,14 @@ public class WifiHotSpots {
             Log.e(LOG_TAG, "Interrupt error during get password.", e);
             return null;
         } finally {
-
+            if (bufRead != null) {
+                try {
+                    bufRead.close();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "I/O error during closing reader.", e);
+                    return null;
+                }
+            }
         }
         return null;
     }
@@ -638,9 +645,10 @@ public class WifiHotSpots {
 
     public void checkForRoot() {
         Process pro;
+        DataOutputStream outStr = null;
         try {
             pro = Runtime.getRuntime().exec("su");
-            DataOutputStream outStr = new DataOutputStream(pro.getOutputStream());
+            outStr = new DataOutputStream(pro.getOutputStream());
 
             outStr.writeBytes("echo \"salam alikoum\" >/data/Test.txt\n");
             outStr.writeBytes("exit\n");
@@ -660,6 +668,14 @@ public class WifiHotSpots {
         } catch (IOException ex) {
             Log.e(LOG_TAG, "Unkown IO error during check root", ex);
             this.gotRoot = false;
+        } finally {
+            if (outStr != null) {
+                try {
+                    outStr.close();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "I/O error during closing reader.", e);
+                }
+            }
         }
     }
 

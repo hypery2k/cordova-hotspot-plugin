@@ -8,13 +8,19 @@ package com.mady.wifi.datatransfer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 
 public class WifiSocket {
+    /**
+     * Logging Tag
+     */
+    private static final String LOG_TAG = "WifiSocket";
     static final int BUFFER = 1024;
     public String receivedMessage = "";
     Context mContext;
@@ -27,18 +33,19 @@ public class WifiSocket {
 
     @SuppressLint("NewApi")
     public static void sendFileSocket(String host, int port, String fileName) {
-
+        Socket socket = null;
+        DataOutputStream dataOS = null;
+        FileInputStream inpStr = null;
+        OutputStream outStr = null;
         try {
-
-            Socket socket = new Socket(host, port);
-            DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream());
+            socket = new Socket(host, port);
+            dataOS = new DataOutputStream(socket.getOutputStream());
 
             File file = new File(fileName);
             int size = (int) (file.length());
             dataOS.writeInt(size);
-
-            FileInputStream inpStr = new FileInputStream(file);
-            OutputStream outStr = socket.getOutputStream();
+            inpStr = new FileInputStream(file);
+            outStr = socket.getOutputStream();
 
             int read;
             byte[] buffer = new byte[BUFFER];
@@ -47,26 +54,55 @@ public class WifiSocket {
             }
 
             outStr.flush();
-            outStr.close();
-            dataOS.close();
-            inpStr.close();
-            socket.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "I/O error occurred.", e);
+        } finally {
+            try {
+                if (outStr != null) {
+                    outStr.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing stream writer.", e);
+            }
+            try {
+                if (dataOS != null) {
+                    dataOS.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing data stream writer.", e);
+            }
+            try {
+                if (inpStr != null) {
+                    inpStr.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing reader.", e);
+            }
+            try {
+                if (socket != null) {
+                    socket.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing socket.", e);
+            }
         }
     }
 
     public static void receiveFileSocket(int port, String fileName) {
-
+        Socket socket = null;
+        DataInputStream dataOS = null;
+        InputStream inpStr = null;
+        FileOutputStream outStr = null;
+        ServerSocket server = null;
         try {
-            ServerSocket server = new ServerSocket(port);
-            Socket socket = server.accept();
-            DataInputStream dataOS = new DataInputStream(socket.getInputStream());
+            server = new ServerSocket(port);
+            socket = server.accept();
+            dataOS = new DataInputStream(socket.getInputStream());
 
             int size = dataOS.readInt();
-            FileOutputStream outStr = new FileOutputStream(fileName);
-            InputStream inpStr = socket.getInputStream();
+            outStr = new FileOutputStream(fileName);
+            inpStr = socket.getInputStream();
 
             byte[] buffer = new byte[BUFFER];
             ByteArrayOutputStream byteOutStr = new ByteArrayOutputStream();
@@ -81,13 +117,44 @@ public class WifiSocket {
                 byteOutStr.write(data);
 
             outStr.write(byteOutStr.toByteArray());
-            server.close();
-            socket.close();
-            inpStr.close();
-            dataOS.close();
-            outStr.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "I/O error.", e);
+        } finally {
+            try {
+                if (server != null) {
+                    server.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing server.", e);
+            }
+            try {
+                if (outStr != null) {
+                    outStr.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing stream writer.", e);
+            }
+            try {
+                if (dataOS != null) {
+                    dataOS.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing data stream writer.", e);
+            }
+            try {
+                if (inpStr != null) {
+                    inpStr.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing reader.", e);
+            }
+            try {
+                if (socket != null) {
+                    socket.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "I/O error during closing socket.", e);
+            }
         }
     }
 
@@ -111,14 +178,14 @@ public class WifiSocket {
     public void receiveMessage(final int port, final int numMessags, final Runnable task) {
         mTask.runAsynTask(new Runnable() {
             public void run() {
-                ReceiveText(port, numMessags, task);
+                receiveText(port, numMessags, task);
 
             }
 
         });
     }
 
-    public String ReceiveText(int port, int numMessages, Runnable task) {
+    public String receiveText(int port, int numMessages, Runnable task) {
         ServerSocket serverSocket = null;
         Socket clientSocket;
         InputStreamReader inputStreamReader;
@@ -128,15 +195,13 @@ public class WifiSocket {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "I/O error.", e);
         }
-
-
         try {
             int i = 0;
             while (i < numMessages) {
                 clientSocket = serverSocket.accept();   //accept the client connection
-                inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
+                inputStreamReader = new InputStreamReader(clientSocket.getInputStream(), Charset.forName("UTF-8"));
                 bufferedReader = new BufferedReader(inputStreamReader); //get the client message
                 message = bufferedReader.readLine();
                 receivedMessage = message;
@@ -148,13 +213,15 @@ public class WifiSocket {
             }
 
         } catch (IOException ex) {
-
+            Log.e(LOG_TAG, "I/O error.", ex);
         }
-
         try {
-            serverSocket.close();
+
+            if (serverSocket != null) {
+                serverSocket.close();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "I/O error during closing reader.", e);
         }
         return message;
 

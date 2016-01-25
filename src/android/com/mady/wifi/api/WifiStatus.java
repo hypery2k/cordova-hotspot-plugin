@@ -22,6 +22,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -29,22 +30,26 @@ import java.util.List;
 
 
 public class WifiStatus {
-    public static int TYPE_WIFI = 1;
-    public static int TYPE_MOBILE = 2;
-    public static int TYPE_NOT_CONNECTED = 0;
-    public final int IS_WIFI_ON = 0;
-    public final int WIFI_ON = 1;
-    public final int WIFI_OFF = 2;
-    public final int WIFI_TOGGLE = 3;
-    public final int SUPPORT_WIFI = 4;
-    public final int SUPPORT_WIFI_DIRECT = 5;
-    public final int CONECT_HOTSPOT = 6;
-    public final int CONECT_INTERNET = 7;
-    public final int DATA_BY_WIFI = 8;
-    Context mContext;
-    WifiManager mWifiManager;
-    WifiInfo mWifiInfo;
-    List<ScanResult> mResults;
+    /**
+     * Logging Tag
+     */
+    private static final String LOG_TAG = "WifiStatus";
+    public static final int TYPE_WIFI = 1;
+    public static final int TYPE_MOBILE = 2;
+    public static final int TYPE_NOT_CONNECTED = 0;
+    public static final int IS_WIFI_ON = 0;
+    public static final int WIFI_ON = 1;
+    public static final int WIFI_OFF = 2;
+    public static final int WIFI_TOGGLE = 3;
+    public static final int SUPPORT_WIFI = 4;
+    public static final int SUPPORT_WIFI_DIRECT = 5;
+    public static final int CONECT_HOTSPOT = 6;
+    public static final int CONECT_INTERNET = 7;
+    public static final int DATA_BY_WIFI = 8;
+    private Context mContext;
+    private WifiManager mWifiManager;
+    private WifiInfo mWifiInfo;
+    private List<ScanResult> mResults;
 
 
     public WifiStatus(Context c) {
@@ -274,7 +279,7 @@ public class WifiStatus {
             try {
                 pro.waitFor();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.e(LOG_TAG, "InterruptedException error.", e);
             }
             int exit = pro.exitValue();
             if (exit == 0) {
@@ -297,7 +302,7 @@ public class WifiStatus {
             Method method = connectivityManager.getClass().getMethod("getMobileDataEnabled");
             return (Boolean) method.invoke(connectivityManager);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "Unkown error", e);
         }
 
         return false;
@@ -314,7 +319,7 @@ public class WifiStatus {
             Method method = connectivityManager.getClass().getMethod("setMobileDataEnabled", boolean.class);
             method.invoke(connectivityManager, enabled);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "Unkown error.", e);
         }
     }
 
@@ -457,8 +462,8 @@ public class WifiStatus {
      * Method to check if wifi on or off or device support wifi or support wifi direct or device conect to ap or internet
      * and turn on or off wifi
      *
-     * @param stat String : ISON,ON,OFF, TOGGLE,SUPPORT_WIFI,
-     *             SUPPORT_WIFI_DIRECT,CONECT_AP,CONECT_INTERNET;
+     * @param state String : ISON,ON,OFF, TOGGLE,SUPPORT_WIFI,
+     *              SUPPORT_WIFI_DIRECT,CONECT_AP,CONECT_INTERNET;
      * @return TRUE OR FALSE
      */
     public boolean checkWifi(int state) {
