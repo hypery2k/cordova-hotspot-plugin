@@ -41,8 +41,6 @@ SOFTWARE.
     <!-- android -->
     <platform name="android">
 
-        <framework src="com.android.support:support-v4:+"/>
-
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="HotSpotPlugin">
                 <param name="android-package" value="de.martinreinhardt.cordova.plugins.hotspot.HotSpotPlugin"/>
