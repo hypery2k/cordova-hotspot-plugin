@@ -577,29 +577,35 @@ public class HotSpotPlugin extends CordovaPlugin {
         });
     }
 
-    public void getAllHotspotDevices(CallbackContext callback) {
-        WifiAddresses au = new WifiAddresses(this.cordova.getActivity());
-        ArrayList<String> ipList = au.getAllDevicesIp();
-        if (ipList != null) {
-            try {
-                Log.d(LOG_TAG, "Checking following IPs: " + ipList);
-                JSONArray result = new JSONArray();
-                for (String ip : ipList) {
-                    String mac = au.getArpMacAddress(ip);
-                    JSONObject entry = new JSONObject();
-                    entry.put("ip", ip);
-                    entry.put("mac", mac);
-                    // push entry to list
-                    result.put(entry);
+    public void getAllHotspotDevices(CallbackContext pCallback) {
+        final Activity activity = this.cordova.getActivity();
+        final CallbackContext callback = pCallback;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                WifiAddresses au = new WifiAddresses(activity);
+                ArrayList<String> ipList = au.getAllDevicesIp();
+                if (ipList != null) {
+                    try {
+                        Log.d(LOG_TAG, "Checking following IPs: " + ipList);
+                        JSONArray result = new JSONArray();
+                        for (String ip : ipList) {
+                            String mac = au.getArpMacAddress(ip);
+                            JSONObject entry = new JSONObject();
+                            entry.put("ip", ip);
+                            entry.put("mac", mac);
+                            // push entry to list
+                            result.put(entry);
+                        }
+                        callback.success(result);
+                    } catch (JSONException e) {
+                        Log.e(LOG_TAG, "Got JSON error during device listing", e);
+                        callback.error("Hotspot device listing failed.");
+                    }
+                } else {
+                    callback.error("Hotspot device listing failed.");
                 }
-                callback.success(result);
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, "Got JSON error during device listing", e);
-                callback.error("Hotspot device listing failed.");
             }
-        } else {
-            callback.error("Hotspot device listing failed.");
-        }
+        });
     }
 
 
