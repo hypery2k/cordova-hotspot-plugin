@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-hotspot",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Cordova WiFi Hotspot Plugin",
   "cordova": {
     "id": "cordova-plugin-hotspot",
