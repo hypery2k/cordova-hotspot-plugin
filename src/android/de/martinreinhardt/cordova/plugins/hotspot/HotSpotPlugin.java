@@ -392,8 +392,8 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     private void configureHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
-        final String password = args.getString(1);
-        final String mode = args.getString(2);
+        final String mode = args.getString(1);
+        final String password = args.getString(2);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
         cordova.getActivity().runOnUiThread(new Runnable() {
