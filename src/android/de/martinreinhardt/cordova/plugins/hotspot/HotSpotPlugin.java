@@ -503,8 +503,8 @@ public class HotSpotPlugin extends CordovaPlugin {
 
         if (configure) {
             final String ssid = args.getString(0);
-            final String password = args.getString(1);
-            final String mode = args.getString(2);
+            final String mode = args.getString(1);
+            final String password = args.getString(2);
 
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {

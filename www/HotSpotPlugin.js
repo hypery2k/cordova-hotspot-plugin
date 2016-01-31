@@ -79,7 +79,7 @@ HotSpotPlugin.prototype = {
     createHotspot: function (ssid, mode, password, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "createHotspot", [ssid, password, mode]);
+        }, "HotSpotPlugin", "createHotspot", [ssid, mode, password]);
     },
     /**
      * Start a default WiFi Hotspot
@@ -100,7 +100,7 @@ HotSpotPlugin.prototype = {
      * @param {String} ssid
      *      SSID to connect
      * @param {String} mode
-     *      wireless mode (Open, WEP, WPA, WPA_PSK)
+     *      wireless mode (Open, WEP, WPA, WPA_PSK, WPA2_PSK)
      * @param {String} password
      *      password to use
      * @param {Function} successCB
@@ -111,7 +111,7 @@ HotSpotPlugin.prototype = {
     configureHotspot: function (ssid, mode, password, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "configureHotspot", [ssid, password, mode]);
+        }, "HotSpotPlugin", "configureHotspot", [ssid, mode, password]);
     },
     /**
      * Stop a running default WiFi Hotspot
