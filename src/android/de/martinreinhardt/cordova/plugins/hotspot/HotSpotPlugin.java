@@ -631,7 +631,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                     if (hotspot.connectToHotspot(ssid, password)) {
                         // Wait to connect
                         Thread.sleep(2000);
-                        callback.error("Connection was not successfull");
+                        callback.success("Connection was successfull");
                     } else {
                         callback.error("Connection was not successfull");
                     }
