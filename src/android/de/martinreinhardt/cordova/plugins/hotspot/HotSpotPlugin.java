@@ -629,10 +629,15 @@ public class HotSpotPlugin extends CordovaPlugin {
                 WifiHotSpots hotspot = new WifiHotSpots(activity);
                 try {
                     if (hotspot.connectToHotspot(ssid, password)) {
+                        int retry = 130;
+                        boolean connected = false;
                         // Wait to connect
-                        Thread.sleep(4000);
-                        WifiInfo wifiInfo = new WifiHotSpots(activity).getConnectionInfo();
-                        if (wifiInfo.getSSID().equalsIgnoreCase(ssid)) {
+                        while (retry > 0 && !connected) {
+                            connected = hotspot.isConnectedToAP();
+                            retry--;
+                            Thread.sleep(100);
+                        }
+                        if (connected) {
                             callback.success("Connection was successfull");
                         } else {
                             callback.error("Connection was not successfull");
