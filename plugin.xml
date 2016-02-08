@@ -21,7 +21,7 @@ SOFTWARE.
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="cordova-plugin-hotspot"
-        version="0.7.5">
+        version="0.7.6">
 
     <name>Cordova HotSpot Plugin</name>
 
