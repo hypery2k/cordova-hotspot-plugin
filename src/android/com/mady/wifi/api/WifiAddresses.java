@@ -45,9 +45,11 @@ public class WifiAddresses {
     public WifiAddresses(Context c) {
 
         mContext = c;
-        mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-        mWifiInfo = mWifiManager.getConnectionInfo();
-        mTask = new com.mady.wifi.datatransfer.SimpleAsynTask();
+        if (c != null) {
+            mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+            mWifiInfo = mWifiManager.getConnectionInfo();
+            mTask = new com.mady.wifi.datatransfer.SimpleAsynTask();
+        }
 
     }
 
@@ -159,7 +161,7 @@ public class WifiAddresses {
      */
     public boolean pingCmd(String addr) {
         try {
-            String ping = "ping  -c 1 -W 1 " + addr;
+            String ping = "ping  -c 10 -W 1 " + addr;
             Runtime run = Runtime.getRuntime();
             Process pro = run.exec(ping);
             try {
@@ -189,7 +191,7 @@ public class WifiAddresses {
         Process pro = null;
         BufferedReader buf = null;
         try {
-            String ping = "ping -c 1 -W 1 " + addr;
+            String ping = "ping -c 10 -W 1 " + addr;
             StringBuffer pingResult = new StringBuffer();
             Runtime run = Runtime.getRuntime();
             pro = run.exec(ping);

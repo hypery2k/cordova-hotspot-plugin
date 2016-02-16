@@ -83,8 +83,19 @@ cordova.plugins.hotspot.pingHost(ip,
       } else {
         // host is not responsing
       }
-  },function () {
-      // error
+  },function (error) {
+      //
+      // error details, e.g
+      /*
+        requestTimeout:true,
+        stats: {
+          packetLoss: 10.0, // in %
+          min: 51.371, // in ms
+          max: 156.643, // in ms,
+          avg: 95.370 // in ms,
+          stddev: 33.016 // in ms
+        }
+      */
   }
 );
 ```

@@ -322,12 +322,12 @@ public class HotSpotPlugin extends CordovaPlugin {
         final CallbackContext callback = pCallback;
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
+                WifiAddresses wu = new WifiAddresses(activity);
                 try {
-                    WifiAddresses wu = new WifiAddresses(activity);
                     if (wu.pingCmd(host)) {
                         callback.success(wu.getPingResulta(host));
                     } else {
-                        callback.success();
+                        callback.error(wu.getPingResulta(host));
                     }
                 } catch (Exception e) {
                     Log.e(LOG_TAG, "Ping to host " + host + " failed", e);

@@ -372,7 +372,29 @@ HotSpotPlugin.prototype = {
      *      An error callback
      */
     pingHost: function (ip, successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
+        var statsPattern = /stddev\s=\s(\d+\.\d+)/;
+
+        function parseResponse(response) {
+            var stats = response.substring(response.indexOf('min/avg/max/stddev') + 'min/avg/max/stddev'.length)
+            return {
+                requestTimeout: response.indexOf('Request timeout') !== -1,
+                stats: {
+                    packetLoss: response.match(/\sreceived,\s(\d+\.\d+)%\spacket\sloss/)[1],
+                    min: response.match(statsPattern)[1],
+                    max: response.match(statsPattern)[3],
+                    avg: response.match(statsPattern)[2],
+                    stddev: response.match(statsPattern)[4]
+                }
+            };
+        }
+
+        cordova.exec(function (response) {
+            if (response && response.length > 0) {
+                successCB(parseResponse(response));
+            } else {
+                errorCB(parseResponse(response));
+            }
+        }, function (err) {
             errorCB(err);
         }, 'HotSpotPlugin', 'pingHost', [ip]);
     },
