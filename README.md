@@ -140,8 +140,7 @@ cordova.plugins.hotspot.isPortLive(ip,
 ### Check if device is rooted
       
 ```javascript
-cordova.plugins.hotspot.isRooted(
-  function (rooted) {
+cordova.plugins.hotspot.isRooted(function (rooted) {
       if(rooted){
         // device is rooted
       } else {
@@ -170,26 +169,26 @@ cordova.plugins.hotspot.createHotspot(ssid, mode, password,
 
 #### Start Hotspot
    
-   ```javascript
-   cordova.plugins.hotspot.startHotspot(
-       function () {
-           // Hotspot is started
-       },function () {
-           // Error
-       }
-   );
+```javascript
+cordova.plugins.hotspot.startHotspot(
+   function () {
+       // Hotspot is started
+   },function () {
+       // Error
+   }
+);
 ```
 
 #### Configure Hotspot
    
 ```javascript
-   cordova.plugins.hotspot.configureHotspot(ssid, mode, password, 
-       function () {
-           // Hotspot is configured
-       },function () {
-           // Error
-       }
-   );
+cordova.plugins.hotspot.configureHotspot(ssid, mode, password, 
+   function () {
+       // Hotspot is configured
+   },function () {
+       // Error
+   }
+);
 ```
 
 #### Stop Hotspot
