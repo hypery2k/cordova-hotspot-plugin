@@ -372,20 +372,26 @@ HotSpotPlugin.prototype = {
      *      An error callback
      */
     pingHost: function (ip, successCB, errorCB) {
-        var statsPattern = /stddev\s=\s(\d+\.\d+)/;
+        var statsPattern = /\s=\s(\d+\.\d+)\/(\d+\.\d+)\/(\d+\.\d+)\/(\d+\.\d+)/;
 
         function parseResponse(response) {
-            var stats = response.substring(response.indexOf('min/avg/max/stddev') + 'min/avg/max/stddev'.length)
-            return {
-                requestTimeout: response.indexOf('Request timeout') !== -1,
-                stats: {
-                    packetLoss: response.match(/\sreceived,\s(\d+\.\d+)%\spacket\sloss/)[1],
-                    min: response.match(statsPattern)[1],
-                    max: response.match(statsPattern)[3],
-                    avg: response.match(statsPattern)[2],
-                    stddev: response.match(statsPattern)[4]
-                }
+            var stats = response.substring(response.indexOf('min/avg/max/mdev') + 'min/avg/max/mdev'.length);
+
+            var result = {
+                requestTimeout: response.indexOf('Request timeout') !== -1
             };
+            result.stat = {
+                packetLoss: response.match(/\sreceived,\s(\d+(\.\d+)?)%\spacket\sloss/)[1],
+                time: response.match(/,\stime\s(\d+)ms/)[1]
+            };
+            if (stats.match(statsPattern)) {
+                result.stat.min = stats.match(statsPattern)[1];
+                result.stat.max = stats.match(statsPattern)[3];
+                result.stat.avg = stats.match(statsPattern)[2];
+                result.stat.stddev = stats.match(statsPattern)[4];
+            }
+
+            return result;
         }
 
         cordova.exec(function (response) {
@@ -395,7 +401,7 @@ HotSpotPlugin.prototype = {
                 errorCB(parseResponse(response));
             }
         }, function (err) {
-            errorCB(err);
+            errorCB(parseResponse(err));
         }, 'HotSpotPlugin', 'pingHost', [ip]);
     },
     /**
