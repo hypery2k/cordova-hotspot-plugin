@@ -50,13 +50,15 @@ HotSpotPlugin.prototype = {
      *
      * @param {Function} callback
      *      A callback function with true or false as response,true if wifi ON and false if wifi OFF
+     * @param {Object} errorCB
+     *      A callback function to be called when errors occurr
      */
-    toggleWifi: function (callback) {
+    toggleWifi: function (callback, errorCB) {
         cordova.exec(function (code) {
             if (code === 1) {
-                successCB(true);
+                callback(true);
             } else {
-                successCB(false);
+                callback(false);
             }
         }, function (err) {
             errorCB(err);
