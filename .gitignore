@@ -16,9 +16,12 @@ hs_err_pid*
 .project
 .settings/*
 
-tmp/*
-build/
 *.log
 .gradle/*
+tmp/*
+build/*
+node_modules/*
+dist/*
+out/*
 test/android/.gradle/*
 test/android/build/*

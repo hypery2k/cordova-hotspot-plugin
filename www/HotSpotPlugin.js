@@ -24,7 +24,9 @@
  *
  */
 
-
+/**
+ * @namespace
+ */
 var HotSpotPlugin = function () {
 
 };
@@ -33,7 +35,6 @@ HotSpotPlugin.prototype = {
 
     /**
      * Check if plugin is available
-     *
      * @param {Function} callback
      *      A callback function with true or false as response
      */
@@ -478,7 +479,5 @@ HotSpotPlugin.prototype = {
             }
         }, errorCB, 'HotSpotPlugin', 'checkRoot', []);
     }
-}
-;
-
+};
 module.exports = new HotSpotPlugin();
