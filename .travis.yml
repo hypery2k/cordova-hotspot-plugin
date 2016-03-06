@@ -6,11 +6,15 @@ script:
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
   - echo $JAVA_HOME
-  - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer \
-      | bash /dev/stdin --install=build-tools-21.0.1,android-21,sys-img-armeabi-v7a-android-21 \
-      && source ~/.android-sdk-installer/env
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-   emulator -avd test -no-skin -no-audio -no-window > /dev/null 2>&1 &
+  - brew install gradle
+  # Install base Android SDK and components
+  - export COMPONENTS=android-19,android-20,android-21,android-22,sys-img-armeabi-v7a-android-19,sys-img-armeabi-v7a-android-21,sys-img-armeabi-v7a-android-22,extra-android-support,addon-google_apis-google-19,google-apis-19,addon-google_apis-google-20,google-apis-20,addon-google_apis-google-21,google-apis-21,addon-google_apis-google-22,google-apis-22,extra-google-google_play_services,extra-google-gcm,build-tools-19.1.0,build-tools-20.0.1,build-tools-21.0.1,build-tools-22.0.5,extra-google-m2repository,extra-android-m2repository
+  - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
+  - source ~/.android-sdk-installer/env
+  # Create and start emulator
+  - echo no | android create avd --force -n android-19 -t android-19 --abi armeabi-v7a
+  - echo no | android create avd --force -n android-21 -t android-21 --abi armeabi-v7a
+  - echo no | android create avd --force -n android-22 -t android-22 --abi armeabi-v7a
   - npm install -g cordova@latest
   - npm install
   - npm test
