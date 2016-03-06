@@ -27,6 +27,7 @@ package de.martinreinhardt.cordova.plugins.hotspot;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.util.Log;
 import com.mady.wifi.api.WifiAddresses;
@@ -230,6 +231,11 @@ public class HotSpotPlugin extends CordovaPlugin {
 
         if ("connectToHotspot".equals(action)) {
             connectToHotspot(args, callback);
+            return true;
+        }
+
+        if ("connectToWifiAuthEncrypt".equals(action)) {
+            connectToWifiAuthEncrypt(args, callback);
             return true;
         }
 
@@ -621,6 +627,43 @@ public class HotSpotPlugin extends CordovaPlugin {
     public boolean connectToHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
         final String password = args.getString(1);
+        return connectToWifiNetwork(pCallback, ssid, password, null, null);
+    }
+
+    public boolean connectToWifiAuthEncrypt(JSONArray args, CallbackContext pCallback) throws JSONException {
+        final String ssid = args.getString(0);
+        final String password = args.getString(1);
+        final String authentication = args.getString(2);
+        final JSONArray encryption = args.getJSONArray(3);
+        List<Integer> encryptions = new ArrayList<Integer>();
+        for (int i = 0; i < encryption.length(); i++) {
+
+            if (encryption.getString(i).equalsIgnoreCase("CCMP")) {
+                encryptions.add(WifiConfiguration.GroupCipher.CCMP);
+            } else if (encryption.getString(i).equalsIgnoreCase("TKIP")) {
+                encryptions.add(WifiConfiguration.GroupCipher.TKIP);
+            } else if (encryption.getString(i).equalsIgnoreCase("WEP104")) {
+                encryptions.add(WifiConfiguration.GroupCipher.WEP104);
+            } else {
+                encryptions.add(WifiConfiguration.GroupCipher.WEP40);
+            }
+        }
+        Integer authAlgorihm = new Integer(-1);
+        if (authentication.equalsIgnoreCase("LEAP")) {
+            authAlgorihm = WifiConfiguration.AuthAlgorithm.LEAP;
+        } else if (authentication.equalsIgnoreCase("SHARED")) {
+            authAlgorihm = WifiConfiguration.AuthAlgorithm.SHARED;
+        } else {
+            authAlgorihm = WifiConfiguration.AuthAlgorithm.OPEN;
+        }
+        return connectToWifiNetwork(pCallback, ssid, password, authAlgorihm, encryptions.toArray(new Integer[encryptions.size()]));
+    }
+
+    private boolean connectToWifiNetwork(CallbackContext pCallback,
+                                         final String ssid,
+                                         final String password,
+                                         final Integer authentication,
+                                         final Integer[] encryption) {
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
 
@@ -628,7 +671,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             public void run() {
                 WifiHotSpots hotspot = new WifiHotSpots(activity);
                 try {
-                    if (hotspot.connectToHotspot(ssid, password)) {
+                    if (hotspot.connectToHotspot(ssid, password, authentication, encryption)) {
                         int retry = 130;
                         boolean connected = false;
                         // Wait to connect

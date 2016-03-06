@@ -161,6 +161,28 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, "HotSpotPlugin", "connectToHotspot", [ssid, password]);
     },
+    /**
+     * configure current WiFi Hotspot
+     *
+     * @param {String} ssid
+     *      SSID to connect
+     * @param {String} password
+     *      password to use
+     * @param {String} authentication
+     *      mode use (LEAP, SHARED, OPEN)
+     * @param {string[]} encryption
+     *      mode use (Open, WEP, WPA, WPA_PSK)
+     * @param {Function} successCB
+     *      A callback function to be called when connected successful
+     * @param {Object} errorCB
+     *      A callback function to be called when connection was not successful
+     */
+    connectToWifiAuthEncrypt: function (ssid, password, authentication, successCB, errorCB) {
+        cordova.exec(successCB, function (err) {
+            errorCB(err);
+        }, "HotSpotPlugin", "connectToWifiAuthEncrypt", [ssid, password, mode]);
+    },
+
 
     /**
      * configure current WiFi Hotspot
