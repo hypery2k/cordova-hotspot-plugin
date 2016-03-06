@@ -4,7 +4,9 @@ env:
 script:
   - /bin/bash -xe ./runIntegrationTests.sh
 before_install:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
+   echo $JAVA_HOME
   - sudo gem install compass
-  - npm install -g grunt-cli bower cordova ios-sim
+  - npm install -g grunt-cli bower cordova@latest
   - npm install
   - npm test
