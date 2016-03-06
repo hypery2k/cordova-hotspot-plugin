@@ -1,13 +1,8 @@
 #!/bin/sh
 cwd=$(pwd)
 cd ..  
-rm -rf cordova-test-app
-git clone https://github.com/hypery2k/cordova-demo-app.git cordova-test-app
-cd cordova-test-app
-npm install
-bower install
-grunt "ci:$PLATFORM" "$PLATFORM"
+rm -rf cordova-app-hello-world && git clone https://github.com/apache/cordova-app-hello-world.git && cd cordova-app-hello-world && cordova platform add android@4
 cordova plugin add ../cordova-hotspot-plugin/
-grunt "$PLATFORM"
+cordova build
 echo "Changing back to plugin directly: "$cwd
 cd $cwd
