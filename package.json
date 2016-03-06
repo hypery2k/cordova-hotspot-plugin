@@ -18,6 +18,10 @@
     "ecosystem:cordova",
     "cordova-android"
   ],
+  "scripts": {
+    "pretest": "rm -rf tmp && mkdir -p tmp && cd tmp && git clone https://github.com/simpligility/maven-android-sdk-deployer.git && cd maven-android-sdk-deployer/ && mvn install -P 5.0",
+    "test": "cd tmp && git clone https://github.com/apache/cordova-app-hello-world.git && cd cordova-app-hello-world && cordova platform add android@4 && cordova build && cd ../../test/android && gradle build"
+  },
   "author": "Martin Reinhardt",
   "license": "MIT"
 }

@@ -1,5 +1,6 @@
-package com.mady.wifi.api;
+package unit.api;
 
+import com.mady.wifi.api.WifiAddresses;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -22,10 +23,11 @@ public class WifiAddressesTest {
     @Test
     public void shouldNotWorkWithPrivateIP() throws Exception {
         WifiAddresses wifiAddresses = new WifiAddresses(null);
-        boolean success = wifiAddresses.pingCmd("10.27.1.1");
-        String result = wifiAddresses.getPingResulta("10.27.1.1");
+        boolean success = wifiAddresses.pingCmd("192.168.255.250");
+        String result = wifiAddresses.getPingResulta("192.168.255.250");
         assertFalse(success);
-        assertTrue(result.length() == 0);
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains("Request timeout"));
     }
 
     @Test

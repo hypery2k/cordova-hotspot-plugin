@@ -7,3 +7,4 @@ before_install:
   - sudo gem install compass
   - npm install -g grunt-cli bower cordova ios-sim
   - npm install
+  - npm test

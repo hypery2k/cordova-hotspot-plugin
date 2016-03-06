@@ -1,0 +1,82 @@
+apply plugin: 'android'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    // Switch the Android Gradle plugin version requirement depending on the
+    // installed version of Gradle. This dependency is documented at
+    // http://tools.android.com/tech-docs/new-build-system/version-compatibility
+    // and https://issues.apache.org/jira/browse/CB-8143
+    if (gradle.gradleVersion >= "2.2") {
+        dependencies {
+            classpath 'com.android.tools.build:gradle:1.0.0+'
+        }
+    } else if (gradle.gradleVersion >= "2.1") {
+        dependencies {
+            classpath 'com.android.tools.build:gradle:0.14.0+'
+        }
+    } else {
+        dependencies {
+            classpath 'com.android.tools.build:gradle:0.12.0+'
+        }
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.equals("lint")) {
+        task.enabled = false
+    }
+}
+
+android {
+
+    compileSdkVersion 19
+    buildToolsVersion '19.1.0'
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+    }
+}
+sourceSets {
+    main {
+        java {
+            srcDir '../../src/android'
+        }
+    }
+    unitTest {
+        java {
+            srcDir 'unit'
+            srcDir '../../tmp/cordova-app-hello-world/platforms/android/CordovaLib/src'
+            srcDir '../../src/android'
+        }
+    }
+}
+
+dependencies {
+    unitTestCompile 'junit:junit:4.11'
+    unitTestCompile 'android:android:5.0.1_r2'
+}
+
+configurations {
+    unitTestCompile.extendsFrom runtime
+    unitTestRuntime.extendsFrom unitTestCompile
+}
+
+task unitTest(type: Test, dependsOn: assemble) {
+    description = "run unit tests"
+    scanForTestClasses = false
+    include "**/*Test.class" // whatever Ant pattern matches your test class files
+    testClassesDir = project.sourceSets.unitTest.output.classesDir
+    classpath = project.sourceSets.unitTest.runtimeClasspath
+}
+
+build.dependsOn unitTest
