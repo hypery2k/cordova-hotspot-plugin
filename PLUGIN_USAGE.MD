@@ -9,7 +9,10 @@
     * [.startHotspot(successCB, errorCB)](#cordova.plugins.hotspot+startHotspot)
     * [.configureHotspot(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+configureHotspot)
     * [.stopHotspot(successCB, errorCB)](#cordova.plugins.hotspot+stopHotspot)
+    * [.isHotspotEnabled(enabledCB, disabledCB)](#cordova.plugins.hotspot+isHotspotEnabled)
+    * [.getAllHotspotDevices(successCB, errorCB)](#cordova.plugins.hotspot+getAllHotspotDevices)
     * [.connectToHotspot(ssid, password, successCB, errorCB)](#cordova.plugins.hotspot+connectToHotspot)
+    * [.connectToWifiAuthEncrypt(ssid, password, authentication, encryption, successCB, errorCB)](#cordova.plugins.hotspot+connectToWifiAuthEncrypt)
     * [.configureHotspot(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+configureHotspot)
     * [.addWifiNetwork(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+addWifiNetwork)
     * [.removeWifiNetwork(ssid, successCB, errorCB)](#cordova.plugins.hotspot+removeWifiNetwork)
@@ -59,9 +62,9 @@ Create a WiFi Hotspot
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ssid | <code>String</code> | SSID to connect |
-| mode | <code>String</code> | wireless mode (Open, WEP, WPA, WPA_PSK) |
-| password | <code>String</code> | password to use |
+| ssid | <code>string</code> | SSID to connect |
+| mode | <code>string</code> | wireless mode (Open, WEP, WPA, WPA_PSK) |
+| password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when start was successful |
 | errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
 
@@ -84,9 +87,9 @@ Configure a running WiFi Hotspot
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ssid | <code>String</code> | SSID to connect |
-| mode | <code>String</code> | wireless mode (Open, WEP, WPA, WPA_PSK, WPA2_PSK) |
-| password | <code>String</code> | password to use |
+| ssid | <code>string</code> | SSID to connect |
+| mode | <code>string</code> | wireless mode (Open, WEP, WPA, WPA_PSK, WPA2_PSK) |
+| password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when configuration was successful |
 | errorCB | <code>Object</code> | A callback function to be called when configuration was not successful |
 
@@ -101,6 +104,28 @@ Stop a running default WiFi Hotspot
 | successCB | <code>function</code> | A callback function to be called when stop was successful |
 | errorCB | <code>Object</code> | A callback function to be called when stop was not successful |
 
+<a name="cordova.plugins.hotspot+isHotspotEnabled"></a>
+### cordova.plugins.hotspot.isHotspotEnabled(enabledCB, disabledCB)
+Checks if hot spot is enabled
+
+**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+
+| Param | Description |
+| --- | --- |
+| enabledCB | is called if hotspot is on |
+| disabledCB | called if hotspot is off |
+
+<a name="cordova.plugins.hotspot+getAllHotspotDevices"></a>
+### cordova.plugins.hotspot.getAllHotspotDevices(successCB, errorCB)
+Get all connected devices
+
+**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| successCB | <code>ip</code> &#124; <code>mac</code> | A callback function to be called when connected successful and is called with an array of JSON objects: |
+| errorCB |  | A callback function to be called when connection was not successful |
+
 <a name="cordova.plugins.hotspot+connectToHotspot"></a>
 ### cordova.plugins.hotspot.connectToHotspot(ssid, password, successCB, errorCB)
 Connect to a WiFi Hotspot
@@ -109,8 +134,23 @@ Connect to a WiFi Hotspot
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ssid | <code>String</code> | SSID to connect |
-| password | <code>String</code> | password to use |
+| ssid | <code>string</code> | SSID to connect |
+| password | <code>string</code> | password to use |
+| successCB | <code>function</code> | A callback function to be called when connected successful |
+| errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
+
+<a name="cordova.plugins.hotspot+connectToWifiAuthEncrypt"></a>
+### cordova.plugins.hotspot.connectToWifiAuthEncrypt(ssid, password, authentication, encryption, successCB, errorCB)
+configure current WiFi Hotspot
+
+**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ssid | <code>string</code> | SSID to connect |
+| password | <code>string</code> | password to use |
+| authentication | <code>string</code> | mode use (LEAP, SHARED, OPEN) |
+| encryption | <code>Array.&lt;string&gt;</code> | mode use (CCMP, TKIP, WEP104, WEP40) |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
 | errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
 
@@ -122,9 +162,9 @@ configure current WiFi Hotspot
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ssid | <code>String</code> | SSID to connect |
-| mode | <code>String</code> | mode use (Open, WEP, WPA, WPA_PSK) |
-| password | <code>String</code> | password to use |
+| ssid | <code>string</code> | SSID to connect |
+| mode | <code>string</code> | mode use (Open, WEP, WPA, WPA_PSK) |
+| password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
 | errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
 
@@ -136,9 +176,9 @@ add a WiFi network
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ssid | <code>String</code> | SSID to connect |
-| mode | <code>String</code> | mode use (Open, WEP, WPA, WPA_PSK) |
-| password | <code>String</code> | password to use |
+| ssid | <code>string</code> | SSID to connect |
+| mode | <code>string</code> | mode use (Open, WEP, WPA, WPA_PSK) |
+| password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
 | errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
 
@@ -150,7 +190,7 @@ Delete a WiFi network
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ssid | <code>String</code> | SSID to connect |
+| ssid | <code>string</code> | SSID to connect |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
 | errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
 
@@ -285,7 +325,7 @@ Ping a host
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ip | <code>String</code> | host IP |
+| ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
 | errorCB | <code>Object</code> | An error callback |
 
@@ -297,7 +337,7 @@ Get MAC address of host
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ip | <code>String</code> | host IP |
+| ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
 | errorCB | <code>Object</code> | An error callback |
 
@@ -309,7 +349,7 @@ dnsLive
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ip | <code>String</code> | host IP |
+| ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
 | errorCB | <code>Object</code> | An error callback |
 
@@ -321,7 +361,7 @@ portLive
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ip | <code>String</code> | host IP |
+| ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
 | errorCB | <code>Object</code> | An error callback |
 
