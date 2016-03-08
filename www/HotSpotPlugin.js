@@ -147,7 +147,10 @@ HotSpotPlugin.prototype = {
     /**
      * Get all connected devices
      * @param successCB
-     *      A callback function to be called when connected successful and is called with an array of JSON objects { ip: ..., mac: ... }
+     *      A callback function to be called when connected successful and is called with an array of JSON objects:
+     *      {
+     *        ip | mac
+     *      }
      * @param errorCB
      *      A callback function to be called when connection was not successful
      */
