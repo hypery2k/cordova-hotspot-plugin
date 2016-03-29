@@ -516,7 +516,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                 public void run() {
                     try {
                         WifiHotSpots hotspot = new WifiHotSpots(activity);
-                        if (isHotspotEnabled() && start) {
+                        if (start) {
                             hotspot.startHotSpot(false);
                         }
                         if (hotspot.setHotSpot(ssid, mode, password)) {
