@@ -138,12 +138,12 @@ public class HotSpotPlugin extends CordovaPlugin {
             return true;
         }
 
-        if ("startPeriodicallyScan".equals(action)) {
+        if ("startWifiPeriodicallyScan".equals(action)) {
             startPeriodicallyScan(args, callback);
             return true;
         }
 
-        if ("stopPeriodicallyScan".equals(action)) {
+        if ("stopWifiPeriodicallyScan".equals(action)) {
             stopPeriodicallyScan(callback);
             return true;
         }
@@ -229,7 +229,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             return true;
         }
 
-        if ("connectToHotspot".equals(action)) {
+        if ("connectToWifi".equals(action)) {
             connectToHotspot(args, callback);
             return true;
         }
