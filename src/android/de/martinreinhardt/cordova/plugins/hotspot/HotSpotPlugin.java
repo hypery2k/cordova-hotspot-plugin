@@ -138,13 +138,13 @@ public class HotSpotPlugin extends CordovaPlugin {
             return true;
         }
 
-        if ("startPeriodicallyScan".equals(action)) {
-            startPeriodicallyScan(args, callback);
+        if ("startWifiPeriodicallyScan".equals(action)) {
+            startWifiPeriodicallyScan(args, callback);
             return true;
         }
 
-        if ("stopPeriodicallyScan".equals(action)) {
-            stopPeriodicallyScan(callback);
+        if ("stopWifiPeriodicallyScan".equals(action)) {
+            stopWifiPeriodicallyScan(callback);
             return true;
         }
 
@@ -229,8 +229,8 @@ public class HotSpotPlugin extends CordovaPlugin {
             return true;
         }
 
-        if ("connectToHotspot".equals(action)) {
-            connectToHotspot(args, callback);
+        if ("connectToWifi".equals(action)) {
+            connectToWifi(args, callback);
             return true;
         }
 
@@ -250,7 +250,7 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     // IMPLEMENTATION
 
-    private void checkRoot(CallbackContext callback) {
+    public void checkRoot(CallbackContext callback) {
         WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
         if (wu.isDevicesRooted()) {
             callback.success(1);
@@ -259,7 +259,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
     }
 
-    private void dnsLive(JSONArray args, CallbackContext callback) {
+    public void dnsLive(JSONArray args, CallbackContext callback) {
         try {
             final String host = args.getString(0);
             WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
@@ -274,7 +274,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
     }
 
-    private void portLive(JSONArray args, CallbackContext callback) {
+    public void portLive(JSONArray args, CallbackContext callback) {
         try {
             final String host = args.getString(0);
             WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
@@ -289,7 +289,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
     }
 
-    private void getConnectionInfo(CallbackContext callback) {
+    public void getConnectionInfo(CallbackContext callback) {
         WifiInfo wifiInfo = new WifiHotSpots(this.cordova.getActivity()).getConnectionInfo();
         JSONObject result = new JSONObject();
         try {
@@ -306,7 +306,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
     }
 
-    private void getNetConfig(CallbackContext callback) {
+    public void getNetConfig(CallbackContext callback) {
 
         WifiAddresses wu = new WifiAddresses(this.cordova.getActivity());
         JSONObject result = new JSONObject();
@@ -322,7 +322,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
     }
 
-    private void pingHost(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void pingHost(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String host = args.getString(0);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
@@ -343,7 +343,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         });
     }
 
-    private void getMacAddressOfHost(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void getMacAddressOfHost(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String host = args.getString(0);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
@@ -364,7 +364,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         });
     }
 
-    private void startPeriodicallyScan(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void startWifiPeriodicallyScan(JSONArray args, CallbackContext pCallback) throws JSONException {
         final long interval = args.getLong(0);
         final long duration = args.getLong(1);
         final Activity activity = this.cordova.getActivity();
@@ -381,7 +381,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         });
     }
 
-    private void stopPeriodicallyScan(CallbackContext pCallback) {
+    public void stopWifiPeriodicallyScan(CallbackContext pCallback) {
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
         cordova.getActivity().runOnUiThread(new Runnable() {
@@ -396,7 +396,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         });
     }
 
-    private void configureHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void configureHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
         final String mode = args.getString(1);
         final String password = args.getString(2);
@@ -453,15 +453,15 @@ public class HotSpotPlugin extends CordovaPlugin {
         });
     }
 
-    private void scanWifi(CallbackContext pCallback) {
+    public void scanWifi(CallbackContext pCallback) {
         scanWifi(pCallback, false);
     }
 
-    private void scanWifiByLevel(CallbackContext pCallback) {
+    public void scanWifiByLevel(CallbackContext pCallback) {
         scanWifi(pCallback, true);
     }
 
-    private void removeWifiNetwork(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void removeWifiNetwork(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
@@ -516,7 +516,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                 public void run() {
                     try {
                         WifiHotSpots hotspot = new WifiHotSpots(activity);
-                        if (isHotspotEnabled() && start) {
+                        if (start) {
                             hotspot.startHotSpot(false);
                         }
                         if (hotspot.setHotSpot(ssid, mode, password)) {
@@ -624,7 +624,7 @@ public class HotSpotPlugin extends CordovaPlugin {
     }
 
 
-    public boolean connectToHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public boolean connectToWifi(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
         final String password = args.getString(1);
         return connectToWifiNetwork(pCallback, ssid, password, null, null);
@@ -727,7 +727,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         return wu.isSupportWifiDirect();
     }
 
-    private boolean isConnectedToInternetViaWifi() {
+    public boolean isConnectedToInternetViaWifi() {
         WifiStatus wu = new WifiStatus(this.cordova.getActivity());
         return isConnectedToWifi() && wu.isConnectedToInternet();
 
@@ -739,7 +739,7 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     }
 
-    private boolean isConnectedToInternet() {
+    public boolean isConnectedToInternet() {
         WifiStatus wu = new WifiStatus(this.cordova.getActivity());
         return wu.isConnectedToInternet();
     }

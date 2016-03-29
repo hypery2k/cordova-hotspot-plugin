@@ -161,7 +161,7 @@ HotSpotPlugin.prototype = {
     },
 
     /**
-     * Connect to a WiFi Hotspot
+     * Connect to a WiFi network
      *
      * @param {string} ssid
      *      SSID to connect
@@ -172,10 +172,10 @@ HotSpotPlugin.prototype = {
      * @param {Object} errorCB
      *      A callback function to be called when connection was not successful
      */
-    connectToHotspot: function (ssid, password, successCB, errorCB) {
+    connectToWifi: function (ssid, password, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "connectToHotspot", [ssid, password]);
+        }, "HotSpotPlugin", "connectToWifi", [ssid, password]);
     },
 
     /**
@@ -347,7 +347,7 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'scanWifiByLevel', []);
     },
     /**
-     * Start a perodically scan wifi
+     * Start a periodically scan wifi
      *
      * @param {long} interval
      *      interval to use
@@ -358,23 +358,23 @@ HotSpotPlugin.prototype = {
      * @param {Object} errorCB
      *      An error callback
      */
-    startPeriodicallyScan: function (interval, duration, successCB, errorCB) {
+    startWifiPeriodicallyScan: function (interval, duration, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, 'HotSpotPlugin', 'startPeriodicallyScan', [interval, duration]);
+        }, 'HotSpotPlugin', 'startWifiPeriodicallyScan', [interval, duration]);
     },
     /**
-     * Stop a perodically scan wifi
+     * Stop a periodically scan wifi
      *
      * @param {function} successCB
      *      A callback function to be called when scan is stopped
      * @param {Object} errorCB
      *      An error callback
      */
-    stopPeriodicallyScan: function (successCB, errorCB) {
+    stopWifiPeriodicallyScan: function (successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, 'HotSpotPlugin', 'stopPeriodicallyScan', []);
+        }, 'HotSpotPlugin', 'stopWifiPeriodicallyScan', []);
     },
     /**
      * Get network information, e.g Gateway Ip/Mac Device Mac/Ip etc

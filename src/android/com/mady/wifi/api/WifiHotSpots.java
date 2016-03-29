@@ -439,19 +439,16 @@ public class WifiHotSpots {
         /*
          * Before setting the HotSpot with specific Id delete the default AP Name.
     	 */
-/*
+
         List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
         for (WifiConfiguration i : list) {
             if (i.SSID != null && i.SSID.equals(SSID)) {
-                //wm.disconnect();
-                //wm.enableNetwork(i.networkId, true);
-                //wm.reconnect();
-                //mWifiManager.disableNetwork(i.networkId);
+                mWifiManager.disconnect();
                 mWifiManager.removeNetwork(i.networkId);
                 mWifiManager.saveConfiguration();
                 break;
             }
-        }*/
+        }
 
         if (SSID == null) {
             Log.e(LOG_TAG, "Please provide a SSID");
@@ -535,6 +532,7 @@ public class WifiHotSpots {
     /**
      * shred all  Configured wifi Networks
      */
+
     public boolean sharedAllWifi() {
         Context context = mContext;
         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
