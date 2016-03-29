@@ -217,7 +217,7 @@ HotSpotPlugin.prototype = {
     configureHotspot: function (ssid, mode, password, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "configureHotspot", [ssid, password, mode]);
+        }, "HotSpotPlugin", "configureHotspot", [ssid, mode, password]);
     },
 
     /**

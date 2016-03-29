@@ -104,7 +104,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
 
         if ("configureHotspot".equals(action)) {
-            createHotspot(null, false, true, callback);
+            createHotspot(args, false, true, callback);
             return true;
         }
 
