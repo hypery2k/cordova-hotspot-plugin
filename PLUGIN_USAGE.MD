@@ -11,7 +11,7 @@
     * [.stopHotspot(successCB, errorCB)](#cordova.plugins.hotspot+stopHotspot)
     * [.isHotspotEnabled(enabledCB, disabledCB)](#cordova.plugins.hotspot+isHotspotEnabled)
     * [.getAllHotspotDevices(successCB, errorCB)](#cordova.plugins.hotspot+getAllHotspotDevices)
-    * [.connectToHotspot(ssid, password, successCB, errorCB)](#cordova.plugins.hotspot+connectToHotspot)
+    * [.connectToWifi(ssid, password, successCB, errorCB)](#cordova.plugins.hotspot+connectToWifi)
     * [.connectToWifiAuthEncrypt(ssid, password, authentication, encryption, successCB, errorCB)](#cordova.plugins.hotspot+connectToWifiAuthEncrypt)
     * [.configureHotspot(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+configureHotspot)
     * [.addWifiNetwork(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+addWifiNetwork)
@@ -23,8 +23,8 @@
     * [.isWifiDirectSupported(successCB, errorCB)](#cordova.plugins.hotspot+isWifiDirectSupported)
     * [.scanWifi(successCB, errorCB)](#cordova.plugins.hotspot+scanWifi)
     * [.scanWifiByLevel(successCB, errorCB)](#cordova.plugins.hotspot+scanWifiByLevel)
-    * [.startPeriodicallyScan(interval, duration, successCB, errorCB)](#cordova.plugins.hotspot+startPeriodicallyScan)
-    * [.stopPeriodicallyScan(successCB, errorCB)](#cordova.plugins.hotspot+stopPeriodicallyScan)
+    * [.startWifiPeriodicallyScan(interval, duration, successCB, errorCB)](#cordova.plugins.hotspot+startWifiPeriodicallyScan)
+    * [.stopWifiPeriodicallyScan(successCB, errorCB)](#cordova.plugins.hotspot+stopWifiPeriodicallyScan)
     * [.getNetConfig(successCB, errorCB)](#cordova.plugins.hotspot+getNetConfig)
     * [.getConnectionInfo(successCB, errorCB)](#cordova.plugins.hotspot+getConnectionInfo)
     * [.pingHost(ip, successCB, errorCB)](#cordova.plugins.hotspot+pingHost)
@@ -126,9 +126,9 @@ Get all connected devices
 | successCB | <code>ip</code> &#124; <code>mac</code> | A callback function to be called when connected successful and is called with an array of JSON objects: |
 | errorCB |  | A callback function to be called when connection was not successful |
 
-<a name="cordova.plugins.hotspot+connectToHotspot"></a>
-### cordova.plugins.hotspot.connectToHotspot(ssid, password, successCB, errorCB)
-Connect to a WiFi Hotspot
+<a name="cordova.plugins.hotspot+connectToWifi"></a>
+### cordova.plugins.hotspot.connectToWifi(ssid, password, successCB, errorCB)
+Connect to a WiFi network
 
 **Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
 
@@ -271,9 +271,9 @@ Scan wifi by level
 | successCB | <code>function</code> | A callback function to be called when scan is done |
 | errorCB | <code>Object</code> | An error callback |
 
-<a name="cordova.plugins.hotspot+startPeriodicallyScan"></a>
-### cordova.plugins.hotspot.startPeriodicallyScan(interval, duration, successCB, errorCB)
-Start a perodically scan wifi
+<a name="cordova.plugins.hotspot+startWifiPeriodicallyScan"></a>
+### cordova.plugins.hotspot.startWifiPeriodicallyScan(interval, duration, successCB, errorCB)
+Start a periodically scan wifi
 
 **Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
 
@@ -284,9 +284,9 @@ Start a perodically scan wifi
 | successCB | <code>function</code> | A callback function to be called when scan is started |
 | errorCB | <code>Object</code> | An error callback |
 
-<a name="cordova.plugins.hotspot+stopPeriodicallyScan"></a>
-### cordova.plugins.hotspot.stopPeriodicallyScan(successCB, errorCB)
-Stop a perodically scan wifi
+<a name="cordova.plugins.hotspot+stopWifiPeriodicallyScan"></a>
+### cordova.plugins.hotspot.stopWifiPeriodicallyScan(successCB, errorCB)
+Stop a periodically scan wifi
 
 **Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
 
