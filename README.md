@@ -5,7 +5,9 @@
 
 > A Cordova plugin for managing HotSpot networks on Android with Cordova 3.4.0 / API Level 19
  
-[![NPM](https://nodei.co/npm/cordova-plugin-hotspot.png)](https://nodei.co/npm/cordova-plugin-hotspot/)
+[![NPM](https://nodei.co/npm/cordova-hotspot-plugin.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-hotspot-plugin/)
+
+
 
 Feel free to **donate**
 
@@ -21,7 +23,9 @@ $ cordova plugin add cordova-plugin-hotspot
 ```
 ## Usage
 
-See [here](./PLUGIN_USAGE.MD) for complete reference.
+See [here](./PLUGIN_USAGE.MD) for complete API reference.
+For Ionic Guidance see [here](https://github.com/hypery2k/cordova-hotspot-plugin/wiki/Ionic-usage).
+You need to make sure that you have the right [Android permissions](https://github.com/hypery2k/cordova-hotspot-plugin/wiki/Android-Configuration).
 
 ## Dev
 
