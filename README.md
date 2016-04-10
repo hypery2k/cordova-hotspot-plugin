@@ -5,13 +5,13 @@
 
 > A Cordova plugin for managing HotSpot networks on Android with Cordova 3.4.0 / API Level 19
  
-[![NPM](https://nodei.co/npm/cordova-hotspot-plugin.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-hotspot-plugin/)
+[![NPM](https://nodei.co/npm/cordova-plugin-hotspot.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-hotspot/)
 
 
 
 Feel free to **donate**
 
-<a href='http://www.pledgie.com/campaigns/25442'><img alt='Click here to lend your support to: Owncloud Apps and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/23447.png?skin_name=chrome' border='0' /></a>
+<a href='https://pledgie.com/campaigns/25442'><img alt='Click here to lend your support to: MobileApps with Cordova and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/25442.png?skin_name=chrome' border='0' ></a>
 <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AGPGLZYNV6Y5S">
 <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif"/>
 </img></a>
