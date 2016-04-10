@@ -1,0 +1,25 @@
+<ion-view view-title="HotSpot">
+  <ion-content class="padding">
+    <form name="hotspotForm">
+      <div ng-show="!isHotSpotActive">
+        <label class="item item-input">
+          <input type="text" ng-model="config.ssid" placeholder="SSID" ng-required="true">
+        </label>
+        <label class="item item-input">
+            <input type="text" ng-model="config.mode" disabled="true" ng-required="true">
+          </label>
+        <label class="item item-input">
+          <input type="password" ng-model="config.password" ng-minlength="8" placeholder="password" ng-required="true">
+        </label>
+        <button ng-disabled="hotspotForm.$invalid" class="button button-full button-positive" ng-click="start()">
+          Start HotSpot
+        </button>
+      </div>
+      <div ng-show="isHotSpotActive">
+        <button class="button button-full button-assertive" ng-click="stop()">
+          Stop HotSpot
+        </button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>
