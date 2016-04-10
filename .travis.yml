@@ -2,7 +2,7 @@ language: objective-c
 env:
   - PLATFORM=android
 script:
-  - /bin/bash -xe ./runIntegrationTests.sh
+  - npm test
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
   - echo $JAVA_HOME
@@ -19,4 +19,3 @@ before_install:
   - echo no | android create avd --force -n android-22 -t android-22 --abi armeabi-v7a
   - npm install -g cordova@latest
   - npm install
-  - npm test
