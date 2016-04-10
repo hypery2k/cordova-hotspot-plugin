@@ -314,7 +314,7 @@ Get current connection information, e.g SSID, linkSpeed,IPAddress etc
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>function</code> | A callback function to be called with all information |
+| successCB | <code>Object</code> | A callback function to be called with the following information: SSID, linkSpeed, IPAddress...|
 | errorCB | <code>Object</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+pingHost"></a>
