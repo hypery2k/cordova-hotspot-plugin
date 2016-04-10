@@ -12,7 +12,7 @@
 <dd><p>Callback which provides the error details.</p>
 </dd>
 <dt><a href="#getConnectionInfoCallback">getConnectionInfoCallback</a> : <code>function</code></dt>
-<dd><p>Callback which provides the following information: SSID, linkSpeed, IPAddress...</p>
+<dd><p>Callback which provides the connection information.</p>
 </dd>
 </dl>
 
@@ -70,7 +70,7 @@ Method to Toggle wifi ON/OFF
 | Param | Type | Description |
 | --- | --- | --- |
 | callback | <code>function</code> | A callback function with true or false as response,true if wifi ON and false if wifi OFF |
-| errorCB | <code>Object</code> | A callback function to be called when errors occurr |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when errors occurr |
 
 <a name="cordova.plugins.hotspot+createHotspot"></a>
 ### cordova.plugins.hotspot.createHotspot(ssid, mode, password, successCB, errorCB)
@@ -84,7 +84,7 @@ Create a WiFi Hotspot
 | mode | <code>string</code> | wireless mode (Open, WEP, WPA, WPA_PSK) |
 | password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when start was successful |
-| errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+startHotspot"></a>
 ### cordova.plugins.hotspot.startHotspot(successCB, errorCB)
@@ -95,7 +95,7 @@ Start a default WiFi Hotspot
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when start was successful |
-| errorCB | <code>Object</code> | A callback function to be called when start was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when start was not successful |
 
 <a name="cordova.plugins.hotspot+configureHotspot"></a>
 ### cordova.plugins.hotspot.configureHotspot(ssid, mode, password, successCB, errorCB)
@@ -109,7 +109,7 @@ Configure a running WiFi Hotspot
 | mode | <code>string</code> | wireless mode (Open, WEP, WPA, WPA_PSK, WPA2_PSK) |
 | password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when configuration was successful |
-| errorCB | <code>Object</code> | A callback function to be called when configuration was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when configuration was not successful |
 
 <a name="cordova.plugins.hotspot+stopHotspot"></a>
 ### cordova.plugins.hotspot.stopHotspot(successCB, errorCB)
@@ -120,7 +120,7 @@ Stop a running default WiFi Hotspot
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when stop was successful |
-| errorCB | <code>Object</code> | A callback function to be called when stop was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when stop was not successful |
 
 <a name="cordova.plugins.hotspot+isHotspotEnabled"></a>
 ### cordova.plugins.hotspot.isHotspotEnabled(enabledCB, disabledCB)
@@ -142,7 +142,7 @@ Get all connected devices
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>ip</code> &#124; <code>mac</code> | A callback function to be called when connected successful and is called with an array of JSON objects: |
-| errorCB |  | A callback function to be called when connection was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+connectToWifi"></a>
 ### cordova.plugins.hotspot.connectToWifi(ssid, password, successCB, errorCB)
@@ -155,7 +155,7 @@ Connect to a WiFi network
 | ssid | <code>string</code> | SSID to connect |
 | password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
-| errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+connectToWifiAuthEncrypt"></a>
 ### cordova.plugins.hotspot.connectToWifiAuthEncrypt(ssid, password, authentication, encryption, successCB, errorCB)
@@ -170,7 +170,7 @@ configure current WiFi Hotspot
 | authentication | <code>string</code> | mode use (LEAP, SHARED, OPEN) |
 | encryption | <code>Array.&lt;string&gt;</code> | mode use (CCMP, TKIP, WEP104, WEP40) |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
-| errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+configureHotspot"></a>
 ### cordova.plugins.hotspot.configureHotspot(ssid, mode, password, successCB, errorCB)
@@ -184,7 +184,7 @@ configure current WiFi Hotspot
 | mode | <code>string</code> | mode use (Open, WEP, WPA, WPA_PSK) |
 | password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
-| errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+addWifiNetwork"></a>
 ### cordova.plugins.hotspot.addWifiNetwork(ssid, mode, password, successCB, errorCB)
@@ -198,7 +198,7 @@ add a WiFi network
 | mode | <code>string</code> | mode use (Open, WEP, WPA, WPA_PSK) |
 | password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
-| errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+removeWifiNetwork"></a>
 ### cordova.plugins.hotspot.removeWifiNetwork(ssid, successCB, errorCB)
@@ -210,7 +210,7 @@ Delete a WiFi network
 | --- | --- | --- |
 | ssid | <code>string</code> | SSID to connect |
 | successCB | <code>function</code> | A callback function to be called when connected successful |
-| errorCB | <code>Object</code> | A callback function to be called when connection was not successful |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+isConnectedToInternet"></a>
 ### cordova.plugins.hotspot.isConnectedToInternet(successCB, errorCB)
@@ -221,7 +221,7 @@ Check if connection to internet is active
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when connection is active |
-| errorCB | <code>Object</code> | A callback function to be called when not |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when not |
 
 <a name="cordova.plugins.hotspot+isConnectedToInternetViaWifi"></a>
 ### cordova.plugins.hotspot.isConnectedToInternetViaWifi(successCB, errorCB)
@@ -232,7 +232,7 @@ Check if connection to internet is active via WiFi
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when connection is done via wifi |
-| errorCB | <code>Object</code> | A callback function to be called when not |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when not |
 
 <a name="cordova.plugins.hotspot+isWifiOn"></a>
 ### cordova.plugins.hotspot.isWifiOn(successCB, errorCB)
@@ -243,7 +243,7 @@ Check if WiFi is enabled
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when WiFi is enabled |
-| errorCB | <code>Object</code> | A callback function to be called when WiFi is disabled |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when WiFi is disabled |
 
 <a name="cordova.plugins.hotspot+isWifiSupported"></a>
 ### cordova.plugins.hotspot.isWifiSupported(successCB, errorCB)
@@ -254,7 +254,7 @@ Check if WiFi is supported
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when WiFi is supported |
-| errorCB | <code>Object</code> | A callback function to be called when WiFi is not supported |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when WiFi is not supported |
 
 <a name="cordova.plugins.hotspot+isWifiDirectSupported"></a>
 ### cordova.plugins.hotspot.isWifiDirectSupported(successCB, errorCB)
@@ -265,7 +265,7 @@ Check if WiFi Direct is supported
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when WiFi Direct is supported |
-| errorCB | <code>Object</code> | A callback function to be called when WiFi Direct is not supported |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when WiFi Direct is not supported |
 
 <a name="cordova.plugins.hotspot+scanWifi"></a>
 ### cordova.plugins.hotspot.scanWifi(successCB, errorCB)
@@ -276,7 +276,7 @@ Scan wifi
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when scan is done |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+scanWifiByLevel"></a>
 ### cordova.plugins.hotspot.scanWifiByLevel(successCB, errorCB)
@@ -287,7 +287,7 @@ Scan wifi by level
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when scan is done |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+startWifiPeriodicallyScan"></a>
 ### cordova.plugins.hotspot.startWifiPeriodicallyScan(interval, duration, successCB, errorCB)
@@ -300,7 +300,7 @@ Start a periodically scan wifi
 | interval | <code>long</code> | interval to use |
 | duration | <code>long</code> | duration to use |
 | successCB | <code>function</code> | A callback function to be called when scan is started |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+stopWifiPeriodicallyScan"></a>
 ### cordova.plugins.hotspot.stopWifiPeriodicallyScan(successCB, errorCB)
@@ -311,7 +311,7 @@ Stop a periodically scan wifi
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called when scan is stopped |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+getNetConfig"></a>
 ### cordova.plugins.hotspot.getNetConfig(successCB, errorCB)
@@ -322,7 +322,7 @@ Get network information, e.g Gateway Ip/Mac Device Mac/Ip etc
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called with all information |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+getConnectionInfo"></a>
 ### cordova.plugins.hotspot.getConnectionInfo(successCB, errorCB)
@@ -345,7 +345,7 @@ Ping a host
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+getMacAddressOfHost"></a>
 ### cordova.plugins.hotspot.getMacAddressOfHost(ip, successCB, errorCB)
@@ -357,7 +357,7 @@ Get MAC address of host
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isDnsLive"></a>
 ### cordova.plugins.hotspot.isDnsLive(ip, successCB, errorCB)
@@ -369,7 +369,7 @@ dnsLive
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isPortLive"></a>
 ### cordova.plugins.hotspot.isPortLive(ip, successCB, errorCB)
@@ -381,7 +381,7 @@ portLive
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with all information |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isRooted"></a>
 ### cordova.plugins.hotspot.isRooted(successCB, errorCB)
@@ -392,7 +392,7 @@ Check Device is Rooted
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called with all information |
-| errorCB | <code>Object</code> | An error callback |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="errorCallback"></a>
 ## errorCallback : <code>function</code>
@@ -406,11 +406,11 @@ Callback which provides the error details.
 
 <a name="getConnectionInfoCallback"></a>
 ## getConnectionInfoCallback : <code>function</code>
-Callback which provides the following information: SSID, linkSpeed, IPAddress...
+Callback which provides the connection information.
 
 **Kind**: global typedef  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| sum | <code>Object</code> | An integer. |
+| info | <code>Object</code> | An JSON object with the following information: SSID, linkSpeed, IPAddress. |
 

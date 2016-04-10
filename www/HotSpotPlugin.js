@@ -59,7 +59,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} callback
      *      A callback function with true or false as response,true if wifi ON and false if wifi OFF
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when errors occurr
      */
     toggleWifi: function (callback, errorCB) {
@@ -85,7 +85,7 @@ HotSpotPlugin.prototype = {
      *      password to use
      * @param {function} successCB
      *      A callback function to be called when start was successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
     createHotspot: function (ssid, mode, password, successCB, errorCB) {
@@ -99,7 +99,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when start was successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when start was not successful
      */
     startHotspot: function (successCB, errorCB) {
@@ -119,7 +119,7 @@ HotSpotPlugin.prototype = {
      *      password to use
      * @param {function} successCB
      *      A callback function to be called when configuration was successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when configuration was not successful
      */
     configureHotspot: function (ssid, mode, password, successCB, errorCB) {
@@ -132,7 +132,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when stop was successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when stop was not successful
      */
     stopHotspot: function (successCB, errorCB) {
@@ -159,7 +159,7 @@ HotSpotPlugin.prototype = {
      *      {
      *        ip | mac
      *      }
-     * @param errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
     getAllHotspotDevices: function (successCB, errorCB) {
@@ -177,7 +177,7 @@ HotSpotPlugin.prototype = {
      *      password to use
      * @param {function} successCB
      *      A callback function to be called when connected successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
     connectToWifi: function (ssid, password, successCB, errorCB) {
@@ -199,7 +199,7 @@ HotSpotPlugin.prototype = {
      *      mode use (CCMP, TKIP, WEP104, WEP40)
      * @param {function} successCB
      *      A callback function to be called when connected successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
     connectToWifiAuthEncrypt: function (ssid, password, authentication, encryption, successCB, errorCB) {
@@ -219,7 +219,7 @@ HotSpotPlugin.prototype = {
      *      password to use
      * @param {function} successCB
      *      A callback function to be called when connected successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
     configureHotspot: function (ssid, mode, password, successCB, errorCB) {
@@ -239,7 +239,7 @@ HotSpotPlugin.prototype = {
      *      password to use
      * @param {function} successCB
      *      A callback function to be called when connected successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
     addWifiNetwork: function (ssid, mode, password, successCB, errorCB) {
@@ -255,7 +255,7 @@ HotSpotPlugin.prototype = {
      *      SSID to connect
      * @param {function} successCB
      *      A callback function to be called when connected successful
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
     removeWifiNetwork: function (ssid, successCB, errorCB) {
@@ -268,7 +268,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when connection is active
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when not
      */
     isConnectedToInternet: function (successCB, errorCB) {
@@ -281,7 +281,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when connection is done via wifi
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when not
      */
     isConnectedToInternetViaWifi: function (successCB, errorCB) {
@@ -294,7 +294,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when WiFi is enabled
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when WiFi is disabled
      */
     isWifiOn: function (successCB, errorCB) {
@@ -307,7 +307,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when WiFi is supported
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when WiFi is not supported
      */
     isWifiSupported: function (successCB, errorCB) {
@@ -320,7 +320,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when WiFi Direct is supported
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      A callback function to be called when WiFi Direct is not supported
      */
     isWifiDirectSupported: function (successCB, errorCB) {
@@ -333,7 +333,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when scan is done
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     scanWifi: function (successCB, errorCB) {
@@ -346,7 +346,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when scan is done
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     scanWifiByLevel: function (successCB, errorCB) {
@@ -363,7 +363,7 @@ HotSpotPlugin.prototype = {
      *      duration to use
      * @param {function} successCB
      *      A callback function to be called when scan is started
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     startWifiPeriodicallyScan: function (interval, duration, successCB, errorCB) {
@@ -376,7 +376,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called when scan is stopped
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     stopWifiPeriodicallyScan: function (successCB, errorCB) {
@@ -389,7 +389,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called with all information
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     getNetConfig: function (successCB, errorCB) {
@@ -400,10 +400,10 @@ HotSpotPlugin.prototype = {
 
 
     /**
-     * Callback which provides the following information: SSID, linkSpeed, IPAddress...
+     * Callback which provides the connection information.
      *
      * @callback getConnectionInfoCallback
-     * @param {Object} sum - An integer.
+     * @param {Object} info - An JSON object with the following information: SSID, linkSpeed, IPAddress.
      */
 
     /**
@@ -426,7 +426,7 @@ HotSpotPlugin.prototype = {
      *      host IP
      * @param {function} successCB
      *      A callback function to be called with all information
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     pingHost: function (ip, successCB, errorCB) {
@@ -469,7 +469,7 @@ HotSpotPlugin.prototype = {
      *      host IP
      * @param {function} successCB
      *      A callback function to be called with all information
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     getMacAddressOfHost: function (ip, successCB, errorCB) {
@@ -484,7 +484,7 @@ HotSpotPlugin.prototype = {
      *      host IP
      * @param {function} successCB
      *      A callback function to be called with all information
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     isDnsLive: function (ip, successCB, errorCB) {
@@ -505,7 +505,7 @@ HotSpotPlugin.prototype = {
      *      host IP
      * @param {function} successCB
      *      A callback function to be called with all information
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     isPortLive: function (ip, successCB, errorCB) {
@@ -522,7 +522,7 @@ HotSpotPlugin.prototype = {
      *
      * @param {function} successCB
      *      A callback function to be called with all information
-     * @param {Object} errorCB
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     isRooted: function (successCB, errorCB) {
