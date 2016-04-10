@@ -31,6 +31,14 @@ var HotSpotPlugin = function () {
 
 };
 
+
+/**
+ * Callback which provides the error details.
+ *
+ * @callback errorCallback
+ * @param {Object} err - error details.
+ */
+
 HotSpotPlugin.prototype = {
 
     /**
@@ -389,12 +397,21 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, 'HotSpotPlugin', 'getNetConfig', []);
     },
+
+
+    /**
+     * Callback which provides the following information: SSID, linkSpeed, IPAddress...
+     *
+     * @callback getConnectionInfoCallback
+     * @param {Object} sum - An integer.
+     */
+
     /**
      * Get current connection information, e.g SSID, linkSpeed,IPAddress etc
      *
-     * @param {function} successCB
-     *      A callback function to be called with all information
-     * @param {Object} errorCB
+     * @param {getConnectionInfoCallback} successCB
+     *      A callback function with the connection details.
+     * @param {errorCallback} errorCB
      *      An error callback
      */
     getConnectionInfo: function (successCB, errorCB) {

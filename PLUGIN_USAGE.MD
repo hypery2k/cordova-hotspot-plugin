@@ -1,3 +1,21 @@
+## Objects
+
+<dl>
+<dt><a href="#cordova.plugins.hotspot">cordova.plugins.hotspot</a> : <code>object</code></dt>
+<dd></dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#errorCallback">errorCallback</a> : <code>function</code></dt>
+<dd><p>Callback which provides the error details.</p>
+</dd>
+<dt><a href="#getConnectionInfoCallback">getConnectionInfoCallback</a> : <code>function</code></dt>
+<dd><p>Callback which provides the following information: SSID, linkSpeed, IPAddress...</p>
+</dd>
+</dl>
+
 <a name="cordova.plugins.hotspot"></a>
 ## cordova.plugins.hotspot : <code>object</code>
 **Kind**: global namespace  
@@ -314,8 +332,8 @@ Get current connection information, e.g SSID, linkSpeed,IPAddress etc
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>Object</code> | A callback function to be called with the following information: SSID, linkSpeed, IPAddress...|
-| errorCB | <code>Object</code> | An error callback |
+| successCB | <code>[getConnectionInfoCallback](#getConnectionInfoCallback)</code> | A callback function with the connection details. |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+pingHost"></a>
 ### cordova.plugins.hotspot.pingHost(ip, successCB, errorCB)
@@ -375,4 +393,24 @@ Check Device is Rooted
 | --- | --- | --- |
 | successCB | <code>function</code> | A callback function to be called with all information |
 | errorCB | <code>Object</code> | An error callback |
+
+<a name="errorCallback"></a>
+## errorCallback : <code>function</code>
+Callback which provides the error details.
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>Object</code> | error details. |
+
+<a name="getConnectionInfoCallback"></a>
+## getConnectionInfoCallback : <code>function</code>
+Callback which provides the following information: SSID, linkSpeed, IPAddress...
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| sum | <code>Object</code> | An integer. |
 
