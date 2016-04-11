@@ -29,9 +29,8 @@ You need to make sure that you have the right [Android permissions](https://gith
 
 ## Dev
 
-### To run the integration tests before
+### To run the tests
 
 ```bash
-export PLATFORM="android" 
-./runIntegrationTests.sh
+npm test
 ```

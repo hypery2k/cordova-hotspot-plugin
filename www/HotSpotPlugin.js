@@ -41,10 +41,18 @@ var HotSpotPlugin = function () {
 
 HotSpotPlugin.prototype = {
 
+
+    /**
+     * Callback which provides the toggle Wifi info
+     *
+     * @callback isAvailableCallback
+     * @param {boolean} available, true or false as response
+     */
+
     /**
      * Check if plugin is available
-     * @param {function} callback
-     *      A callback function with true or false as response
+     * @param {isAvailableCallback} callback
+     *      A callback function which is invoked on success.
      */
     isAvailable: function (callback) {
         if (cordova.platformId == 'android') {
@@ -54,11 +62,19 @@ HotSpotPlugin.prototype = {
         }
     },
 
+
+    /**
+     * Callback which provides the toggle Wifi info
+     *
+     * @callback toggleWifiCallback
+     * @param {boolean} wifiOn, true or false as response,true if wifi ON and false if wifi OFF
+     */
+
     /**
      * Method to Toggle wifi ON/OFF
      *
-     * @param {function} callback
-     *      A callback function with true or false as response,true if wifi ON and false if wifi OFF
+     * @param {toggleWifiCallback} callback
+     *      A callback function which is invoked on success.
      * @param {errorCallback} errorCB
      *      A callback function to be called when errors occurr
      */
@@ -74,6 +90,12 @@ HotSpotPlugin.prototype = {
         }, "HotSpotPlugin", "toggleWifi", []);
     },
 
+
+    /**
+     * A callback function to be called when start was successful
+     *
+     * @callback createHotspotCallback
+     */
     /**
      * Create a WiFi Hotspot
      *
@@ -83,7 +105,7 @@ HotSpotPlugin.prototype = {
      *      wireless mode (Open, WEP, WPA, WPA_PSK)
      * @param {string} password
      *      password to use
-     * @param {function} successCB
+     * @param {createHotspotCallback} successCB
      *      A callback function to be called when start was successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
@@ -95,9 +117,15 @@ HotSpotPlugin.prototype = {
     },
 
     /**
+     * A callback function to be called when start was successful
+     *
+     * @callback startHotspotCallback
+     */
+
+    /**
      * Start a default WiFi Hotspot
      *
-     * @param {function} successCB
+     * @param {startHotspotCallback} successCB
      *      A callback function to be called when start was successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when start was not successful
@@ -109,6 +137,11 @@ HotSpotPlugin.prototype = {
     },
 
     /**
+     * A callback function to be called when configuration was successful
+     *
+     * @callback configureHotspotCallback
+     */
+    /**
      * Configure a running WiFi Hotspot
      *
      * @param {string} ssid
@@ -117,7 +150,7 @@ HotSpotPlugin.prototype = {
      *      wireless mode (Open, WEP, WPA, WPA_PSK, WPA2_PSK)
      * @param {string} password
      *      password to use
-     * @param {function} successCB
+     * @param {configureHotspotCallback} successCB
      *      A callback function to be called when configuration was successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when configuration was not successful
@@ -127,10 +160,16 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, "HotSpotPlugin", "configureHotspot", [ssid, mode, password]);
     },
+
+    /**
+     * A callback function to be called when stop was successful
+     *
+     * @callback stopHotspotCallback
+     */
     /**
      * Stop a running default WiFi Hotspot
      *
-     * @param {function} successCB
+     * @param {stopHotspotCallback} successCB
      *      A callback function to be called when stop was successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when stop was not successful
@@ -140,27 +179,43 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, "HotSpotPlugin", "stopHotspot", []);
     },
-
+    /**
+     * A callback function to be called when stop was successful
+     *
+     * @callback isHotspotEnabledCallback
+     * @param {boolean} enabled, true  if hotspot is off or false as response
+     */
     /**
      * Checks if hot spot is enabled
-     * @param enabledCB is called if hotspot is on
-     * @param disabledCB called if hotspot is off
+     * @param {isHotspotEnabledCallback} successCB
+     *      A callback function with the result
+     * @param {errorCallback} errorCB
+     *      A error callback function
      */
-    isHotspotEnabled: function (enabledCB, disabledCB) {
-        cordova.exec(enabledCB, function (err) {
-            disabledCB(err);
+    isHotspotEnabled: function (successCB, errorCallback) {
+        cordova.exec(function () {
+            successCB(true);
+        }, function () {
+            successCB(false);
         }, "HotSpotPlugin", "isHotspotEnabled", []);
     },
-
+    /**
+     * A callback function to be called when connected successful and is
+     * called with an array of JSON objects.
+     *
+     * @callback getAllHotspotDevicesCallback
+     * @param {Array} of objects:
+     *      [{
+     *        ip,
+     *        mac
+     *      }]
+     */
     /**
      * Get all connected devices
-     * @param successCB
-     *      A callback function to be called when connected successful and is called with an array of JSON objects:
-     *      {
-     *        ip | mac
-     *      }
+     * @param {getAllHotspotDevicesCallback}
+     *      A callback function when hotspot connection is active and info was rad.
      * @param {errorCallback} errorCB
-     *      A callback function to be called when connection was not successful
+     *      An error callback
      */
     getAllHotspotDevices: function (successCB, errorCB) {
         cordova.exec(successCB, function (err) {
@@ -169,13 +224,18 @@ HotSpotPlugin.prototype = {
     },
 
     /**
+     * A callback function to be called when connected successful
+     *
+     * @callback connectToWifiCallback
+     */
+    /**
      * Connect to a WiFi network
      *
      * @param {string} ssid
      *      SSID to connect
      * @param {string} password
      *      password to use
-     * @param {function} successCB
+     * @param {connectToWifiCallback} successCB
      *      A callback function to be called when connected successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
@@ -185,7 +245,11 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, "HotSpotPlugin", "connectToWifi", [ssid, password]);
     },
-
+    /**
+     * A callback function to be called when connected successful
+     *
+     * @callback connectToWifiAuthEncryptCallback
+     */
     /**
      * configure current WiFi Hotspot
      *
@@ -197,7 +261,7 @@ HotSpotPlugin.prototype = {
      *      mode use (LEAP, SHARED, OPEN)
      * @param {string[]} encryption
      *      mode use (CCMP, TKIP, WEP104, WEP40)
-     * @param {function} successCB
+     * @param {connectToWifiAuthEncryptCallback} successCB
      *      A callback function to be called when connected successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
@@ -207,7 +271,11 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, "HotSpotPlugin", "connectToWifiAuthEncrypt", [ssid, password, authentication, encryption]);
     },
-
+    /**
+     * A callback function to be called when connected successful
+     *
+     * @callback configureHotspotCallback
+     */
     /**
      * configure current WiFi Hotspot
      *
@@ -217,17 +285,21 @@ HotSpotPlugin.prototype = {
      *      mode use (Open, WEP, WPA, WPA_PSK)
      * @param {string} password
      *      password to use
-     * @param {function} successCB
+     * @param {configureHotspotCallback} successCB
      *      A callback function to be called when connected successful
      * @param {errorCallback} errorCB
-     *      A callback function to be called when connection was not successful
+     *      A callback function to be called when configuration was not successful
      */
     configureHotspot: function (ssid, mode, password, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
         }, "HotSpotPlugin", "configureHotspot", [ssid, mode, password]);
     },
-
+    /**
+     * A callback function to be called when connected successful
+     *
+     * @callback addWifiNetworkCallback
+     */
     /**
      * add a WiFi network
      *
@@ -238,25 +310,29 @@ HotSpotPlugin.prototype = {
      * @param {string} password
      *      password to use
      * @param {function} successCB
-     *      A callback function to be called when connected successful
+     *      A callback function to be called when adding successful
      * @param {errorCallback} errorCB
-     *      A callback function to be called when connection was not successful
+     *      A callback function to be called when adding was not successful
      */
     addWifiNetwork: function (ssid, mode, password, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
             errorCB(err);
         }, "HotSpotPlugin", "addWifiNetwork", [ssid, password, mode]);
     },
-
+    /**
+     * A callback function function to be called when removal was successful
+     *
+     * @callback removeWifiNetworkCallback
+     */
     /**
      * Delete a WiFi network
      *
      * @param {string} ssid
      *      SSID to connect
      * @param {function} successCB
-     *      A callback function to be called when connected successful
+     *      A callback function function to be called when removal was successful
      * @param {errorCallback} errorCB
-     *      A callback function to be called when connection was not successful
+     *      A callback function to be called when removal was not successful
      */
     removeWifiNetwork: function (ssid, successCB, errorCB) {
         cordova.exec(successCB, function (err) {
@@ -264,75 +340,129 @@ HotSpotPlugin.prototype = {
         }, "HotSpotPlugin", "removeWifiNetwork", [ssid]);
     },
     /**
+     * A callback function to be called with the result
+     *
+     * @callback isConnectedToInternetCallback
+     * @param {boolean} connected, true  if device is connected to internet, otherwise false
+     */
+    /**
      * Check if connection to internet is active
      *
-     * @param {function} successCB
-     *      A callback function to be called when connection is active
+     * @param {isConnectedToInternetCallback} successCB
+     *      A callback function to be called with the result
      * @param {errorCallback} errorCB
-     *      A callback function to be called when not
+     *      An error callback
      */
     isConnectedToInternet: function (successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
-            errorCB(err);
+        cordova.exec(function () {
+            successCB(true);
+        }, function () {
+            successCB(false);
         }, 'HotSpotPlugin', 'isConnectedToInternet', []);
     },
     /**
+     * A callback function to be called when connection is done via wifi
+     *
+     * @callback isConnectedToInternetViaWifiCallback
+     * @param {boolean} connected, true  if device is connected to internet via WiFi, otherwise false
+     */
+    /**
      * Check if connection to internet is active via WiFi
      *
-     * @param {function} successCB
-     *      A callback function to be called when connection is done via wifi
+     * @param {isConnectedToInternetViaWifiCallback} successCB
+     *      A callback function to be called with the result
      * @param {errorCallback} errorCB
-     *      A callback function to be called when not
+     *      An error callback
      */
     isConnectedToInternetViaWifi: function (successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
-            errorCB(err);
+        cordova.exec(function () {
+            successCB(true);
+        }, function () {
+            successCB(false);
         }, 'HotSpotPlugin', 'isConnectedToInternetViaWifi', []);
     },
     /**
+     * A callback function to be called when WiFi is enabled
+     *
+     * @callback isWifiOnCallback
+     * @param {boolean} connected, true  if device if WiFi is on, otherwise false
+     */
+    /**
      * Check if WiFi is enabled
      *
-     * @param {function} successCB
-     *      A callback function to be called when WiFi is enabled
+     * @param {isWifiOnCallback} successCB
+     *      A callback function with the result
      * @param {errorCallback} errorCB
-     *      A callback function to be called when WiFi is disabled
+     *      An error callback
      */
     isWifiOn: function (successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
-            errorCB(err);
+        cordova.exec(function () {
+            successCB(true);
+        }, function () {
+            successCB(false);
         }, 'HotSpotPlugin', 'isWifiOn', []);
     },
     /**
+     * A callback function to be called when WiFi is supported
+     *
+     * @callback isWifiSupportedCallback
+     * @param {boolean} wifiSupported, true  if  WiFi is supported, otherwise false
+     */
+    /**
      * Check if WiFi is supported
      *
-     * @param {function} successCB
-     *      A callback function to be called when WiFi is supported
+     * @param {isWifiSupportedCallback} successCB
+     *      A callback function with the result
      * @param {errorCallback} errorCB
-     *      A callback function to be called when WiFi is not supported
+     *      An error callback
      */
     isWifiSupported: function (successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
-            errorCB(err);
+        cordova.exec(function () {
+            successCB(true);
+        }, function () {
+            successCB(false);
         }, 'HotSpotPlugin', 'isWifiSupported', []);
     },
     /**
+     * A callback function to be called when WiFi is supported
+     *
+     * @callback isWifiDirectSupportedCallback
+     * @param {boolean} wifiSupported, true  if  WiFi Direct is supported, otherwise false
+     */
+    /**
      * Check if WiFi Direct is supported
      *
-     * @param {function} successCB
-     *      A callback function to be called when WiFi Direct is supported
+     * @param {isWifiDirectSupportedCallback} successCB
+     *      A callback function with the result
      * @param {errorCallback} errorCB
-     *      A callback function to be called when WiFi Direct is not supported
+     *      An error callback
      */
     isWifiDirectSupported: function (successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
-            errorCB(err);
+        cordova.exec(function () {
+            successCB(true);
+        }, function () {
+            successCB(false);
         }, 'HotSpotPlugin', 'isWifiDirectSupported', []);
     },
     /**
+     * A callback function to be called when scan is started
+     *
+     * @callback scanWifiCallback
+     * @param {Array} info - An array of JSON objects with the following information:
+     *  [{
+     *      SSID,
+     *      BSSID,
+     *      frequency,
+     *      level,
+     *      timestamp,
+     *      capabilities
+     *  }]
+     */
+    /**
      * Scan wifi
      *
-     * @param {function} successCB
-     *      A callback function to be called when scan is done
+     * @param {scanWifiCallback} successCB
+     *      A callback function to be called when scan is started
      * @param {errorCallback} errorCB
      *      An error callback
      */
@@ -342,10 +472,24 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'scanWifi', []);
     },
     /**
+     * A callback function to be called when scan is started
+     *
+     * @callback scanWifiCallback
+     * @param {Array} info - An array of JSON objects with the following information:
+     *  [{
+     *      SSID,
+     *      BSSID,
+     *      frequency,
+     *      level,
+     *      timestamp,
+     *      capabilities
+     *  }]
+     */
+    /**
      * Scan wifi by level
      *
-     * @param {function} successCB
-     *      A callback function to be called when scan is done
+     * @param {scanWifiByLevelCallback} successCB
+     *      A callback function to be called when scan is started
      * @param {errorCallback} errorCB
      *      An error callback
      */
@@ -355,13 +499,18 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'scanWifiByLevel', []);
     },
     /**
+     * A callback function to be called when scan is started
+     *
+     * @callback startWifiPeriodicallyScanCallback
+     */
+    /**
      * Start a periodically scan wifi
      *
      * @param {long} interval
      *      interval to use
      * @param {long} duration
      *      duration to use
-     * @param {function} successCB
+     * @param {startWifiPeriodicallyScanCallback} successCB
      *      A callback function to be called when scan is started
      * @param {errorCallback} errorCB
      *      An error callback
@@ -372,9 +521,14 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'startWifiPeriodicallyScan', [interval, duration]);
     },
     /**
+     * A callback function to be called when scan is stopped
+     *
+     * @callback stopWifiPeriodicallyScanCallback
+     */
+    /**
      * Stop a periodically scan wifi
      *
-     * @param {function} successCB
+     * @param {stopWifiPeriodicallyScanCallback} successCB
      *      A callback function to be called when scan is stopped
      * @param {errorCallback} errorCB
      *      An error callback
@@ -385,9 +539,21 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'stopWifiPeriodicallyScan', []);
     },
     /**
+     * A callback function to be called when scan is started
+     *
+     * @callback getNetConfigCallback
+     * @param {Object} info - An JSON object with the following information:
+     *  {
+     *      deviceIPAddress,
+     *      deviceMacAddress,
+     *      gatewayIPAddress,
+     *      gatewayMacAddress
+     *  }
+     */
+    /**
      * Get network information, e.g Gateway Ip/Mac Device Mac/Ip etc
      *
-     * @param {function} successCB
+     * @param {getNetConfigCallback} successCB
      *      A callback function to be called with all information
      * @param {errorCallback} errorCB
      *      An error callback
@@ -397,15 +563,17 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, 'HotSpotPlugin', 'getNetConfig', []);
     },
-
-
     /**
      * Callback which provides the connection information.
      *
      * @callback getConnectionInfoCallback
-     * @param {Object} info - An JSON object with the following information: SSID, linkSpeed, IPAddress.
+     * @param {Object} info - An JSON object with the following information:
+     * {
+     *      SSID,
+     *      linkSpeed,
+     *      IPAddress
+     * }
      */
-
     /**
      * Get current connection information, e.g SSID, linkSpeed,IPAddress etc
      *
@@ -420,11 +588,27 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'getConnectionInfo', []);
     },
     /**
+     * Callback which provides the ping information.
+     *
+     * @callback pingHostCallback
+     * @param {Object} info - An JSON object with the following information:
+     * {
+     *      requestTimeout,
+     *      stat: {
+     *          requestTimeout,
+     *          time,
+     *          min,
+     *          max,
+     *          stddev
+     *      }
+     * }
+     */
+    /**
      * Ping a host
      *
      * @param {string} ip
      *      host IP
-     * @param {function} successCB
+     * @param {pingHostCallback} successCB
      *      A callback function to be called with all information
      * @param {errorCallback} errorCB
      *      An error callback
@@ -463,11 +647,17 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'pingHost', [ip]);
     },
     /**
+     * A callback function to be called with all information
+     *
+     * @callback getMacAddressOfHostCallback
+     * @param {String} info - the MAC address
+     */
+    /**
      * Get MAC address of host
      *
      * @param {string} ip
      *      host IP
-     * @param {function} successCB
+     * @param {getMacAddressOfHost} successCB
      *      A callback function to be called with all information
      * @param {errorCallback} errorCB
      *      An error callback
@@ -478,12 +668,18 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'getMacAddressOfHost', [ip]);
     },
     /**
+     * A callback function to be called with DNS details
+     *
+     * @callback isDnsLiveCallback
+     * @param {boolean} isDnsLive, true  if device is DNS is live, otherwise false
+     */
+    /**
      * dnsLive
      *
      * @param {string} ip
      *      host IP
      * @param {function} successCB
-     *      A callback function to be called with all information
+     *      A callback function to be called with the result
      * @param {errorCallback} errorCB
      *      An error callback
      */
@@ -499,11 +695,17 @@ HotSpotPlugin.prototype = {
         }, 'HotSpotPlugin', 'dnsLive', [ip]);
     },
     /**
-     * portLive
+     * A callback function to be called with DNS details
+     *
+     * @callback isPortLiveCallback
+     * @param {boolean} isPortLive, true  if device is port is available, otherwise false
+     */
+    /**
+     * is port available
      *
      * @param {string} ip
      *      host IP
-     * @param {function} successCB
+     * @param {isPortLiveCallback} successCB
      *      A callback function to be called with all information
      * @param {errorCallback} errorCB
      *      An error callback
@@ -518,9 +720,15 @@ HotSpotPlugin.prototype = {
         }, errorCB, 'HotSpotPlugin', 'portLive', [ip]);
     },
     /**
+     * A callback function to be called with Rooted information
+     *
+     * @callback isRootedCallback
+     * @param {boolean} isRooted, true  if device is port is available, otherwise false
+     */
+    /**
      * Check Device is Rooted
      *
-     * @param {function} successCB
+     * @param {isRootedCallback} successCB
      *      A callback function to be called with all information
      * @param {errorCallback} errorCB
      *      An error callback
