@@ -61,7 +61,7 @@ public class HotSpotPlugin extends CordovaPlugin {
      * cordova.getThreadPool().execute(runnable);
      * <p/>
      * To run on the UI thread, use:
-     * cordova.getActivity().runOnUiThread(runnable);
+     * cordova.getThreadPool().execute(runnable);
      *
      * @param action   The action to execute.
      * @param args     The exec() arguments in JSON form.
@@ -326,7 +326,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final String host = args.getString(0);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 WifiAddresses wu = new WifiAddresses(activity);
                 try {
@@ -347,7 +347,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final String host = args.getString(0);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
                     WifiAddresses wu = new WifiAddresses(activity);
@@ -369,7 +369,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final long duration = args.getLong(1);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
                     new WifiHotSpots(activity).startScan(interval, duration);
@@ -384,7 +384,7 @@ public class HotSpotPlugin extends CordovaPlugin {
     public void stopWifiPeriodicallyScan(CallbackContext pCallback) {
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
                     new WifiHotSpots(activity).stopScan();
@@ -402,7 +402,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final String password = args.getString(2);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 if (isHotspotEnabled()) {
                     WifiHotSpots hotspot = new WifiHotSpots(activity);
@@ -421,7 +421,7 @@ public class HotSpotPlugin extends CordovaPlugin {
     private void scanWifi(CallbackContext pCallback, final boolean sortByLevel) {
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
                     WifiHotSpots hotspot = new WifiHotSpots(activity);
@@ -465,7 +465,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final String ssid = args.getString(0);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 WifiHotSpots hotspot = new WifiHotSpots(activity);
                 hotspot.removeWifiNetwork(ssid);
@@ -480,7 +480,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final String mode = args.getString(2);
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 WifiHotSpots hotspot = new WifiHotSpots(activity);
                 hotspot.addWifiNetwork(ssid, password, mode);
@@ -490,8 +490,9 @@ public class HotSpotPlugin extends CordovaPlugin {
     }
 
     public void isHotspotEnabled(CallbackContext pCallback) {
+        final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 if (isHotspotEnabled()) {
                     callback.success();
@@ -512,7 +513,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             final String mode = args.getString(1);
             final String password = args.getString(2);
 
-            cordova.getActivity().runOnUiThread(new Runnable() {
+            cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     try {
                         WifiHotSpots hotspot = new WifiHotSpots(activity);
@@ -547,7 +548,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                 }
             });
         } else {
-            cordova.getActivity().runOnUiThread(new Runnable() {
+            cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     try {
                         WifiHotSpots hotspot = new WifiHotSpots(activity);
@@ -579,7 +580,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
 
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 WifiHotSpots hotspot = new WifiHotSpots(activity);
                 if (isHotspotEnabled()) {
@@ -595,7 +596,7 @@ public class HotSpotPlugin extends CordovaPlugin {
     public void getAllHotspotDevices(CallbackContext pCallback) {
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 WifiAddresses au = new WifiAddresses(activity);
                 ArrayList<String> ipList = au.getAllDevicesIp();
@@ -667,7 +668,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         final Activity activity = this.cordova.getActivity();
         final CallbackContext callback = pCallback;
 
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 WifiHotSpots hotspot = new WifiHotSpots(activity);
                 try {
