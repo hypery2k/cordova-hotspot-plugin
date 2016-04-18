@@ -1,18 +1,24 @@
 <ion-view view-title="Devices">
   <ion-content>
+    <div class="card" ng-show="status">
+      <div class="item item-text-wrap assertive">
+        {{status}}
+      </div>
+    </div>
     <div class="card" ng-show="devices.length===0">
       <div class="item item-text-wrap">
         No devices connected.
       </div>
     </div>
     <ion-list ng-show="devices && devices.length!==0">
-      <ion-item class="item-remove-animate" ng-repeat="device in devices" type="item-text-wrap" >
+      <ion-item class="item-remove-animate" ng-repeat="device in devices" type="item-text-wrap">
         <h2>Device with IP: {{device.ip}}</h2>
+
         <p>MAC: {{device.mac}}</p>
       </ion-item>
     </ion-list>
     <div>
-      <button class="button button-full button-assertive" ng-click="refresh()">
+      <button class="button button-full button-assertive" ng-click="refresh()" ng-disabled="status">
         Refresh
       </button>
     </div>
