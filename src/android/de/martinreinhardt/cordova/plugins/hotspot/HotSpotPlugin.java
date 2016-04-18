@@ -53,6 +53,10 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     private CallbackContext command;
 
+    private interface HotspotFunction {
+        void run(JSONArray args, CallbackContext callback) throws Exception;
+    }
+
     /**
      * Executes the request.
      * <p/>
@@ -64,183 +68,317 @@ public class HotSpotPlugin extends CordovaPlugin {
      * cordova.getThreadPool().execute(runnable);
      *
      * @param action   The action to execute.
-     * @param args     The exec() arguments in JSON form.
+     * @param rawArgs  The exec() arguments in String form.
      * @param callback The callback context used when calling
      *                 back into JavaScript.
      * @return Whether the action was valid.
      */
     @Override
-    public boolean execute(String action, JSONArray args,
+    public boolean execute(String action, String rawArgs,
                            CallbackContext callback) throws JSONException {
 
         this.command = callback;
 
         if ("isWifiOn".equals(action)) {
-            if (isWifiOn()) {
-                callback.success();
-            } else {
-                callback.error("Wifi is off.");
-            }
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    if (isWifiOn()) {
+                        callback.success();
+                    } else {
+                        callback.error("Wifi is off.");
+                    }
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("toggleWifi".equals(action)) {
-            try {
-                if (toggleWifi()) {
-                    callback.success(1);
-                } else {
-                    callback.success(1);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    if (toggleWifi()) {
+                        callback.success(1);
+                    } else {
+                        callback.success(1);
+                    }
                 }
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Got unknown error during toggle wifi", e);
-                callback.error("Toggle wifi failed.");
-                return true;
-            }
+            }, rawArgs, callback);
         }
 
         if ("createHotspot".equals(action)) {
-            createHotspot(args, true, true, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    createHotspot(args, true, true, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("configureHotspot".equals(action)) {
-            createHotspot(args, false, true, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    createHotspot(args, false, true, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("startHotspot".equals(action)) {
-            createHotspot(null, true, false, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    createHotspot(null, true, false, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("stopHotspot".equals(action)) {
-            stopHotspot(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    stopHotspot(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("isHotspotEnabled".equals(action)) {
-            isHotspotEnabled(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    isHotspotEnabled(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("getAllHotspotDevices".equals(action)) {
-            getAllHotspotDevices(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    getAllHotspotDevices(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("scanWifi".equals(action)) {
-            scanWifi(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    scanWifi(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("scanWifiByLevel".equals(action)) {
-            scanWifiByLevel(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    scanWifiByLevel(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("startWifiPeriodicallyScan".equals(action)) {
-            startWifiPeriodicallyScan(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    startWifiPeriodicallyScan(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("stopWifiPeriodicallyScan".equals(action)) {
-            stopWifiPeriodicallyScan(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    stopWifiPeriodicallyScan(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("isConnectedToInternet".equals(action)) {
-            if (isConnectedToInternet()) {
-                callback.success();
-            } else {
-                callback.error("Device is not connected to internet");
-            }
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    if (isConnectedToInternet()) {
+                        callback.success();
+                    } else {
+                        callback.error("Device is not connected to internet");
+                    }
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("isConnectedToInternetViaWifi".equals(action)) {
-            if (isConnectedToInternetViaWifi()) {
-                callback.success();
-            } else {
-                callback.error("Device is not connected to internet via WiFi");
-            }
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    if (isConnectedToInternetViaWifi()) {
+                        callback.success();
+                    } else {
+                        callback.error("Device is not connected to internet via WiFi");
+                    }
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("getNetConfig".equals(action)) {
-            getNetConfig(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    getNetConfig(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("getConnectionInfo".equals(action)) {
-            getConnectionInfo(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    getConnectionInfo(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("pingHost".equals(action)) {
-            pingHost(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    pingHost(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("dnsLive".equals(action)) {
-            dnsLive(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    dnsLive(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("portLive".equals(action)) {
-            portLive(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    portLive(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("getMacAddressOfHost".equals(action)) {
-            getMacAddressOfHost(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    getMacAddressOfHost(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("checkRoot".equals(action)) {
-            checkRoot(callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    checkRoot(callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("isWifiSupported".equals(action)) {
-            if (isWifiSupported()) {
-                callback.success();
-            } else {
-                callback.error("Wifi is not supported.");
-            }
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    if (isWifiSupported()) {
+                        callback.success();
+                    } else {
+                        callback.error("Wifi is not supported.");
+                    }
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("isWifiDirectSupported".equals(action)) {
-            if (isWifiDirectSupported()) {
-                callback.success();
-            } else {
-                callback.error("Wifi direct is not supported.");
-            }
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    if (isWifiDirectSupported()) {
+                        callback.success();
+                    } else {
+                        callback.error("Wifi direct is not supported.");
+                    }
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("addWifiNetwork".equals(action)) {
-            addWifiNetwork(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    addWifiNetwork(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("removeWifiNetwork".equals(action)) {
-            removeWifiNetwork(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    removeWifiNetwork(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("connectToWifi".equals(action)) {
-            connectToWifi(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    connectToWifi(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("connectToWifiAuthEncrypt".equals(action)) {
-            connectToWifiAuthEncrypt(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    connectToWifiAuthEncrypt(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
         if ("configureHotspot".equals(action)) {
-            configureHotspot(args, callback);
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    configureHotspot(args, callback);
+                }
+            }, rawArgs, callback);
             return true;
         }
 
@@ -322,135 +460,106 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
     }
 
-    public void pingHost(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void pingHost(JSONArray args, final CallbackContext callback) throws JSONException {
         final String host = args.getString(0);
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                WifiAddresses wu = new WifiAddresses(activity);
-                try {
-                    if (wu.pingCmd(host)) {
-                        callback.success(wu.getPingResulta(host));
-                    } else {
-                        callback.error(wu.getPingResulta(host));
-                    }
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Ping to host " + host + " failed", e);
-                    callback.error("Ping failed");
-                }
+
+        WifiAddresses wu = new WifiAddresses(activity);
+        try {
+            if (wu.pingCmd(host)) {
+                callback.success(wu.getPingResulta(host));
+            } else {
+                callback.error(wu.getPingResulta(host));
             }
-        });
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Ping to host " + host + " failed", e);
+            callback.error("Ping failed");
+        }
     }
 
-    public void getMacAddressOfHost(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void getMacAddressOfHost(JSONArray args, final CallbackContext callback) throws JSONException {
         final String host = args.getString(0);
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    WifiAddresses wu = new WifiAddresses(activity);
-                    if (wu.pingCmd(host)) {
-                        callback.success(wu.getArpMacAddress(host));
-                    } else {
-                        callback.success();
-                    }
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "ARP request to host " + host + " failed", e);
-                    callback.error("ARP request");
-                }
+        try {
+            WifiAddresses wu = new WifiAddresses(activity);
+            if (wu.pingCmd(host)) {
+                callback.success(wu.getArpMacAddress(host));
+            } else {
+                callback.success();
             }
-        });
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "ARP request to host " + host + " failed", e);
+            callback.error("ARP request");
+        }
     }
 
-    public void startWifiPeriodicallyScan(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void startWifiPeriodicallyScan(JSONArray args, final CallbackContext callback) throws JSONException {
         final long interval = args.getLong(0);
         final long duration = args.getLong(1);
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    new WifiHotSpots(activity).startScan(interval, duration);
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Got unkown error during starting scan", e);
-                    callback.error("Scan start failed");
-                }
-            }
-        });
+        try {
+            new WifiHotSpots(activity).startScan(interval, duration);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Got unkown error during starting scan", e);
+            callback.error("Scan start failed");
+        }
     }
 
-    public void stopWifiPeriodicallyScan(CallbackContext pCallback) {
+    public void stopWifiPeriodicallyScan(final CallbackContext callback) {
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    new WifiHotSpots(activity).stopScan();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Got unkown error during stopping scan", e);
-                    callback.error("Scan stop failed");
-                }
-            }
-        });
+        try {
+            new WifiHotSpots(activity).stopScan();
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Got unkown error during stopping scan", e);
+            callback.error("Scan stop failed");
+        }
     }
 
-    public void configureHotspot(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void configureHotspot(JSONArray args, final CallbackContext callback) throws JSONException {
         final String ssid = args.getString(0);
         final String mode = args.getString(1);
         final String password = args.getString(2);
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                if (isHotspotEnabled()) {
-                    WifiHotSpots hotspot = new WifiHotSpots(activity);
-                    if (hotspot.setHotSpot(ssid, mode, password)) {
-                        callback.success();
-                    } else {
-                        callback.error("Hotspot config was not successfull");
-                    }
-                } else {
-                    callback.error("Hotspot not enabled");
-                }
+        if (isHotspotEnabled()) {
+            WifiHotSpots hotspot = new WifiHotSpots(activity);
+            if (hotspot.setHotSpot(ssid, mode, password)) {
+                callback.success();
+            } else {
+                callback.error("Hotspot config was not successfull");
             }
-        });
+        } else {
+            callback.error("Hotspot not enabled");
+        }
     }
 
-    private void scanWifi(CallbackContext pCallback, final boolean sortByLevel) {
+    private void scanWifi(final CallbackContext callback, final boolean sortByLevel) {
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    WifiHotSpots hotspot = new WifiHotSpots(activity);
-                    List<ScanResult> response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
-                    // if null wait and try again
-                    if (response == null || response.size() == 0) {
-                        Thread.sleep(4000);
-                        response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
-                    }
-                    JSONArray results = new JSONArray();
-                    if (response != null && response.size() > 0) {
-                        for (ScanResult scanResult : response) {
-                            JSONObject result = new JSONObject();
-                            result.put("SSID", scanResult.SSID);
-                            result.put("BSSID", scanResult.BSSID);
-                            result.put("frequency", scanResult.frequency);
-                            result.put("level", scanResult.level);
-                            result.put("timestamp", String.valueOf(scanResult.timestamp));
-                            result.put("capabilities", scanResult.capabilities);
-                            results.put(result);
-                        }
-                    }
-                    callback.success(results);
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Wifi scan failed", e);
-                    callback.error("Wifi scan failed.");
+        try {
+            WifiHotSpots hotspot = new WifiHotSpots(activity);
+            List<ScanResult> response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+            // if null wait and try again
+            if (response == null || response.size() == 0) {
+                Thread.sleep(4000);
+                response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+            }
+            JSONArray results = new JSONArray();
+            if (response != null && response.size() > 0) {
+                for (ScanResult scanResult : response) {
+                    JSONObject result = new JSONObject();
+                    result.put("SSID", scanResult.SSID);
+                    result.put("BSSID", scanResult.BSSID);
+                    result.put("frequency", scanResult.frequency);
+                    result.put("level", scanResult.level);
+                    result.put("timestamp", String.valueOf(scanResult.timestamp));
+                    result.put("capabilities", scanResult.capabilities);
+                    results.put(result);
                 }
             }
-        });
+            callback.success(results);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Wifi scan failed", e);
+            callback.error("Wifi scan failed.");
+        }
     }
 
     public void scanWifi(CallbackContext pCallback) {
@@ -461,168 +570,129 @@ public class HotSpotPlugin extends CordovaPlugin {
         scanWifi(pCallback, true);
     }
 
-    public void removeWifiNetwork(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void removeWifiNetwork(JSONArray args, final CallbackContext callback) throws JSONException {
         final String ssid = args.getString(0);
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                WifiHotSpots hotspot = new WifiHotSpots(activity);
-                hotspot.removeWifiNetwork(ssid);
-                callback.success();
-            }
-        });
+        WifiHotSpots hotspot = new WifiHotSpots(activity);
+        hotspot.removeWifiNetwork(ssid);
+        callback.success();
     }
 
-    public void addWifiNetwork(JSONArray args, CallbackContext pCallback) throws JSONException {
+    public void addWifiNetwork(JSONArray args, final CallbackContext callback) throws JSONException {
         final String ssid = args.getString(0);
         final String password = args.getString(1);
         final String mode = args.getString(2);
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                WifiHotSpots hotspot = new WifiHotSpots(activity);
-                hotspot.addWifiNetwork(ssid, password, mode);
-                callback.success();
-            }
-        });
+        WifiHotSpots hotspot = new WifiHotSpots(activity);
+        hotspot.addWifiNetwork(ssid, password, mode);
+        callback.success();
     }
 
-    public void isHotspotEnabled(CallbackContext pCallback) {
-        final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                if (isHotspotEnabled()) {
-                    callback.success();
-                } else {
-                    callback.error("Hotspot check failed.");
-                }
-            }
-        });
+    public void isHotspotEnabled(final CallbackContext callback) {
+        if (isHotspotEnabled()) {
+            callback.success();
+        } else {
+            callback.error("Hotspot check failed.");
+        }
     }
 
-    public void createHotspot(JSONArray args, final boolean start, boolean configure, CallbackContext pCallback) throws JSONException {
-
+    public void createHotspot(JSONArray args, final boolean start, boolean configure, final CallbackContext callback) throws JSONException {
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
 
         if (configure) {
             final String ssid = args.getString(0);
             final String mode = args.getString(1);
             final String password = args.getString(2);
-
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    try {
-                        WifiHotSpots hotspot = new WifiHotSpots(activity);
-                        if (start) {
-                            hotspot.startHotSpot(false);
-                        }
-                        if (hotspot.setHotSpot(ssid, mode, password)) {
-                            try {
-                                if (start) {
-                                    // Wait to connect
-                                    Thread.sleep(4000);
-                                    if (hotspot.startHotSpot(true)) {
-                                        callback.success();
-                                    } else {
-                                        callback.error("Hotspot customization failed.");
-                                    }
-                                } else {
-                                    callback.success();
-                                }
-                            } catch (Exception e) {
-                                Log.e(LOG_TAG, "Got unknown error during hotspot configuration", e);
-                                callback.error("Hotspot configuration failed.: " + e.getMessage());
-                            }
-                        } else {
-                            callback.error("Hotspot creation failed.");
-                        }
-                    } catch (Exception e) {
-                        Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
-                        callback.error("Unknown error during hotspot configuration: " + e.getMessage());
-                    }
+            try {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                if (start) {
+                    hotspot.startHotSpot(false);
                 }
-            });
-        } else {
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
+                if (hotspot.setHotSpot(ssid, mode, password)) {
                     try {
-                        WifiHotSpots hotspot = new WifiHotSpots(activity);
-                        if (isHotspotEnabled()) {
-                            hotspot.startHotSpot(false);
-                        }
-                        try {
+                        if (start) {
+                            // Wait to connect
+                            Thread.sleep(4000);
                             if (hotspot.startHotSpot(true)) {
-                                // Wait to connect
-                                Thread.sleep(4000);
                                 callback.success();
                             } else {
-                                callback.error("Hotspot start failed.");
+                                callback.error("Hotspot customization failed.");
                             }
-                        } catch (Exception e) {
-                            Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
-                            callback.error("Unknown error during hotspot start: " + e.getMessage());
+                        } else {
+                            callback.success();
                         }
                     } catch (Exception e) {
-                        Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
-                        callback.error("Existing hotspot stop failed.: " + e.getMessage());
+                        Log.e(LOG_TAG, "Got unknown error during hotspot configuration", e);
+                        callback.error("Hotspot configuration failed.: " + e.getMessage());
                     }
+                } else {
+                    callback.error("Hotspot creation failed.");
                 }
-            });
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
+                callback.error("Unknown error during hotspot configuration: " + e.getMessage());
+            }
+        } else {
+            try {
+                WifiHotSpots hotspot = new WifiHotSpots(activity);
+                if (isHotspotEnabled()) {
+                    hotspot.startHotSpot(false);
+                }
+                try {
+                    if (hotspot.startHotSpot(true)) {
+                        // Wait to connect
+                        Thread.sleep(4000);
+                        callback.success();
+                    } else {
+                        callback.error("Hotspot start failed.");
+                    }
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
+                    callback.error("Unknown error during hotspot start: " + e.getMessage());
+                }
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
+                callback.error("Existing hotspot stop failed.: " + e.getMessage());
+            }
         }
     }
 
-    public void stopHotspot(CallbackContext pCallback) throws JSONException {
+    public void stopHotspot(final CallbackContext callback) throws JSONException {
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                WifiHotSpots hotspot = new WifiHotSpots(activity);
-                if (isHotspotEnabled()) {
-                    if (!hotspot.startHotSpot(false)) {
-                        callback.error("Hotspot creation failed.");
-                    }
-                }
-                callback.success();
+        WifiHotSpots hotspot = new WifiHotSpots(activity);
+        if (isHotspotEnabled()) {
+            if (!hotspot.startHotSpot(false)) {
+                callback.error("Hotspot creation failed.");
             }
-        });
+        }
+        callback.success();
     }
 
-    public void getAllHotspotDevices(CallbackContext pCallback) {
+    public void getAllHotspotDevices(final CallbackContext callback) {
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                WifiAddresses au = new WifiAddresses(activity);
-                ArrayList<String> ipList = au.getAllDevicesIp();
-                if (ipList != null) {
-                    try {
-                        Log.d(LOG_TAG, "Checking following IPs: " + ipList);
-                        JSONArray result = new JSONArray();
-                        for (String ip : ipList) {
-                            String mac = au.getArpMacAddress(ip);
-                            JSONObject entry = new JSONObject();
-                            entry.put("ip", ip);
-                            entry.put("mac", mac);
-                            // push entry to list
-                            result.put(entry);
-                        }
-                        callback.success(result);
-                    } catch (JSONException e) {
-                        Log.e(LOG_TAG, "Got JSON error during device listing", e);
-                        callback.error("Hotspot device listing failed.");
-                    }
-                } else {
-                    callback.error("Hotspot device listing failed.");
+        WifiAddresses au = new WifiAddresses(activity);
+        ArrayList<String> ipList = au.getAllDevicesIp();
+        if (ipList != null) {
+            try {
+                Log.d(LOG_TAG, "Checking following IPs: " + ipList);
+                JSONArray result = new JSONArray();
+                for (String ip : ipList) {
+                    String mac = au.getArpMacAddress(ip);
+                    JSONObject entry = new JSONObject();
+                    entry.put("ip", ip);
+                    entry.put("mac", mac);
+                    // push entry to list
+                    result.put(entry);
                 }
+                callback.success(result);
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, "Got JSON error during device listing", e);
+                callback.error("Hotspot device listing failed.");
             }
-        });
+        } else {
+            callback.error("Hotspot device listing failed.");
+        }
     }
-
 
     public boolean connectToWifi(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
@@ -659,41 +729,35 @@ public class HotSpotPlugin extends CordovaPlugin {
         return connectToWifiNetwork(pCallback, ssid, password, authAlgorihm, encryptions.toArray(new Integer[encryptions.size()]));
     }
 
-    private boolean connectToWifiNetwork(CallbackContext pCallback,
+    private boolean connectToWifiNetwork(final CallbackContext callback,
                                          final String ssid,
                                          final String password,
                                          final Integer authentication,
                                          final Integer[] encryption) {
         final Activity activity = this.cordova.getActivity();
-        final CallbackContext callback = pCallback;
-
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                WifiHotSpots hotspot = new WifiHotSpots(activity);
-                try {
-                    if (hotspot.connectToHotspot(ssid, password, authentication, encryption)) {
-                        int retry = 130;
-                        boolean connected = false;
-                        // Wait to connect
-                        while (retry > 0 && !connected) {
-                            connected = hotspot.isConnectedToAP();
-                            retry--;
-                            Thread.sleep(100);
-                        }
-                        if (connected) {
-                            callback.success("Connection was successfull");
-                        } else {
-                            callback.error("Connection was not successfull");
-                        }
-                    } else {
-                        callback.error("Connection was not successfull");
-                    }
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Got unknown error during hotspot connect", e);
-                    callback.error("Hotspot connect failed.");
+        WifiHotSpots hotspot = new WifiHotSpots(activity);
+        try {
+            if (hotspot.connectToHotspot(ssid, password, authentication, encryption)) {
+                int retry = 130;
+                boolean connected = false;
+                // Wait to connect
+                while (retry > 0 && !connected) {
+                    connected = hotspot.isConnectedToAP();
+                    retry--;
+                    Thread.sleep(100);
                 }
+                if (connected) {
+                    callback.success("Connection was successfull");
+                } else {
+                    callback.error("Connection was not successfull");
+                }
+            } else {
+                callback.error("Connection was not successfull");
             }
-        });
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Got unknown error during hotspot connect", e);
+            callback.error("Hotspot connect failed.");
+        }
         return true;
     }
 
@@ -778,5 +842,33 @@ public class HotSpotPlugin extends CordovaPlugin {
         } catch (UnknownHostException e) {
             throw new AssertionError();
         }
+    }
+
+    /* helper to execute functions async and handle the result codes
+     *
+     */
+    private void threadhelper(final HotspotFunction f, final String rawArgs, final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                try {
+                    JSONArray args = new JSONArray(rawArgs);
+                    f.run(args, callbackContext);
+                } catch (Exception e) {
+                    logError(callbackContext, "Got unknown error in Hotpspot plugin", e);
+                }
+            }
+        });
+    }
+
+    /**
+     * Helper function to log to logcat and log back to plugin result
+     *
+     * @param callbackContext
+     * @param msg
+     * @param e
+     */
+    private void logError(final CallbackContext callbackContext, final String msg, final Exception e) {
+        Log.e(LOG_TAG, msg, e);
+        callbackContext.error(msg);
     }
 }
