@@ -521,7 +521,6 @@ public class HotSpotPlugin extends CordovaPlugin {
                             hotspot.startHotSpot(false);
                         }
                         if (hotspot.setHotSpot(ssid, mode, password)) {
-
                             try {
                                 if (start) {
                                     // Wait to connect
@@ -543,7 +542,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                         }
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
-                        callback.error("Hotspot start failed.: " + e.getMessage());
+                        callback.error("Unknown error during hotspot configuration: " + e.getMessage());
                     }
                 }
             });
@@ -565,7 +564,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                             }
                         } catch (Exception e) {
                             Log.e(LOG_TAG, "Got unknown error during hotspot start", e);
-                            callback.error("Hotspot start failed.: " + e.getMessage());
+                            callback.error("Unknown error during hotspot start: " + e.getMessage());
                         }
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Got unknown error during hotspot start", e);

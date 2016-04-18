@@ -392,7 +392,7 @@ public class WifiHotSpots {
                     mMethod.invoke(mWifiManager, null, enable);
                     return true;
                 } catch (Exception ex) {
-                    Log.e(LOG_TAG, "Unkown error during hotspot creation.", ex);
+                    Log.e(LOG_TAG, "Unknown error during hotspot creation.", ex);
                 }
                 break;
             }
@@ -504,11 +504,11 @@ public class WifiHotSpots {
                 try {
                     mMethod.invoke(mWifiManager, netConfig, true);
                     mWifiManager.saveConfiguration();
-                    Log.v(LOG_TAG, "Sucessfully created hotspot");
+                    Log.v(LOG_TAG, "Successfully created hotspot");
                     return true;
 
                 } catch (Exception e) {
-                    Log.e(LOG_TAG, "Unkown error during saving wifi config.", e);
+                    Log.e(LOG_TAG, "Unknown error during saving wifi config.", e);
                 }
             }
         }
