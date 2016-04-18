@@ -441,12 +441,14 @@ public class WifiHotSpots {
     	 */
 
         List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
-        for (WifiConfiguration i : list) {
-            if (i.SSID != null && i.SSID.equals(SSID)) {
-                mWifiManager.disconnect();
-                mWifiManager.removeNetwork(i.networkId);
-                mWifiManager.saveConfiguration();
-                break;
+        if (list != null) {
+            for (WifiConfiguration i : list) {
+                if (i.SSID != null && i.SSID.equals(SSID)) {
+                    mWifiManager.disconnect();
+                    mWifiManager.removeNetwork(i.networkId);
+                    mWifiManager.saveConfiguration();
+                    break;
+                }
             }
         }
 
