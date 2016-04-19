@@ -1,6 +1,15 @@
 language: objective-c
 env:
   - PLATFORM=android
+  - CORDOVA_VERSION=6
+  - CORDOVA_VERSION=5.4
+  - CORDOVA_VERSION=5.1
+  - CORDOVA_VERSION=5.0
+  - CORDOVA_VERSION=4
+  - CORDOVA_ANDROID_VERSION=5.1
+  - CORDOVA_ANDROID_VERSION=5.0
+  - CORDOVA_ANDROID_VERSION=4.1
+  - CORDOVA_ANDROID_VERSION=4
 script:
   - npm test
 before_install:
@@ -17,5 +26,5 @@ before_install:
   - echo no | android create avd --force -n android-19 -t android-19 --abi armeabi-v7a
   - echo no | android create avd --force -n android-21 -t android-21 --abi armeabi-v7a
   - echo no | android create avd --force -n android-22 -t android-22 --abi armeabi-v7a
-  - npm install -g cordova@latest
+  - npm install -g cordova@$CORDOVA_VERSION
   - npm install
