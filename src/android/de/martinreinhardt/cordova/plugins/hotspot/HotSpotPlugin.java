@@ -853,6 +853,8 @@ public class HotSpotPlugin extends CordovaPlugin {
                 try {
                     JSONArray args = new JSONArray(rawArgs);
                     f.run(args, callbackContext);
+                } catch (SecurityException e) {
+                    logError(callbackContext, "Got permissions error in Hotpspot plugin", e);
                 } catch (Exception e) {
                     logError(callbackContext, "Got unknown error in Hotpspot plugin", e);
                 }
@@ -869,6 +871,6 @@ public class HotSpotPlugin extends CordovaPlugin {
      */
     private void logError(final CallbackContext callbackContext, final String msg, final Exception e) {
         Log.e(LOG_TAG, msg, e);
-        callbackContext.error(msg);
+        callbackContext.error(msg + ": " + e.getMessage());
     }
 }
