@@ -161,7 +161,7 @@ public class WifiAddresses {
      */
     public boolean pingCmd(String addr) {
         try {
-            String ping = "ping  -c 10 -W 1 -i 0.2" + addr;
+            String ping = "ping  -c 5 -W 1 -i 0.2 " + addr;
             Runtime run = Runtime.getRuntime();
             Process pro = run.exec(ping);
             try {
