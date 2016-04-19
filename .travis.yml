@@ -9,8 +9,6 @@ script:
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
   - echo $JAVA_HOME
-  - brew update
-  - brew install gradle
   # Install base Android SDK and components
   - export LICENSES="android-sdk-license-c81a61d9|android-sdk-license-ed0d0a5b|android-sdk-license-5be876d5|mips-android-sysimage-license-15de68cc|intel-android-sysimage-license-1ea702d1"
   - export COMPONENTS=android-19,android-20,android-21,android-22,sys-img-armeabi-v7a-android-19,sys-img-armeabi-v7a-android-21,sys-img-armeabi-v7a-android-22,extra-android-support,addon-google_apis-google-19,google-apis-19,addon-google_apis-google-20,google-apis-20,addon-google_apis-google-21,google-apis-21,addon-google_apis-google-22,google-apis-22,extra-google-google_play_services,extra-google-gcm,build-tools-19.1.0,build-tools-20.0.1,build-tools-21.0.1,build-tools-22.0.5,extra-google-m2repository,extra-android-m2repository
