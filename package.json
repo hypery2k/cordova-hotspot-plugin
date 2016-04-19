@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "pretest": "rm -rf tmp && mkdir -p tmp && cd tmp && git clone https://github.com/simpligility/maven-android-sdk-deployer.git && cd maven-android-sdk-deployer/ && mvn install -P 5.0",
-    "test": "export CORDOVA_ANDROID_PLATTFORM=${CORDOVA_ANDROID_VERSION:-4} && cd tmp && git clone https://github.com/apache/cordova-app-hello-world.git && cd cordova-app-hello-world && cordova platform add android@${CORDOVA_ANDROID_PLATTFORM} && cordova build && cd ../../test/android && gradle build",
+    "test": "cd tmp && git clone https://github.com/apache/cordova-app-hello-world.git && cd cordova-app-hello-world && cordova platform add android && cordova build && cd ../../test/android && gradle build",
     "posttest": "jsdoc -c jsdoc.json && jsdoc2md www/HotSpotPlugin.js | sed s/hotSpotPlugin/cordova.plugins.hotspot/g | sed s/HotSpotPlugin/cordova.plugins.hotspot/g > PLUGIN_USAGE.MD"
   },
   "author": "Martin Reinhardt",
