@@ -1,15 +1,9 @@
 language: objective-c
-env:
-  - PLATFORM=android
   - CORDOVA_VERSION=latest
   - CORDOVA_VERSION=6
   - CORDOVA_VERSION=5.4
   - CORDOVA_VERSION=5.1
   - CORDOVA_VERSION=5.0
-matrix:
-	exclude:
-	- rvm: 2.0.0
-		gemfile: Gemfile
 script:
   - npm test
 before_install:
