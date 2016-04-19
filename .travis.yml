@@ -1,4 +1,5 @@
 language: objective-c
+env:
   - CORDOVA_VERSION=latest
   - CORDOVA_VERSION=6
   - CORDOVA_VERSION=5.4
