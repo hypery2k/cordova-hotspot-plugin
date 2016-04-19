@@ -671,7 +671,7 @@ public class HotSpotPlugin extends CordovaPlugin {
     public void getAllHotspotDevices(final CallbackContext callback) {
         final Activity activity = this.cordova.getActivity();
         WifiAddresses au = new WifiAddresses(activity);
-        ArrayList<String> ipList = au.getAllDevicesIp();
+        List<String> ipList = au.getAllDevicesIp();
         if (ipList != null) {
             try {
                 Log.d(LOG_TAG, "Checking following IPs: " + ipList);

@@ -20,6 +20,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +35,7 @@ public class WifiAddresses {
     private final static int BUFFER = 8 * 1024;
     private final static int[] PORTS = {139, 445, 22, 80, 7, 13};
     public boolean isDnsLive = false;
-    public ArrayList<String> addresses = new ArrayList<String>();
+    public List<String> addresses = new ArrayList<String>();
     Context mContext;
     WifiManager mWifiManager;
     WifiInfo mWifiInfo;
@@ -403,7 +404,7 @@ public class WifiAddresses {
      * @return ArrayList<String> all ip addresses are  reachable
      */
 
-    public ArrayList<String> getAllDevicesIp() {
+    public List<String> getAllDevicesIp() {
         addresses.clear();
         if (!getGatewayIPAddress().contentEquals("0.0.0.0")) {
 
@@ -426,30 +427,24 @@ public class WifiAddresses {
 
         for (int i = start + 1; i < start + 6; i++) {
             if (((start + 6) < 255)) {
-
-                if (pingCmd(sub + Integer.toString(i))) {
-                    if (!addresses.contains(sub + Integer.toString(i))) {
+                String ipAddress = sub + Integer.toString(i);
+                if (!addresses.contains(ipAddress)) {
+                    if (pingCmd(ipAddress)) {
                         addresses.add(sub + Integer.toString(i));
                     }
                 }
-
             }
-
         }
-
 
         for (int i = start - 1; i > start - 6; i--) {
             if (((start - 1) > 0) || ((start - 6) > 0)) {
-
-
-                if (pingCmd(sub + Integer.toString(i))) {
-                    if (!addresses.contains(sub + Integer.toString(i))) {
+                String ipAddress = sub + Integer.toString(i);
+                if (!addresses.contains(ipAddress)) {
+                    if (pingCmd(ipAddress)) {
                         addresses.add(sub + Integer.toString(i));
                     }
                 }
-
             }
-
         }
 
         return addresses;
