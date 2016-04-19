@@ -23,7 +23,7 @@ $ cordova plugin add cordova-plugin-hotspot
 ```
 ## Usage
 
-See [here](./PLUGIN_USAGE.MD) for complete API reference.
+See [here](./PLUGIN_USAGE.MD#cordova.plugins.hotspot) for complete API reference.
 For Ionic Guidance see [here](https://github.com/hypery2k/cordova-hotspot-plugin/wiki/Ionic-usage).
 You need to make sure that you have the right [Android permissions](https://github.com/hypery2k/cordova-hotspot-plugin/wiki/Android-Configuration).
 

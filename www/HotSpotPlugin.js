@@ -121,7 +121,6 @@ HotSpotPlugin.prototype = {
      *
      * @callback startHotspotCallback
      */
-
     /**
      * Start a default WiFi Hotspot
      *
@@ -160,7 +159,6 @@ HotSpotPlugin.prototype = {
             errorCB(err);
         }, "HotSpotPlugin", "configureHotspot", [ssid, mode, password]);
     },
-
     /**
      * A callback function to be called when stop was successful
      *
