@@ -127,7 +127,7 @@ public class WifiAddresses {
             int ip = mWifiInfo.getIpAddress();
             return ipIntToString(ip);
         }
-        return null;
+        return "127.0.0.1";
     }
 
     /**
@@ -406,7 +406,7 @@ public class WifiAddresses {
 
     public List<String> getAllDevicesIp() {
         addresses.clear();
-        if (!getGatewayIPAddress().contentEquals("0.0.0.0")) {
+        if (getGatewayIPAddress() != null && !getGatewayIPAddress().contentEquals("0.0.0.0")) {
 
             addresses.add(getGatewayIPAddress());
 
