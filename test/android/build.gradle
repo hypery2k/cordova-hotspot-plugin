@@ -63,7 +63,7 @@ sourceSets {
 
 dependencies {
     unitTestCompile 'junit:junit:4.11'
-    unitTestCompile 'android:android:5.0.1_r2'
+    unitTestCompile 'android:android:6.0_r2'
 }
 
 configurations {
