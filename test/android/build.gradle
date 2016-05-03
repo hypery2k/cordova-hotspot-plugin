@@ -55,6 +55,7 @@ sourceSets {
     unitTest {
         java {
             srcDir 'unit'
+            srcDir '../../tmp/cordova-app-hello-world/plugins/cordova-plugin-compat/src/android/'
             srcDir '../../tmp/cordova-app-hello-world/platforms/android/CordovaLib/src'
             srcDir '../../src/android'
         }

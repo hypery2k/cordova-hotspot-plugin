@@ -24,8 +24,10 @@
 package de.martinreinhardt.cordova.plugins.hotspot;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -35,6 +37,8 @@ import com.mady.wifi.api.WifiHotSpots;
 import com.mady.wifi.api.WifiStatus;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PermissionHelper;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +55,17 @@ public class HotSpotPlugin extends CordovaPlugin {
      */
     private static final String LOG_TAG = "HotSpotPlugin";
 
-    private CallbackContext command;
+
+    public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+
+    public static final int PERMISSION_DENIED_ERROR = 403;
+    public static final int PERMISSION_GENERAL_ERROR = 500;
+
+    public static final int REQUEST_CODE = 0;
+
+    private CallbackContext callback;
+    private String action;
+    private String rawArgs;
 
     private interface HotspotFunction {
         void run(JSONArray args, CallbackContext callback) throws Exception;
@@ -76,9 +90,34 @@ public class HotSpotPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, String rawArgs,
                            CallbackContext callback) throws JSONException {
+        if (!PermissionHelper.hasPermission(this, ACCESS_COARSE_LOCATION)) {
+            PermissionHelper.requestPermission(this, action.hashCode(), ACCESS_COARSE_LOCATION);
+        } else {
+            this.callback = callback;
+            this.action = action;
+            this.rawArgs = rawArgs;
+            // pre Android 6 behaviour
+            return executeInternal(action, rawArgs, callback);
+        }
+        // Returning false results in a "MethodNotFound" error.
+        return false;
+    }
 
-        this.command = callback;
+    public void onRequestPermissionResult(int requestCode, String[] permissions,
+                                          int[] grantResults) throws JSONException {
+        for (int r : grantResults) {
+            if (r == PackageManager.PERMISSION_DENIED) {
+                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_DENIED_ERROR));
+                return;
+            }
+        }
+        if (!executeInternal(this.action, this.rawArgs, callback)) {
+            this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_GENERAL_ERROR));
+        }
+        ;
+    }
 
+    private boolean executeInternal(String action, String rawArgs, CallbackContext callback) {
         if ("isWifiOn".equals(action)) {
             threadhelper(new HotspotFunction() {
                 @Override
@@ -381,8 +420,6 @@ public class HotSpotPlugin extends CordovaPlugin {
             }, rawArgs, callback);
             return true;
         }
-
-        // Returning false results in a "MethodNotFound" error.
         return false;
     }
 
@@ -823,7 +860,7 @@ public class HotSpotPlugin extends CordovaPlugin {
      */
     @Override
     public void onActivityResult(int reqCode, int resCode, Intent intent) {
-        command.success();
+        this.callback.success();
     }
 
     /**
