@@ -3,8 +3,6 @@ env:
   - CORDOVA_VERSION=latest
   - CORDOVA_VERSION=6
   - CORDOVA_VERSION=5.4
-  - CORDOVA_VERSION=5.1
-  - CORDOVA_VERSION=5.0
 script:
   - npm test
 before_install:
