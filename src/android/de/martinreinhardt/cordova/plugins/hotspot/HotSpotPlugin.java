@@ -90,12 +90,12 @@ public class HotSpotPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, String rawArgs,
                            CallbackContext callback) throws JSONException {
+        this.callback = callback;
+        this.action = action;
+        this.rawArgs = rawArgs;
         if (!PermissionHelper.hasPermission(this, ACCESS_FINE_LOCATION)) {
             PermissionHelper.requestPermission(this, action.hashCode(), ACCESS_FINE_LOCATION);
         } else {
-            this.callback = callback;
-            this.action = action;
-            this.rawArgs = rawArgs;
             // pre Android 6 behaviour
             return executeInternal(action, rawArgs, callback);
         }
