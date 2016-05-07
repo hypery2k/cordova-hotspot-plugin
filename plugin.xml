@@ -34,7 +34,7 @@ SOFTWARE.
         <engine name="cordova" version=">=3.4.0"/>
     </engines>
 
-    <dependency id="cordova-plugin-compat" version="^1.0.0" />
+    <dependency id="cordova-plugin-compat" version="^1.0.0"/>
 
     <js-module src="www/HotSpotPlugin.js" name="HotSpotPlugin">
         <clobbers target="cordova.plugins.hotspot"/>
@@ -55,7 +55,7 @@ SOFTWARE.
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-            <uses-permission android:name="Manifest.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
             <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
             <uses-permission android:name="android.permission.INTERNET"/>

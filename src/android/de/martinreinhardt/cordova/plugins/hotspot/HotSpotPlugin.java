@@ -56,7 +56,7 @@ public class HotSpotPlugin extends CordovaPlugin {
     private static final String LOG_TAG = "HotSpotPlugin";
 
 
-    public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
 
     public static final int PERMISSION_DENIED_ERROR = 403;
     public static final int PERMISSION_GENERAL_ERROR = 500;
@@ -90,8 +90,8 @@ public class HotSpotPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, String rawArgs,
                            CallbackContext callback) throws JSONException {
-        if (!PermissionHelper.hasPermission(this, ACCESS_COARSE_LOCATION)) {
-            PermissionHelper.requestPermission(this, action.hashCode(), ACCESS_COARSE_LOCATION);
+        if (!PermissionHelper.hasPermission(this, ACCESS_FINE_LOCATION)) {
+            PermissionHelper.requestPermission(this, action.hashCode(), ACCESS_FINE_LOCATION);
         } else {
             this.callback = callback;
             this.action = action;
