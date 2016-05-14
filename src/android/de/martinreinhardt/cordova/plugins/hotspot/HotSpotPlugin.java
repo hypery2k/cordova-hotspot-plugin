@@ -56,7 +56,18 @@ public class HotSpotPlugin extends CordovaPlugin {
     private static final String LOG_TAG = "HotSpotPlugin";
 
 
-    public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    public static String[] permissions = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.CHANGE_NETWORK_STATE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_SETTINGS
+    };
 
     public static final int PERMISSION_DENIED_ERROR = 403;
     public static final int PERMISSION_GENERAL_ERROR = 500;
@@ -93,14 +104,15 @@ public class HotSpotPlugin extends CordovaPlugin {
         this.callback = callback;
         this.action = action;
         this.rawArgs = rawArgs;
-        if (!PermissionHelper.hasPermission(this, ACCESS_FINE_LOCATION)) {
-            PermissionHelper.requestPermission(this, action.hashCode(), ACCESS_FINE_LOCATION);
+        if (!PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            PermissionHelper.requestPermissions(this, action.hashCode(), HotSpotPlugin.permissions);
+            return true;
         } else {
             // pre Android 6 behaviour
             return executeInternal(action, rawArgs, callback);
         }
         // Returning false results in a "MethodNotFound" error.
-        return false;
+       // return false;
     }
 
     public void onRequestPermissionResult(int requestCode, String[] permissions,
@@ -111,13 +123,15 @@ public class HotSpotPlugin extends CordovaPlugin {
                 return;
             }
         }
-        if (!executeInternal(this.action, this.rawArgs, callback)) {
+        if (!executeInternal(this.action, this.rawArgs, this.callback)) {
             this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_GENERAL_ERROR));
         }
-        ;
     }
 
     private boolean executeInternal(String action, String rawArgs, CallbackContext callback) {
+        Log.i(LOG_TAG, "Running executeInternal() ");
+        Log.i(LOG_TAG, "     action: " + action);
+        Log.i(LOG_TAG, "     rawArgs: " + rawArgs);
         if ("isWifiOn".equals(action)) {
             threadhelper(new HotspotFunction() {
                 @Override
