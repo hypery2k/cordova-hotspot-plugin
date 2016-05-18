@@ -28,9 +28,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import com.mady.wifi.api.WifiAddresses;
 import com.mady.wifi.api.WifiHotSpots;
@@ -57,19 +60,8 @@ public class HotSpotPlugin extends CordovaPlugin {
 
 
     public static String[] permissions = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE,
-            Manifest.permission.CHANGE_NETWORK_STATE,
-            Manifest.permission.INTERNET,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_SETTINGS
+            Manifest.permission.ACCESS_FINE_LOCATION
     };
-
-    public static final int PERMISSION_DENIED_ERROR = 403;
-    public static final int PERMISSION_GENERAL_ERROR = 500;
 
     public static final int REQUEST_CODE = 0;
 
@@ -80,6 +72,16 @@ public class HotSpotPlugin extends CordovaPlugin {
     private interface HotspotFunction {
         void run(JSONArray args, CallbackContext callback) throws Exception;
     }
+
+    public boolean hasPermissions() {
+        for (String p : permissions) {
+            if (!PermissionHelper.hasPermission(this, p)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * Executes the request.
@@ -103,16 +105,24 @@ public class HotSpotPlugin extends CordovaPlugin {
         this.callback = callback;
         this.action = action;
         this.rawArgs = rawArgs;
-        if (!PermissionHelper.hasPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_WIFI_STATE) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.CHANGE_WIFI_STATE) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.INTERNET) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                !PermissionHelper.hasPermission(this, Manifest.permission.WRITE_SETTINGS)) {
-            PermissionHelper.requestPermissions(this, action.hashCode(), HotSpotPlugin.permissions);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            boolean retVal = Settings.System.canWrite(this.cordova.getActivity());
+            Log.d(LOG_TAG, "Can Write Settings: " + retVal);
+            if (!retVal) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    cordova.getActivity().startActivity(intent);
+                    this.execute(action, rawArgs, callback);
+                } catch (Exception e) {
+                    Log.e("Activity", "error starting permission intent", e);
+                    return false;
+                }
+            }
+        }
+        if (!this.hasPermissions()) {
+            PermissionHelper.requestPermissions(this, 0, HotSpotPlugin.permissions);
             return true;
         } else {
             // pre Android 6 behaviour
@@ -125,7 +135,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                                           int[] grantResults) throws JSONException {
         for (int r : grantResults) {
             if (r == PackageManager.PERMISSION_DENIED) {
-                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_DENIED_ERROR));
+                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
                 return;
             }
         }
