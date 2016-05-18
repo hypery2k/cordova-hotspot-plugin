@@ -61,7 +61,6 @@ public class HotSpotPlugin extends CordovaPlugin {
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.CHANGE_NETWORK_STATE,
             Manifest.permission.INTERNET,
@@ -104,7 +103,15 @@ public class HotSpotPlugin extends CordovaPlugin {
         this.callback = callback;
         this.action = action;
         this.rawArgs = rawArgs;
-        if (!PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (!PermissionHelper.hasPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_WIFI_STATE) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.CHANGE_WIFI_STATE) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.INTERNET) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                !PermissionHelper.hasPermission(this, Manifest.permission.WRITE_SETTINGS)) {
             PermissionHelper.requestPermissions(this, action.hashCode(), HotSpotPlugin.permissions);
             return true;
         } else {
@@ -112,7 +119,6 @@ public class HotSpotPlugin extends CordovaPlugin {
             return executeInternal(action, rawArgs, callback);
         }
         // Returning false results in a "MethodNotFound" error.
-       // return false;
     }
 
     public void onRequestPermissionResult(int requestCode, String[] permissions,
@@ -123,9 +129,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                 return;
             }
         }
-        if (!executeInternal(this.action, this.rawArgs, this.callback)) {
-            this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_GENERAL_ERROR));
-        }
+        executeInternal(this.action, this.rawArgs, this.callback);
     }
 
     private boolean executeInternal(String action, String rawArgs, CallbackContext callback) {
