@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-hotspot",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Cordova WiFi Hotspot Plugin",
   "cordova": {
     "id": "cordova-plugin-hotspot",
@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "pretest": "rm -rf tmp && mkdir -p tmp && cd tmp && git clone https://github.com/simpligility/maven-android-sdk-deployer.git && cd maven-android-sdk-deployer/ && mvn install -P 6.0 && ls ~/.m2/repository/android/android/",
-    "test": "cd tmp && git clone https://github.com/apache/cordova-app-hello-world.git && cd cordova-app-hello-world && cordova platform add android && cordova plugin add cordova-plugin-compat && cordova build && cd ../../test/android && ./gradlew build",
+    "test": "cd tmp && git clone https://github.com/apache/cordova-app-hello-world.git && cd cordova-app-hello-world && cordova platform add android && cordova plugin add cordova-plugin-compat && cordova build && cd ../../test/android && ./gradlew build && cd ../../tmp/cordova-app-hello-world && cordova plugin add ../.. && cordova plugin add http://git-wip-us.apache.org/repos/asf/cordova-plugin-test-framework.git",
     "posttest": "jsdoc -c jsdoc.json && jsdoc2md www/HotSpotPlugin.js | sed s/hotSpotPlugin/cordova.plugins.hotspot/g | sed s/HotSpotPlugin/cordova.plugins.hotspot/g > PLUGIN_USAGE.MD"
   },
   "author": "Martin Reinhardt",
