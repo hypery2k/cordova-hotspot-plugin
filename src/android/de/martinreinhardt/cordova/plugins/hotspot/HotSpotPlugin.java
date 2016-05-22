@@ -26,6 +26,7 @@ package de.martinreinhardt.cordova.plugins.hotspot;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -46,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class HotSpotPlugin extends CordovaPlugin {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
 
-    public static final int REQUEST_CODE = 0;
+    public static final int REQUEST_CODE_SETTINGS_INTENT = 400;
 
     private CallbackContext callback;
     private String action;
@@ -105,20 +107,26 @@ public class HotSpotPlugin extends CordovaPlugin {
         this.callback = callback;
         this.action = action;
         this.rawArgs = rawArgs;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean retVal = Settings.System.canWrite(this.cordova.getActivity());
-            Log.d(LOG_TAG, "Can Write Settings: " + retVal);
-            if (!retVal) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                try {
-                    cordova.getActivity().startActivity(intent);
-                    this.execute(action, rawArgs, callback);
-                } catch (Exception e) {
-                    Log.e("Activity", "error starting permission intent", e);
-                    return false;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP + 1) {
+            Class systemClass = Settings.System.class;
+            try {
+                Method canWriteMethod = systemClass.getDeclaredMethod("canWrite", Context.class);
+                boolean retVal = (Boolean) canWriteMethod.invoke(null, this.cordova.getActivity());
+                Log.d(LOG_TAG, "Can Write Settings: " + retVal);
+                if (!retVal) {
+                    Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
+                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    try {
+                        cordova.getActivity().startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "error starting permission intent", e);
+                        return false;
+                    }
                 }
+            } catch (Exception ignored) {
+                Log.e(LOG_TAG, "Could not perform permission check");
+                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
             }
         }
         if (!this.hasPermissions()) {
@@ -830,7 +838,6 @@ public class HotSpotPlugin extends CordovaPlugin {
         if (new WifiHotSpots(this.cordova.getActivity()).isWifiApEnabled()) {
             return true;
         } else {
-
             return false;
         }
     }
@@ -879,16 +886,24 @@ public class HotSpotPlugin extends CordovaPlugin {
      * Called when an activity you launched exits, giving you the reqCode you
      * started it with, the resCode it returned, and any additional data from it.
      *
-     * @param reqCode The request code originally supplied to startActivityForResult(),
+     * @param requestCode The request code originally supplied to startActivityForResult(),
      *                allowing you to identify who this result came from.
-     * @param resCode The integer result code returned by the child activity
+     * @param resultCode The integer result code returned by the child activity
      *                through its setResult().
      * @param intent  An Intent, which can return result data to the caller
      *                (various data can be attached to Intent "extras").
      */
     @Override
-    public void onActivityResult(int reqCode, int resCode, Intent intent) {
-        this.callback.success();
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == REQUEST_CODE_SETTINGS_INTENT){
+            try {
+                this.execute(action, rawArgs, callback);
+            } catch (Exception ignored) {
+                Log.e(LOG_TAG, "Could not perform onActivityResult after intent callback");
+                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
+            }
+        }
     }
 
     /**
