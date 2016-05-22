@@ -24,21 +24,30 @@
 package de.martinreinhardt.cordova.plugins.hotspot;
 
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import com.mady.wifi.api.WifiAddresses;
 import com.mady.wifi.api.WifiHotSpots;
 import com.mady.wifi.api.WifiStatus;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PermissionHelper;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -51,11 +60,30 @@ public class HotSpotPlugin extends CordovaPlugin {
      */
     private static final String LOG_TAG = "HotSpotPlugin";
 
-    private CallbackContext command;
+
+    public static String[] permissions = {
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+
+    public static final int REQUEST_CODE_SETTINGS_INTENT = 400;
+
+    private CallbackContext callback;
+    private String action;
+    private String rawArgs;
 
     private interface HotspotFunction {
         void run(JSONArray args, CallbackContext callback) throws Exception;
     }
+
+    public boolean hasPermissions() {
+        for (String p : permissions) {
+            if (!PermissionHelper.hasPermission(this, p)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * Executes the request.
@@ -76,9 +104,56 @@ public class HotSpotPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, String rawArgs,
                            CallbackContext callback) throws JSONException {
+        this.callback = callback;
+        this.action = action;
+        this.rawArgs = rawArgs;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP + 1) {
+            Class systemClass = Settings.System.class;
+            try {
+                Method canWriteMethod = systemClass.getDeclaredMethod("canWrite", Context.class);
+                boolean retVal = (Boolean) canWriteMethod.invoke(null, this.cordova.getActivity());
+                Log.d(LOG_TAG, "Can Write Settings: " + retVal);
+                if (!retVal) {
+                    Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
+                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    try {
+                        cordova.getActivity().startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "error starting permission intent", e);
+                        return false;
+                    }
+                }
+            } catch (Exception ignored) {
+                Log.e(LOG_TAG, "Could not perform permission check");
+                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
+            }
+        }
+        if (!this.hasPermissions()) {
+            PermissionHelper.requestPermissions(this, 0, HotSpotPlugin.permissions);
+            return true;
+        } else {
+            // pre Android 6 behaviour
+            return executeInternal(action, rawArgs, callback);
+        }
+        // Returning false results in a "MethodNotFound" error.
+    }
 
-        this.command = callback;
+    public void onRequestPermissionResult(int requestCode, String[] permissions,
+                                          int[] grantResults) throws JSONException {
+        for (int r : grantResults) {
+            if (r == PackageManager.PERMISSION_DENIED) {
+                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
+                return;
+            }
+        }
+        executeInternal(this.action, this.rawArgs, this.callback);
+    }
 
+    private boolean executeInternal(String action, String rawArgs, CallbackContext callback) {
+        Log.i(LOG_TAG, "Running executeInternal() ");
+        Log.i(LOG_TAG, "     action: " + action);
+        Log.i(LOG_TAG, "     rawArgs: " + rawArgs);
         if ("isWifiOn".equals(action)) {
             threadhelper(new HotspotFunction() {
                 @Override
@@ -381,8 +456,6 @@ public class HotSpotPlugin extends CordovaPlugin {
             }, rawArgs, callback);
             return true;
         }
-
-        // Returning false results in a "MethodNotFound" error.
         return false;
     }
 
@@ -765,7 +838,6 @@ public class HotSpotPlugin extends CordovaPlugin {
         if (new WifiHotSpots(this.cordova.getActivity()).isWifiApEnabled()) {
             return true;
         } else {
-
             return false;
         }
     }
@@ -814,16 +886,24 @@ public class HotSpotPlugin extends CordovaPlugin {
      * Called when an activity you launched exits, giving you the reqCode you
      * started it with, the resCode it returned, and any additional data from it.
      *
-     * @param reqCode The request code originally supplied to startActivityForResult(),
+     * @param requestCode The request code originally supplied to startActivityForResult(),
      *                allowing you to identify who this result came from.
-     * @param resCode The integer result code returned by the child activity
+     * @param resultCode The integer result code returned by the child activity
      *                through its setResult().
      * @param intent  An Intent, which can return result data to the caller
      *                (various data can be attached to Intent "extras").
      */
     @Override
-    public void onActivityResult(int reqCode, int resCode, Intent intent) {
-        command.success();
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == REQUEST_CODE_SETTINGS_INTENT){
+            try {
+                this.execute(action, rawArgs, callback);
+            } catch (Exception ignored) {
+                Log.e(LOG_TAG, "Could not perform onActivityResult after intent callback");
+                this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
+            }
+        }
     }
 
     /**

@@ -7,13 +7,9 @@ angular.module('starter.controllers', [])
       $scope.config = {
         mode: 'WPA2PSK'
       };
-      cordova.plugins.hotspot.isHotspotEnabled(
-        function () {
+      cordova.plugins.hotspot.isHotspotEnabled(function (enabled) {
+          $scope.isHotSpotActive = enabled;
           $ionicLoading.hide();
-          $scope.isHotSpotActive = true;
-        }, function () {
-          $ionicLoading.hide();
-          $scope.isHotSpotActive = false;
         }
       );
     };
@@ -54,21 +50,22 @@ angular.module('starter.controllers', [])
   })
   .controller('DevicesCtrl', function ($scope) {
     var init = function () {
-      cordova.plugins.hotspot.isHotspotEnabled(
-        function () {
-          $scope.status = 'Reading devices ...';
-          cordova.plugins.hotspot.getAllHotspotDevices(
-            function (response) {
-              $scope.status = false;
-              $scope.devices = response;
-            }, function () {
-              $scope.status = false;
-              alert('Device listing failed.');
-            }
-          );
+      cordova.plugins.hotspot.isHotspotEnabled(function (enabled) {
+          $scope.isHotSpotActive = enabled;
+          if (enabled) {
+            $scope.status = 'Reading devices ...';
+            cordova.plugins.hotspot.getAllHotspotDevices(
+              function (response) {
+                $scope.status = false;
+                $scope.devices = response;
+              }, function () {
+                $scope.status = false;
+                alert('Device listing failed.');
+              }
+            );
+          }
         }, function () {
           $scope.status = false;
-          $scope.isHotSpotActive = false;
         }
       );
     };
