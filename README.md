@@ -2,6 +2,7 @@
 
 
 [![Build Status](https://travis-ci.org/hypery2k/cordova-hotspot-plugin.svg?branch=master)](https://travis-ci.org/hypery2k/cordova-hotspot-plugin) [![npm version](https://badge.fury.io/js/cordova-plugin-hotspot.svg)](http://badge.fury.io/js/cordova-plugin-hotspot) [![Dependency Status](https://david-dm.org/hypery2k/cordova-hotspot-plugin.svg)](https://david-dm.org/hypery2k/cordova-hotspot-plugin) [![devDependency Status](https://david-dm.org/hypery2k/cordova-hotspot-plugin/dev-status.svg)](https://david-dm.org/hypery2k/cordova-hotspot-plugin#info=devDependencies) 
+[![Issue Stats](http://issuestats.com/github/hypery2k/cordova-hotspot-plugin/badge/pr?style=flat)](http://issuestats.com/github/hypery2k/cordova-hotspot-plugin) [![Issue Stats](http://issuestats.com/github/hypery2k/cordova-hotspot-plugin/badge/issue?style=flat)](http://issuestats.com/github/hypery2k/cordova-hotspot-plugin) 
 
 > A Cordova plugin for managing HotSpot networks on Android with Cordova 3.4.0 / API Level 19
  
