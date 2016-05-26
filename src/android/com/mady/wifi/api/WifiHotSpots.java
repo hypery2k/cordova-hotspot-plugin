@@ -133,7 +133,7 @@ public class WifiHotSpots {
 
                 wifiConf.SSID = "\"" + netSSID + "\"";
                 wifiConf.preSharedKey = "\"" + netPass + "\"";
-                wifiConf.hiddenSSID = true;
+                wifiConf.hiddenSSID = false;
                 wifiConf.status = WifiConfiguration.Status.ENABLED;
                 for (int cipher : encryptions) {
                     wifiConf.allowedGroupCiphers.set(cipher);
@@ -196,7 +196,7 @@ public class WifiHotSpots {
 
                             wifiConf.SSID = "\"" + netSSID + "\"";
                             wifiConf.preSharedKey = "\"" + netPass + "\"";
-                            wifiConf.hiddenSSID = true;
+                            wifiConf.hiddenSSID = false;
                             wifiConf.status = WifiConfiguration.Status.ENABLED;
                             wifiConf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
                             wifiConf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
@@ -493,7 +493,7 @@ public class WifiHotSpots {
                     } else {
                         netConfig.SSID = SSID;
                         netConfig.preSharedKey = passWord;
-                        netConfig.hiddenSSID = true;
+                        netConfig.hiddenSSID = false;
                         netConfig.status = WifiConfiguration.Status.ENABLED;
                         netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
                         netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
@@ -591,7 +591,7 @@ public class WifiHotSpots {
         } else {
             wifiConf.SSID = "\"" + netSSID + "\"";
             wifiConf.preSharedKey = "\"" + netPass + "\"";
-            wifiConf.hiddenSSID = true;
+            wifiConf.hiddenSSID = false;
             wifiConf.status = WifiConfiguration.Status.ENABLED;
             wifiConf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
             wifiConf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
