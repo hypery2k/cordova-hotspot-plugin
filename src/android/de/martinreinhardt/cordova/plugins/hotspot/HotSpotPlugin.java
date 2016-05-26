@@ -117,6 +117,7 @@ public class HotSpotPlugin extends CordovaPlugin {
                     Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
                     intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    // intent.
                     try {
                         cordova.getActivity().startActivity(intent);
                     } catch (Exception e) {
@@ -605,15 +606,39 @@ public class HotSpotPlugin extends CordovaPlugin {
         }
     }
 
+    private List<ScanResult> getScanResult(final WifiHotSpots hotspot,
+                                           final boolean sortByLevel) throws InterruptedException {
+        List<ScanResult> response = hotspot.getHotspotsList();
+        // if null wait and try again
+        if (response == null || response.size() == 0) {
+            Thread.sleep(5000);
+            Log.i(LOG_TAG, "   Trying scan again.");
+            response = hotspot.getHotspotsList();
+            if (sortByLevel) {
+                response = hotspot.sortHotspotsByLevel();
+            }
+        }
+        return response;
+    }
+
     private void scanWifi(final CallbackContext callback, final boolean sortByLevel) {
+        Log.i(LOG_TAG, "Running scanWifi() ");
         final Activity activity = this.cordova.getActivity();
         try {
+            Log.i(LOG_TAG, "   Starting WiFi scan.");
             WifiHotSpots hotspot = new WifiHotSpots(activity);
-            List<ScanResult> response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+            if (isHotspotEnabled()) {
+                hotspot.startHotSpot(false);
+                Thread.sleep(3000);
+            }
+            if (!isWifiOn()) {
+                toggleWifi();
+                Thread.sleep(2000);
+            }
+            List<ScanResult> response = getScanResult(hotspot, sortByLevel);
             // if null wait and try again
             if (response == null || response.size() == 0) {
-                Thread.sleep(4000);
-                response = sortByLevel ? hotspot.getHotspotsList() : hotspot.sortHotspotsByLevel();
+                response = getScanResult(hotspot, sortByLevel);
             }
             JSONArray results = new JSONArray();
             if (response != null && response.size() > 0) {
@@ -627,6 +652,8 @@ public class HotSpotPlugin extends CordovaPlugin {
                     result.put("capabilities", scanResult.capabilities);
                     results.put(result);
                 }
+            } else {
+                Log.i(LOG_TAG, "   Got empty response");
             }
             callback.success(results);
         } catch (Exception e) {
@@ -636,6 +663,7 @@ public class HotSpotPlugin extends CordovaPlugin {
     }
 
     public void scanWifi(CallbackContext pCallback) {
+        Log.i(LOG_TAG, "Running scanWifi() ");
         scanWifi(pCallback, false);
     }
 
@@ -887,16 +915,16 @@ public class HotSpotPlugin extends CordovaPlugin {
      * started it with, the resCode it returned, and any additional data from it.
      *
      * @param requestCode The request code originally supplied to startActivityForResult(),
-     *                allowing you to identify who this result came from.
-     * @param resultCode The integer result code returned by the child activity
-     *                through its setResult().
-     * @param intent  An Intent, which can return result data to the caller
-     *                (various data can be attached to Intent "extras").
+     *                    allowing you to identify who this result came from.
+     * @param resultCode  The integer result code returned by the child activity
+     *                    through its setResult().
+     * @param intent      An Intent, which can return result data to the caller
+     *                    (various data can be attached to Intent "extras").
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQUEST_CODE_SETTINGS_INTENT){
+        if (requestCode == REQUEST_CODE_SETTINGS_INTENT) {
             try {
                 this.execute(action, rawArgs, callback);
             } catch (Exception ignored) {

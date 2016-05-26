@@ -70,7 +70,7 @@ public class WifiHotSpots {
             return (retval == 0);
 
         } catch (Exception ex) {
-            Log.e(LOG_TAG, "Unkown error during running as root.", ex);
+            Log.e(LOG_TAG, "Unknown error during running as root.", ex);
             return false;
         } finally {
             try {
@@ -341,11 +341,12 @@ public class WifiHotSpots {
     public List<ScanResult> getHotspotsList() {
 
         if (mWifiManager.isWifiEnabled()) {
-
+            Log.i(LOG_TAG, "Wifi is enabled");
             if (mWifiManager.startScan()) {
                 return mWifiManager.getScanResults();
             }
-
+        } else {
+            Log.i(LOG_TAG, "Wifi not enabled");
         }
         return null;
     }
