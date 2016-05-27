@@ -14,6 +14,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.*;
@@ -440,7 +441,7 @@ public class WifiHotSpots {
         /*
          * Before setting the HotSpot with specific Id delete the default AP Name.
     	 */
-
+        String BACKSLASH = "\"";
         List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
         if (list != null) {
             for (WifiConfiguration i : list) {
@@ -484,28 +485,30 @@ public class WifiHotSpots {
                     netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                     netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
                 } else {
-                    if (passWord == "" && mode.equalsIgnoreCase("WPA")) {
-                        netConfig.SSID = SSID;
-                        netConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-                        netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                    netConfig.SSID = SSID;
+                    netConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+                    netConfig.SSID = SSID;
+                    netConfig.preSharedKey = passWord;
+                    netConfig.hiddenSSID = false;
+                    netConfig.status = WifiConfiguration.Status.ENABLED;
+                    netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+                    netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP + 1) {
+                        netConfig.allowedKeyManagement.set(4); // WPA2_PSK on Android 6!
                     } else {
-                        netConfig.SSID = SSID;
-                        netConfig.preSharedKey = passWord;
-                        netConfig.hiddenSSID = false;
-                        netConfig.status = WifiConfiguration.Status.ENABLED;
-                        netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-                        netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
                         netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-                        netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-                        netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-                        netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
                     }
+                    netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+                    netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+                    netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+                    netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+
                 }
                 try {
                     mMethod.invoke(mWifiManager, netConfig, true);
+                    mWifiManager.disconnect();
+                    mWifiManager.reconnect();
                     mWifiManager.saveConfiguration();
                     Log.v(LOG_TAG, "Successfully created hotspot");
                     return true;
