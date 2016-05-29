@@ -494,8 +494,8 @@ public class WifiHotSpots {
                     netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
                     netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
 
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP + 1) {
-                        netConfig.allowedKeyManagement.set(4); // WPA2_PSK on Android 6!
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        netConfig.allowedKeyManagement.set(4); // WPA2_PSK on Android 4+!
                     } else {
                         netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
                     }
