@@ -62,6 +62,48 @@ HotSpotPlugin.prototype = {
         }
     },
 
+    /**
+     * @callback getWriteSettingsCallback
+     * @param {boolean} settings false if no write settings, true if write settings are permitted
+     */
+
+    /**
+     * get the current write settings of the app
+     * @param  {getWriteSettingsCallback} successCB
+     *
+     * @param  {errorCallback} errorCB
+     */
+    getWriteSettings: function(successCB,errorCB) {
+        cordova.exec(
+            function(val){
+                if(val === 1)
+                    successCB(true);
+                else
+                    successCB(false);
+            },
+            errorCB,
+            'HotSpotPlugin',
+            'getWriteSettings',
+            []
+        );
+    },
+
+    /**
+     * get the current write settings of the app
+     * @param  {requestWriteSettingsCallback} successCB
+     *
+     * @param  {errorCallback} errorCB
+     */
+    requestWriteSettings: function(successCB,errorCB) {
+        cordova.exec(
+            successCB,
+            errorCB,
+            'HotSpotPlugin',
+            'requestWriteSettings',
+            []
+        );
+    },
+
 
     /**
      * Callback which provides the toggle Wifi info
@@ -135,30 +177,6 @@ HotSpotPlugin.prototype = {
         }, "HotSpotPlugin", "startHotspot", []);
     },
 
-    /**
-     * A callback function to be called when configuration was successful
-     *
-     * @callback configureHotspotCallback
-     */
-    /**
-     * Configure a running WiFi Hotspot
-     *
-     * @param {string} ssid
-     *      SSID to connect
-     * @param {string} mode
-     *      wireless mode (Open, WEP, WPA, WPA_PSK, WPA2_PSK)
-     * @param {string} password
-     *      password to use
-     * @param {configureHotspotCallback} successCB
-     *      A callback function to be called when configuration was successful
-     * @param {errorCallback} errorCB
-     *      A callback function to be called when configuration was not successful
-     */
-    configureHotspot: function (ssid, mode, password, successCB, errorCB) {
-        cordova.exec(successCB, function (err) {
-            errorCB(err);
-        }, "HotSpotPlugin", "configureHotspot", [ssid, mode, password]);
-    },
     /**
      * A callback function to be called when stop was successful
      *
