@@ -12,7 +12,13 @@
 <dd><p>Callback which provides the error details.</p>
 </dd>
 <dt><a href="#isAvailableCallback">isAvailableCallback</a> : <code>function</code></dt>
-<dd><p>Callback which provides the toggle Wifi info</p>
+<dd><p>Callback which checks if the plugin is available or not</p>
+</dd>
+<dt><a href="#getWriteSettingsCallback">getWriteSettingsCallback</a> : <code>function</code></dt>
+<dd><p>Callback which provides info about whether write settings are granted to the app</p>
+</dd>
+<dt><a href="#requestWriteSettingsCallback">requestWriteSettingsCallback</a> : <code>function</code></dt>
+<dd><p>Callback which is called when the app goes to settings to request write settings</p>
 </dd>
 <dt><a href="#toggleWifiCallback">toggleWifiCallback</a> : <code>function</code></dt>
 <dd><p>Callback which provides the toggle Wifi info</p>
@@ -107,6 +113,8 @@ called with an array of JSON objects.</p>
 
 * [cordova.plugins.hotspot](#cordova.plugins.hotspot) : <code>object</code>
     * [.isAvailable(callback)](#cordova.plugins.hotspot+isAvailable)
+    * [.getWriteSettings(successCB, errorCB)](#cordova.plugins.hotspot+getWriteSettings)
+    * [.requestWriteSettings(successCB, errorCB)](#cordova.plugins.hotspot+requestWriteSettings)
     * [.toggleWifi(callback, errorCB)](#cordova.plugins.hotspot+toggleWifi)
     * [.createHotspot(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+createHotspot)
     * [.startHotspot(successCB, errorCB)](#cordova.plugins.hotspot+startHotspot)
@@ -145,6 +153,28 @@ Check if plugin is available
 | Param | Type | Description |
 | --- | --- | --- |
 | callback | <code>[isAvailableCallback](#isAvailableCallback)</code> | A callback function which is invoked on success. |
+
+<a name="cordova.plugins.hotspot+getWriteSettings"></a>
+### cordova.plugins.hotspot.getWriteSettings(successCB, errorCB)
+check if proper write settings are granted to the app
+
+**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| successCB | <code>[getWriteSettingsCallback](#getWriteSettingsCallback)</code> | A callback function which is invoked on success. |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function which is invoked on error. |
+
+<a name="cordova.plugins.hotspot+requestWriteSettings"></a>
+### cordova.plugins.hotspot.isAvailable(callback)
+Check if plugin is available
+
+**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| successCB | <code>[requestWriteSettingsCallback](#requestWriteSettingsCallback)</code> | A callback function which is invoked on success. |
+| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function which is invoked on error. |
 
 <a name="cordova.plugins.hotspot+toggleWifi"></a>
 ### cordova.plugins.hotspot.toggleWifi(callback, errorCB)
@@ -724,4 +754,3 @@ A callback function to be called with Rooted information
 | Param | Type | Description |
 | --- | --- | --- |
 | isRooted, | <code>boolean</code> | true  if device is port is available, otherwise false |
-
