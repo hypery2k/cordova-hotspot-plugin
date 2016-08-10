@@ -166,8 +166,8 @@ check if proper write settings are granted to the app
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function which is invoked on error. |
 
 <a name="cordova.plugins.hotspot+requestWriteSettings"></a>
-### cordova.plugins.hotspot.isAvailable(callback)
-Check if plugin is available
+### cordova.plugins.hotspot.requestWriteSettings(callback)
+open settings to request system write settings from the user
 
 **Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
 
