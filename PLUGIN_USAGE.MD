@@ -12,14 +12,10 @@
 <dd><p>Callback which provides the error details.</p>
 </dd>
 <dt><a href="#isAvailableCallback">isAvailableCallback</a> : <code>function</code></dt>
-<dd><p>Callback which checks if the plugin is available or not</p>
+<dd><p>Callback which provides the toggle Wifi info</p>
 </dd>
 <dt><a href="#getWriteSettingsCallback">getWriteSettingsCallback</a> : <code>function</code></dt>
-<dd><p>Callback which provides info about whether write settings are granted to the app</p>
-</dd>
-<dt><a href="#requestWriteSettingsCallback">requestWriteSettingsCallback</a> : <code>function</code></dt>
-<dd><p>Callback which is called when the app goes to settings to request write settings</p>
-</dd>
+<dd></dd>
 <dt><a href="#toggleWifiCallback">toggleWifiCallback</a> : <code>function</code></dt>
 <dd><p>Callback which provides the toggle Wifi info</p>
 </dd>
@@ -28,9 +24,6 @@
 </dd>
 <dt><a href="#startHotspotCallback">startHotspotCallback</a> : <code>function</code></dt>
 <dd><p>A callback function to be called when start was successful</p>
-</dd>
-<dt><a href="#configureHotspotCallback">configureHotspotCallback</a> : <code>function</code></dt>
-<dd><p>A callback function to be called when configuration was successful</p>
 </dd>
 <dt><a href="#stopHotspotCallback">stopHotspotCallback</a> : <code>function</code></dt>
 <dd><p>A callback function to be called when stop was successful</p>
@@ -114,11 +107,10 @@ called with an array of JSON objects.</p>
 * [cordova.plugins.hotspot](#cordova.plugins.hotspot) : <code>object</code>
     * [.isAvailable(callback)](#cordova.plugins.hotspot+isAvailable)
     * [.getWriteSettings(successCB, errorCB)](#cordova.plugins.hotspot+getWriteSettings)
-    * [.requestWriteSettings(successCB, errorCB)](#cordova.plugins.hotspot+requestWriteSettings)
+    * [.requestWriteSettings(callback, error)](#cordova.plugins.hotspot+requestWriteSettings)
     * [.toggleWifi(callback, errorCB)](#cordova.plugins.hotspot+toggleWifi)
     * [.createHotspot(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+createHotspot)
     * [.startHotspot(successCB, errorCB)](#cordova.plugins.hotspot+startHotspot)
-    * [.configureHotspot(ssid, mode, password, successCB, errorCB)](#cordova.plugins.hotspot+configureHotspot)
     * [.stopHotspot(successCB, errorCB)](#cordova.plugins.hotspot+stopHotspot)
     * [.isHotspotEnabled(successCB, errorCB)](#cordova.plugins.hotspot+isHotspotEnabled)
     * [.getAllHotspotDevices(A, errorCB)](#cordova.plugins.hotspot+getAllHotspotDevices)
@@ -156,25 +148,25 @@ Check if plugin is available
 
 <a name="cordova.plugins.hotspot+getWriteSettings"></a>
 ### cordova.plugins.hotspot.getWriteSettings(successCB, errorCB)
-check if proper write settings are granted to the app
+get the current write settings of the app
 
 **Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| successCB | <code>[getWriteSettingsCallback](#getWriteSettingsCallback)</code> | A callback function which is invoked on success. |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function which is invoked on error. |
+| Param | Type |
+| --- | --- |
+| successCB | <code>[getWriteSettingsCallback](#getWriteSettingsCallback)</code> | 
+| errorCB | <code>[errorCallback](#errorCallback)</code> | 
 
 <a name="cordova.plugins.hotspot+requestWriteSettings"></a>
-### cordova.plugins.hotspot.requestWriteSettings(callback)
-open settings to request system write settings from the user
+### cordova.plugins.hotspot.requestWriteSettings(callback, error)
+get the current write settings of the app
 
 **Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[requestWriteSettingsCallback](#requestWriteSettingsCallback)</code> | A callback function which is invoked on success. |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function which is invoked on error. |
+| callback | <code>requestWriteSettingsCallback</code> | A callback function which is invoked on success.     * |
+| error | <code>errorCB</code> | callback      A callback function to be called when errors occurr |
 
 <a name="cordova.plugins.hotspot+toggleWifi"></a>
 ### cordova.plugins.hotspot.toggleWifi(callback, errorCB)
@@ -211,20 +203,6 @@ Start a default WiFi Hotspot
 | --- | --- | --- |
 | successCB | <code>[startHotspotCallback](#startHotspotCallback)</code> | A callback function to be called when start was successful |
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when start was not successful |
-
-<a name="cordova.plugins.hotspot+configureHotspot"></a>
-### cordova.plugins.hotspot.configureHotspot(ssid, mode, password, successCB, errorCB)
-Configure a running WiFi Hotspot
-
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ssid | <code>string</code> | SSID to connect |
-| mode | <code>string</code> | wireless mode (Open, WEP, WPA, WPA_PSK, WPA2_PSK) |
-| password | <code>string</code> | password to use |
-| successCB | <code>[configureHotspotCallback](#configureHotspotCallback)</code> | A callback function to be called when configuration was successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when configuration was not successful |
 
 <a name="cordova.plugins.hotspot+stopHotspot"></a>
 ### cordova.plugins.hotspot.stopHotspot(successCB, errorCB)
@@ -529,6 +507,14 @@ Callback which provides the toggle Wifi info
 | --- | --- | --- |
 | available, | <code>boolean</code> | true or false as response |
 
+<a name="getWriteSettingsCallback"></a>
+## getWriteSettingsCallback : <code>function</code>
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| settings | <code>boolean</code> | false if no write settings, true if write settings are permitted |
+
 <a name="toggleWifiCallback"></a>
 ## toggleWifiCallback : <code>function</code>
 Callback which provides the toggle Wifi info
@@ -547,11 +533,6 @@ A callback function to be called when start was successful
 <a name="startHotspotCallback"></a>
 ## startHotspotCallback : <code>function</code>
 A callback function to be called when start was successful
-
-**Kind**: global typedef  
-<a name="configureHotspotCallback"></a>
-## configureHotspotCallback : <code>function</code>
-A callback function to be called when configuration was successful
 
 **Kind**: global typedef  
 <a name="stopHotspotCallback"></a>
@@ -754,3 +735,4 @@ A callback function to be called with Rooted information
 | Param | Type | Description |
 | --- | --- | --- |
 | isRooted, | <code>boolean</code> | true  if device is port is available, otherwise false |
+
