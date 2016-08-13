@@ -71,6 +71,8 @@ public class HotSpotPlugin extends CordovaPlugin {
     private String action;
     private String rawArgs;
 
+    private Boolean writeSettings;
+
     private interface HotspotFunction {
         void run(JSONArray args, CallbackContext callback) throws Exception;
     }
@@ -113,18 +115,12 @@ public class HotSpotPlugin extends CordovaPlugin {
                 Method canWriteMethod = systemClass.getDeclaredMethod("canWrite", Context.class);
                 boolean retVal = (Boolean) canWriteMethod.invoke(null, this.cordova.getActivity());
                 Log.d(LOG_TAG, "Can Write Settings: " + retVal);
-                if (!retVal) {
-                    Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
-                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    // intent.
-                    try {
-                        cordova.getActivity().startActivity(intent);
-                    } catch (Exception e) {
-                        Log.e(LOG_TAG, "error starting permission intent", e);
-                        return false;
-                    }
+                if (!retVal && !action.equals("requestWriteSettings") && !action.equals("getWriteSettings")) {
+                    //can't write Settings
+                    callback.error("write settings: false");
+                    return false;
                 }
+                this.writeSettings = retVal;
             } catch (Exception ignored) {
                 Log.e(LOG_TAG, "Could not perform permission check");
                 this.callback.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
@@ -151,10 +147,49 @@ public class HotSpotPlugin extends CordovaPlugin {
         executeInternal(this.action, this.rawArgs, this.callback);
     }
 
+    private void requestWriteSettings(CallbackContext callback) {
+        Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
+        intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        // intent.
+        try {
+            cordova.getActivity().startActivity(intent);
+            callback.success();
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "error starting permission intent", e);
+            callback.error("error starting permission intent");
+        }
+    }
+
     private boolean executeInternal(String action, String rawArgs, CallbackContext callback) {
         Log.i(LOG_TAG, "Running executeInternal() ");
         Log.i(LOG_TAG, "     action: " + action);
         Log.i(LOG_TAG, "     rawArgs: " + rawArgs);
+        if ("requestWriteSettings".equals(action)) {
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                    requestWriteSettings(callback);
+                }
+            }, rawArgs, callback);
+            return true;
+        }
+
+        if ("getWriteSettings".equals(action)) {
+            final boolean temp = this.writeSettings;
+            threadhelper(new HotspotFunction() {
+                @Override
+                public void run(JSONArray args, CallbackContext callback) throws Exception {
+                  if(temp)
+                    callback.success(1);
+                  else
+                    callback.success(0);
+                }
+            }, rawArgs, callback);
+            return true;
+        }
+
+
         if ("isWifiOn".equals(action)) {
             threadhelper(new HotspotFunction() {
                 @Override
