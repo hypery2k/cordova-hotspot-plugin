@@ -642,7 +642,7 @@ HotSpotPlugin.prototype = {
                 packetLoss: response.match(/\sreceived,\s(\d+(\.\d+)?)%\spacket\sloss/)[1],
                 time: response.match(/,\stime\s(\d+)ms/)[1]
             };
-            if (stats.match(statsPattern)) {
+            if (!!stats && stats.match(statsPattern)) {
                 result.stat.min = stats.match(statsPattern)[1];
                 result.stat.max = stats.match(statsPattern)[3];
                 result.stat.avg = stats.match(statsPattern)[2];
