@@ -3,9 +3,9 @@ properties properties: [
   [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/hypery2k/cordova-hotspot-plugin/'],
 ]
 
-node {
+node('android') {
   def buildNumber = env.BUILD_NUMBER
-  def mvnHome = tool 'Maven3'
+  def mvnHome = '/opt/dev/apache-maven-3.3.1'
   def workspace = env.WORKSPACE
   def buildUrl = env.BUILD_URL
    env.PATH="${env.JAVA_HOME}/bin:${mvnHome}/bin:${env.PATH}"
