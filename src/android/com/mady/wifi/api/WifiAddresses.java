@@ -161,10 +161,11 @@ public class WifiAddresses {
      * @return true if the IP address is reachable
      */
     public boolean pingCmd(String addr) {
+        Process pro = null; 
         try {
             String ping = "ping  -c 5 -W 1 -i 0.2 " + addr;
             Runtime run = Runtime.getRuntime();
-            Process pro = run.exec(ping);
+            pro = run.exec(ping);
             try {
                 pro.waitFor();
             } catch (InterruptedException e) {
@@ -178,6 +179,14 @@ public class WifiAddresses {
                 return false;
             }
         } catch (IOException e) {
+                Log.e(LOG_TAG, "Unkown I/IO error.", e);
+        } finally { 
+            if (pro != null) {
+                try {
+                    pro.destroy();
+                } catch (Exception ignored) {               
+                }
+            }    
         }
         return false;
     }

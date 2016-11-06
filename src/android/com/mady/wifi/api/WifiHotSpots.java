@@ -167,7 +167,7 @@ public class WifiHotSpots {
                         String mode = getSecurityMode(result);
 
                         if (mode.equalsIgnoreCase("OPEN")) {
-
+                            Log.i(LOG_TAG, "Connecting to  hotspot with security: OPEN");
                             wifiConf.SSID = "\"" + netSSID + "\"";
                             wifiConf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                             int res = mWifiManager.addNetwork(wifiConf);
@@ -180,6 +180,7 @@ public class WifiHotSpots {
 
                         } else if (mode.equalsIgnoreCase("WEP")) {
 
+                            Log.i(LOG_TAG, "Connecting to  hotspot with security: WEP");
                             wifiConf.SSID = "\"" + netSSID + "\"";
                             wifiConf.wepKeys[0] = "\"" + netPass + "\"";
                             wifiConf.wepTxKeyIndex = 0;
@@ -195,6 +196,7 @@ public class WifiHotSpots {
 
                         } else {
 
+                            Log.i(LOG_TAG, "Connecting to  hotspot with security: WPA");
                             wifiConf.SSID = "\"" + netSSID + "\"";
                             wifiConf.preSharedKey = "\"" + netPass + "\"";
                             wifiConf.hiddenSSID = false;
@@ -476,15 +478,18 @@ public class WifiHotSpots {
             if (mMethod.getName().equals("setWifiApEnabled")) {
                 WifiConfiguration netConfig = new WifiConfiguration();
                 if (mode.equalsIgnoreCase("OPEN")) {
+                    Log.i(LOG_TAG, "Applying hotspot settings with security: OPEN");
                     netConfig.SSID = SSID;
                     netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                 } else if (mode.equalsIgnoreCase("WEP")) {
+                    Log.i(LOG_TAG, "Applying hotspot settings with security: WEP");
                     netConfig.SSID = SSID;
                     netConfig.wepKeys[0] = passWord;
                     netConfig.wepTxKeyIndex = 0;
                     netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                     netConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
                 } else {
+                    Log.i(LOG_TAG, "Applying hotspot settings with security: WPA");
                     netConfig.SSID = SSID;
                     netConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
                     netConfig.SSID = SSID;
