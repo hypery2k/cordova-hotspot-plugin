@@ -211,10 +211,11 @@ public class HotSpotPlugin extends CordovaPlugin {
                     if (toggleWifi()) {
                         callback.success(1);
                     } else {
-                        callback.success(1);
+                        callback.success(0);
                     }
                 }
             }, rawArgs, callback);
+            return true;
         }
 
         if ("createHotspot".equals(action)) {
