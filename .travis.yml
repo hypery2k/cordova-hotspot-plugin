@@ -4,7 +4,7 @@ env:
   - CORDOVA_VERSION=6.1.1
   - CORDOVA_VERSION=6.0.0
 script:
-  - npm test
+#  - npm test
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
   - echo $JAVA_HOME
