@@ -95,7 +95,7 @@ HotSpotPlugin.prototype = {
      * @param  {errorCB} error callback
      *      A callback function to be called when errors occurr
      */
-    requestWriteSettings: function(requestWriteSettingsCallback,errorCB) {
+    requestWriteSettings: function(successCB,errorCB) {
         cordova.exec(
             successCB,
             errorCB,
