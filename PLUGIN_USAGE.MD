@@ -101,6 +101,7 @@ called with an array of JSON objects.</p>
 </dl>
 
 <a name="cordova.plugins.hotspot"></a>
+
 ## cordova.plugins.hotspot : <code>object</code>
 **Kind**: global namespace  
 
@@ -137,6 +138,7 @@ called with an array of JSON objects.</p>
     * [.isRooted(successCB, errorCB)](#cordova.plugins.hotspot+isRooted)
 
 <a name="cordova.plugins.hotspot+isAvailable"></a>
+
 ### cordova.plugins.hotspot.isAvailable(callback)
 Check if plugin is available
 
@@ -147,6 +149,7 @@ Check if plugin is available
 | callback | <code>[isAvailableCallback](#isAvailableCallback)</code> | A callback function which is invoked on success. |
 
 <a name="cordova.plugins.hotspot+getWriteSettings"></a>
+
 ### cordova.plugins.hotspot.getWriteSettings(successCB, errorCB)
 get the current write settings of the app
 
@@ -158,6 +161,7 @@ get the current write settings of the app
 | errorCB | <code>[errorCallback](#errorCallback)</code> | 
 
 <a name="cordova.plugins.hotspot+requestWriteSettings"></a>
+
 ### cordova.plugins.hotspot.requestWriteSettings(callback, error)
 get the current write settings of the app
 
@@ -169,6 +173,7 @@ get the current write settings of the app
 | error | <code>errorCB</code> | callback      A callback function to be called when errors occurr |
 
 <a name="cordova.plugins.hotspot+toggleWifi"></a>
+
 ### cordova.plugins.hotspot.toggleWifi(callback, errorCB)
 Method to Toggle wifi ON/OFF
 
@@ -180,6 +185,7 @@ Method to Toggle wifi ON/OFF
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when errors occurr |
 
 <a name="cordova.plugins.hotspot+createHotspot"></a>
+
 ### cordova.plugins.hotspot.createHotspot(ssid, mode, password, successCB, errorCB)
 Create a WiFi Hotspot
 
@@ -194,6 +200,7 @@ Create a WiFi Hotspot
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+startHotspot"></a>
+
 ### cordova.plugins.hotspot.startHotspot(successCB, errorCB)
 Start a default WiFi Hotspot
 
@@ -205,6 +212,7 @@ Start a default WiFi Hotspot
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when start was not successful |
 
 <a name="cordova.plugins.hotspot+stopHotspot"></a>
+
 ### cordova.plugins.hotspot.stopHotspot(successCB, errorCB)
 Stop a running default WiFi Hotspot
 
@@ -216,6 +224,7 @@ Stop a running default WiFi Hotspot
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when stop was not successful |
 
 <a name="cordova.plugins.hotspot+isHotspotEnabled"></a>
+
 ### cordova.plugins.hotspot.isHotspotEnabled(successCB, errorCB)
 Checks if hot spot is enabled
 
@@ -227,6 +236,7 @@ Checks if hot spot is enabled
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A error callback function |
 
 <a name="cordova.plugins.hotspot+getAllHotspotDevices"></a>
+
 ### cordova.plugins.hotspot.getAllHotspotDevices(A, errorCB)
 Get all connected devices
 
@@ -238,6 +248,7 @@ Get all connected devices
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+connectToWifi"></a>
+
 ### cordova.plugins.hotspot.connectToWifi(ssid, password, successCB, errorCB)
 Connect to a WiFi network
 
@@ -251,6 +262,7 @@ Connect to a WiFi network
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+connectToWifiAuthEncrypt"></a>
+
 ### cordova.plugins.hotspot.connectToWifiAuthEncrypt(ssid, password, authentication, encryption, successCB, errorCB)
 configure current WiFi Hotspot
 
@@ -266,6 +278,7 @@ configure current WiFi Hotspot
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+configureHotspot"></a>
+
 ### cordova.plugins.hotspot.configureHotspot(ssid, mode, password, successCB, errorCB)
 configure current WiFi Hotspot
 
@@ -280,6 +293,7 @@ configure current WiFi Hotspot
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when configuration was not successful |
 
 <a name="cordova.plugins.hotspot+addWifiNetwork"></a>
+
 ### cordova.plugins.hotspot.addWifiNetwork(ssid, mode, password, successCB, errorCB)
 add a WiFi network
 
@@ -294,6 +308,7 @@ add a WiFi network
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when adding was not successful |
 
 <a name="cordova.plugins.hotspot+removeWifiNetwork"></a>
+
 ### cordova.plugins.hotspot.removeWifiNetwork(ssid, successCB, errorCB)
 Delete a WiFi network
 
@@ -306,6 +321,7 @@ Delete a WiFi network
 | errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when removal was not successful |
 
 <a name="cordova.plugins.hotspot+isConnectedToInternet"></a>
+
 ### cordova.plugins.hotspot.isConnectedToInternet(successCB, errorCB)
 Check if connection to internet is active
 
@@ -317,6 +333,7 @@ Check if connection to internet is active
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isConnectedToInternetViaWifi"></a>
+
 ### cordova.plugins.hotspot.isConnectedToInternetViaWifi(successCB, errorCB)
 Check if connection to internet is active via WiFi
 
@@ -328,6 +345,7 @@ Check if connection to internet is active via WiFi
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isWifiOn"></a>
+
 ### cordova.plugins.hotspot.isWifiOn(successCB, errorCB)
 Check if WiFi is enabled
 
@@ -339,6 +357,7 @@ Check if WiFi is enabled
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isWifiSupported"></a>
+
 ### cordova.plugins.hotspot.isWifiSupported(successCB, errorCB)
 Check if WiFi is supported
 
@@ -350,6 +369,7 @@ Check if WiFi is supported
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isWifiDirectSupported"></a>
+
 ### cordova.plugins.hotspot.isWifiDirectSupported(successCB, errorCB)
 Check if WiFi Direct is supported
 
@@ -361,6 +381,7 @@ Check if WiFi Direct is supported
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+scanWifi"></a>
+
 ### cordova.plugins.hotspot.scanWifi(successCB, errorCB)
 Scan wifi
 
@@ -372,6 +393,7 @@ Scan wifi
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+scanWifiByLevel"></a>
+
 ### cordova.plugins.hotspot.scanWifiByLevel(successCB, errorCB)
 Scan wifi by level
 
@@ -383,6 +405,7 @@ Scan wifi by level
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+startWifiPeriodicallyScan"></a>
+
 ### cordova.plugins.hotspot.startWifiPeriodicallyScan(interval, duration, successCB, errorCB)
 Start a periodically scan wifi
 
@@ -396,6 +419,7 @@ Start a periodically scan wifi
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+stopWifiPeriodicallyScan"></a>
+
 ### cordova.plugins.hotspot.stopWifiPeriodicallyScan(successCB, errorCB)
 Stop a periodically scan wifi
 
@@ -407,6 +431,7 @@ Stop a periodically scan wifi
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+getNetConfig"></a>
+
 ### cordova.plugins.hotspot.getNetConfig(successCB, errorCB)
 Get network information, e.g Gateway Ip/Mac Device Mac/Ip etc
 
@@ -418,6 +443,7 @@ Get network information, e.g Gateway Ip/Mac Device Mac/Ip etc
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+getConnectionInfo"></a>
+
 ### cordova.plugins.hotspot.getConnectionInfo(successCB, errorCB)
 Get current connection information, e.g SSID, linkSpeed,IPAddress etc
 
@@ -429,6 +455,7 @@ Get current connection information, e.g SSID, linkSpeed,IPAddress etc
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+pingHost"></a>
+
 ### cordova.plugins.hotspot.pingHost(ip, successCB, errorCB)
 Ping a host
 
@@ -441,6 +468,7 @@ Ping a host
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+getMacAddressOfHost"></a>
+
 ### cordova.plugins.hotspot.getMacAddressOfHost(ip, successCB, errorCB)
 Get MAC address of host
 
@@ -453,6 +481,7 @@ Get MAC address of host
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isDnsLive"></a>
+
 ### cordova.plugins.hotspot.isDnsLive(ip, successCB, errorCB)
 dnsLive
 
@@ -465,6 +494,7 @@ dnsLive
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isPortLive"></a>
+
 ### cordova.plugins.hotspot.isPortLive(ip, successCB, errorCB)
 is port available
 
@@ -477,6 +507,7 @@ is port available
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="cordova.plugins.hotspot+isRooted"></a>
+
 ### cordova.plugins.hotspot.isRooted(successCB, errorCB)
 Check Device is Rooted
 
@@ -488,6 +519,7 @@ Check Device is Rooted
 | errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
 
 <a name="errorCallback"></a>
+
 ## errorCallback : <code>function</code>
 Callback which provides the error details.
 
@@ -498,6 +530,7 @@ Callback which provides the error details.
 | err | <code>Object</code> | error details. |
 
 <a name="isAvailableCallback"></a>
+
 ## isAvailableCallback : <code>function</code>
 Callback which provides the toggle Wifi info
 
@@ -508,6 +541,7 @@ Callback which provides the toggle Wifi info
 | available, | <code>boolean</code> | true or false as response |
 
 <a name="getWriteSettingsCallback"></a>
+
 ## getWriteSettingsCallback : <code>function</code>
 **Kind**: global typedef  
 
@@ -516,6 +550,7 @@ Callback which provides the toggle Wifi info
 | settings | <code>boolean</code> | false if no write settings, true if write settings are permitted |
 
 <a name="toggleWifiCallback"></a>
+
 ## toggleWifiCallback : <code>function</code>
 Callback which provides the toggle Wifi info
 
@@ -526,21 +561,25 @@ Callback which provides the toggle Wifi info
 | wifiOn, | <code>boolean</code> | true or false as response,true if wifi ON and false if wifi OFF |
 
 <a name="createHotspotCallback"></a>
+
 ## createHotspotCallback : <code>function</code>
 A callback function to be called when start was successful
 
 **Kind**: global typedef  
 <a name="startHotspotCallback"></a>
+
 ## startHotspotCallback : <code>function</code>
 A callback function to be called when start was successful
 
 **Kind**: global typedef  
 <a name="stopHotspotCallback"></a>
+
 ## stopHotspotCallback : <code>function</code>
 A callback function to be called when stop was successful
 
 **Kind**: global typedef  
 <a name="isHotspotEnabledCallback"></a>
+
 ## isHotspotEnabledCallback : <code>function</code>
 A callback function to be called when stop was successful
 
@@ -551,6 +590,7 @@ A callback function to be called when stop was successful
 | enabled, | <code>boolean</code> | true  if hotspot is off or false as response |
 
 <a name="getAllHotspotDevicesCallback"></a>
+
 ## getAllHotspotDevicesCallback : <code>function</code>
 A callback function to be called when connected successful and is
 called with an array of JSON objects.
@@ -562,31 +602,37 @@ called with an array of JSON objects.
 | of | <code>Array</code> | objects:      [{        ip,        mac      }] |
 
 <a name="connectToWifiCallback"></a>
+
 ## connectToWifiCallback : <code>function</code>
 A callback function to be called when connected successful
 
 **Kind**: global typedef  
 <a name="connectToWifiAuthEncryptCallback"></a>
+
 ## connectToWifiAuthEncryptCallback : <code>function</code>
 A callback function to be called when connected successful
 
 **Kind**: global typedef  
 <a name="configureHotspotCallback"></a>
+
 ## configureHotspotCallback : <code>function</code>
 A callback function to be called when connected successful
 
 **Kind**: global typedef  
 <a name="addWifiNetworkCallback"></a>
+
 ## addWifiNetworkCallback : <code>function</code>
 A callback function to be called when connected successful
 
 **Kind**: global typedef  
 <a name="removeWifiNetworkCallback"></a>
+
 ## removeWifiNetworkCallback : <code>function</code>
 A callback function function to be called when removal was successful
 
 **Kind**: global typedef  
 <a name="isConnectedToInternetCallback"></a>
+
 ## isConnectedToInternetCallback : <code>function</code>
 A callback function to be called with the result
 
@@ -597,6 +643,7 @@ A callback function to be called with the result
 | connected, | <code>boolean</code> | true  if device is connected to internet, otherwise false |
 
 <a name="isConnectedToInternetViaWifiCallback"></a>
+
 ## isConnectedToInternetViaWifiCallback : <code>function</code>
 A callback function to be called when connection is done via wifi
 
@@ -607,6 +654,7 @@ A callback function to be called when connection is done via wifi
 | connected, | <code>boolean</code> | true  if device is connected to internet via WiFi, otherwise false |
 
 <a name="isWifiOnCallback"></a>
+
 ## isWifiOnCallback : <code>function</code>
 A callback function to be called when WiFi is enabled
 
@@ -617,6 +665,7 @@ A callback function to be called when WiFi is enabled
 | connected, | <code>boolean</code> | true  if device if WiFi is on, otherwise false |
 
 <a name="isWifiSupportedCallback"></a>
+
 ## isWifiSupportedCallback : <code>function</code>
 A callback function to be called when WiFi is supported
 
@@ -627,6 +676,7 @@ A callback function to be called when WiFi is supported
 | wifiSupported, | <code>boolean</code> | true  if  WiFi is supported, otherwise false |
 
 <a name="isWifiDirectSupportedCallback"></a>
+
 ## isWifiDirectSupportedCallback : <code>function</code>
 A callback function to be called when WiFi is supported
 
@@ -637,6 +687,7 @@ A callback function to be called when WiFi is supported
 | wifiSupported, | <code>boolean</code> | true  if  WiFi Direct is supported, otherwise false |
 
 <a name="scanWifiCallback"></a>
+
 ## scanWifiCallback : <code>function</code>
 A callback function to be called when scan is started
 
@@ -647,6 +698,7 @@ A callback function to be called when scan is started
 | info | <code>Array</code> | An array of JSON objects with the following information:  [{      SSID,      BSSID,      frequency,      level,      timestamp,      capabilities  }] |
 
 <a name="scanWifiCallback"></a>
+
 ## scanWifiCallback : <code>function</code>
 A callback function to be called when scan is started
 
@@ -657,16 +709,19 @@ A callback function to be called when scan is started
 | info | <code>Array</code> | An array of JSON objects with the following information:  [{      SSID,      BSSID,      frequency,      level,      timestamp,      capabilities  }] |
 
 <a name="startWifiPeriodicallyScanCallback"></a>
+
 ## startWifiPeriodicallyScanCallback : <code>function</code>
 A callback function to be called when scan is started
 
 **Kind**: global typedef  
 <a name="stopWifiPeriodicallyScanCallback"></a>
+
 ## stopWifiPeriodicallyScanCallback : <code>function</code>
 A callback function to be called when scan is stopped
 
 **Kind**: global typedef  
 <a name="getNetConfigCallback"></a>
+
 ## getNetConfigCallback : <code>function</code>
 A callback function to be called when scan is started
 
@@ -677,6 +732,7 @@ A callback function to be called when scan is started
 | info | <code>Object</code> | An JSON object with the following information:  {      deviceIPAddress,      deviceMacAddress,      gatewayIPAddress,      gatewayMacAddress  } |
 
 <a name="getConnectionInfoCallback"></a>
+
 ## getConnectionInfoCallback : <code>function</code>
 Callback which provides the connection information.
 
@@ -687,6 +743,7 @@ Callback which provides the connection information.
 | info | <code>Object</code> | An JSON object with the following information: {      SSID,      linkSpeed,      IPAddress } |
 
 <a name="pingHostCallback"></a>
+
 ## pingHostCallback : <code>function</code>
 Callback which provides the ping information.
 
@@ -697,6 +754,7 @@ Callback which provides the ping information.
 | info | <code>Object</code> | An JSON object with the following information: {      requestTimeout,      stat: {          requestTimeout,          time,          min,          max,          stddev      } } |
 
 <a name="getMacAddressOfHostCallback"></a>
+
 ## getMacAddressOfHostCallback : <code>function</code>
 A callback function to be called with all information
 
@@ -707,6 +765,7 @@ A callback function to be called with all information
 | info | <code>String</code> | the MAC address |
 
 <a name="isDnsLiveCallback"></a>
+
 ## isDnsLiveCallback : <code>function</code>
 A callback function to be called with DNS details
 
@@ -717,6 +776,7 @@ A callback function to be called with DNS details
 | isDnsLive, | <code>boolean</code> | true  if device is DNS is live, otherwise false |
 
 <a name="isPortLiveCallback"></a>
+
 ## isPortLiveCallback : <code>function</code>
 A callback function to be called with DNS details
 
@@ -727,6 +787,7 @@ A callback function to be called with DNS details
 | isPortLive, | <code>boolean</code> | true  if device is port is available, otherwise false |
 
 <a name="isRootedCallback"></a>
+
 ## isRootedCallback : <code>function</code>
 A callback function to be called with Rooted information
 
