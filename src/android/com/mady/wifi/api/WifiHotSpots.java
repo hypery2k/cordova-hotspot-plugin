@@ -204,8 +204,7 @@ public class WifiHotSpots {
                             isConnectToHotSpotRunning = false;
                             return true;
 
-                        }
-                        elseif(mode.equalsIgnoreCase("OPEN")) {
+                        } else if (mode.equalsIgnoreCase("OPEN")) {
                             Log.i(LOG_TAG, "Connecting to  hotspot with security: OPEN");
                             wifiConf.SSID = "\"" + netSSID + "\"";
                             wifiConf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
