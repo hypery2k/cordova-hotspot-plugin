@@ -628,11 +628,12 @@ public class HotSpotPlugin extends CordovaPlugin {
     public void configureHotspot(JSONArray args, final CallbackContext callback) throws JSONException {
         final String ssid = args.getString(0);
         final String mode = args.getString(1);
-        final String password = args.getString(2);
+        final String identity = args.getString(2);
+        final String password = args.getString(3);
         final Activity activity = this.cordova.getActivity();
         if (isHotspotEnabled()) {
             WifiHotSpots hotspot = new WifiHotSpots(activity);
-            if (hotspot.setHotSpot(ssid, mode, password)) {
+            if (hotspot.setHotSpot(ssid, mode, identity, password)) {
                 callback.success();
             } else {
                 callback.error("Hotspot config was not successfull");

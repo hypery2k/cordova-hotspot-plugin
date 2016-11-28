@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiEnterpriseConfig;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -101,7 +102,7 @@ public class WifiHotSpots {
         if (authentication != null && encryptions != null && encryptions.length > 0) {
             removeWifiNetwork(netSSID);
 
-            if (WifiConfiguration.AuthAlgorithm == null) {
+            if (authentication == null) {
                 wifiConf.SSID = "\"" + netSSID + "\"";
                 wifiConf.enterpriseConfig.setIdentity(netIdentity);
                 wifiConf.enterpriseConfig.setPassword(netPass);
@@ -520,14 +521,14 @@ public class WifiHotSpots {
 
                 if (mode.equalsIgnoreCase("EAP")) {
                     Log.i(LOG_TAG, "Applying hotspot settings with security: EAP");
-                    wifiConf.SSID = SSID;
-                    wifiConf.enterpriseConfig.setIdentity(netIdentity);
-                    wifiConf.enterpriseConfig.setPassword(netPass);
-                    wifiConf.status = WifiConfiguration.Status.ENABLED;
-                    wifiConf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.IEEE8021X);
-                    wifiConf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
-                    wifiConf.enterpriseConfig.setEapMethod(WifiEnterpriseConfig.Eap.TTLS);
-                    wifiConf.enterpriseConfig.setPhase2Method(WifiEnterpriseConfig.Phase2.PAP);
+                    netConfig.SSID = SSID;
+                    netConfig.enterpriseConfig.setIdentity(netIdentity);
+                    netConfig.enterpriseConfig.setPassword(netPass);
+                    netConfig.status = WifiConfiguration.Status.ENABLED;
+                    netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.IEEE8021X);
+                    netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
+                    netConfig.enterpriseConfig.setEapMethod(WifiEnterpriseConfig.Eap.TTLS);
+                    netConfig.enterpriseConfig.setPhase2Method(WifiEnterpriseConfig.Phase2.PAP);
                 } else if (mode.equalsIgnoreCase("OPEN")) {
                     Log.i(LOG_TAG, "Applying hotspot settings with security: OPEN");
                     netConfig.SSID = SSID;
@@ -635,7 +636,7 @@ public class WifiHotSpots {
     public void addWifiNetwork(String netSSID, String netPass, String netType) {
         WifiConfiguration wifiConf = new WifiConfiguration();
 
-        if (mode.netType("EAP")) {
+        if (netType.equalsIgnoreCase("EAP")) {
             wifiConf.SSID = "\"" + netSSID + "\"";
             wifiConf.enterpriseConfig.setIdentity(netIdentity);
             wifiConf.enterpriseConfig.setPassword(netPass);
