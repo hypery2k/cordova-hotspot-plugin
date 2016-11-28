@@ -864,7 +864,7 @@ public class HotSpotPlugin extends CordovaPlugin {
         } else if (authentication.equalsIgnoreCase("SHARED")) {
             authAlgorihm = WifiConfiguration.AuthAlgorithm.SHARED;
         } else if (authentication.equalsIgnoreCase("EAP")) {
-            authAlgorihm = null
+            authAlgorihm = null;
         } else {
             authAlgorihm = WifiConfiguration.AuthAlgorithm.OPEN;
         }
