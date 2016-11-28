@@ -19,14 +19,27 @@
     "cordova-android"
   ],
   "scripts": {
+    "postinstall": "typings install",
     "pretest": "rm -rf tmp && mkdir -p tmp && cd tmp && git clone https://github.com/simpligility/maven-android-sdk-deployer.git && cd maven-android-sdk-deployer/ && mvn install -P 6.0 && ls ~/.m2/repository/android/android/",
     "test": "cd tmp && git clone https://github.com/apache/cordova-app-hello-world.git && cd cordova-app-hello-world && cp -rp template_src/ . && cordova platform add android && cordova plugin add cordova-plugin-compat && cordova build && cd ../../test/android && ./gradlew build && cd ../../tmp/cordova-app-hello-world && cordova plugin add ../.. && cordova plugin add http://git-wip-us.apache.org/repos/asf/cordova-plugin-test-framework.git",
     "posttest": "jsdoc -c jsdoc.json && jsdoc2md www/HotSpotPlugin.js | sed s/hotSpotPlugin/cordova.plugins.hotspot/g | sed s/HotSpotPlugin/cordova.plugins.hotspot/g > PLUGIN_USAGE.MD"
   },
   "author": "Martin Reinhardt",
   "license": "MIT",
+  "engine-strict": true,
+  "engines": {
+    "node": ">= 4.2.1",
+    "npm": ">= 3"
+  },
   "devDependencies": {
     "jsdoc": "3.4.0",
-    "jsdoc-to-markdown": "1.3.3"
+    "jsdoc-to-markdown": "1.3.3",
+    "ts-helpers": "1.1.1",
+    "ts-node": "0.9.1",
+    "tslint": "3.7.1",
+    "tslint-loader": "2.1.3",
+    "typedoc": "0.4.4",
+    "typescript": "1.8.10",
+    "typings": "1.3.0"
   }
 }

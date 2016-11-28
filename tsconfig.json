@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useCache": true
+  },
+  "filesGlob": [
+    "./app/**/*.ts",
+    "./custom-typings.d.ts",
+    "node_modules/typescript/lib/lib.es6.d.ts",
+    "!./node_modules/**/*.ts",
+    "!./typings/main",
+    "!./typings/main.d.ts"
+  ],
+  "exclude": [
+    "etc",
+    "node_modules",
+    "/node_modules",
+    "../node_modules",
+    "*node_modules*",
+    "/node_modules*",
+    "angular2",
+    "rxjs",
+    "typings",
+    "typings/main",
+    "typings/main.d.ts"
+  ]
+}

@@ -17,7 +17,6 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.util.Log;
 
-import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;

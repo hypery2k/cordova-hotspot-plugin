@@ -23,5 +23,6 @@ build/*
 node_modules/*
 dist/*
 out/*
+typings/*
 test/android/.gradle/*
 test/android/build/*
