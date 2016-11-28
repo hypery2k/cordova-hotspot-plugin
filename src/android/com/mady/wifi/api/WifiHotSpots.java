@@ -629,11 +629,12 @@ public class WifiHotSpots {
     /**
      * Method to add Wifi Network
      *
-     * @param netSSID of WiFi Network (hotspot)
-     * @param netPass put password
-     * @param netType Network Security Type   OPEN PSK EAP OR WEP
+     * @param netSSID     of WiFi Network (hotspot)
+     * @param netIdentity of WiFi Network (hotspot)
+     * @param netPass     put password
+     * @param netType     Network Security Type   OPEN PSK EAP OR WEP
      */
-    public void addWifiNetwork(String netSSID, String netPass, String netType) {
+    public void addWifiNetwork(String netSSID, String netIdentity, String netPass, String netType) {
         WifiConfiguration wifiConf = new WifiConfiguration();
 
         if (netType.equalsIgnoreCase("EAP")) {
