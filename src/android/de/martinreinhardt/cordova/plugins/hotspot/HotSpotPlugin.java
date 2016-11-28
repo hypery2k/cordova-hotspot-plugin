@@ -718,11 +718,12 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     public void addWifiNetwork(JSONArray args, final CallbackContext callback) throws JSONException {
         final String ssid = args.getString(0);
-        final String password = args.getString(1);
-        final String mode = args.getString(2);
+        final String identity = args.getString(1);
+        final String password = args.getString(2);
+        final String mode = args.getString(3);
         final Activity activity = this.cordova.getActivity();
         WifiHotSpots hotspot = new WifiHotSpots(activity);
-        hotspot.addWifiNetwork(ssid, password, mode);
+        hotspot.addWifiNetwork(ssid, identity, password, mode);
         callback.success();
     }
 
