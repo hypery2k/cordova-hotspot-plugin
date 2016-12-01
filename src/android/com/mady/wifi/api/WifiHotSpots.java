@@ -522,8 +522,8 @@ public class WifiHotSpots {
                 if (mode.equalsIgnoreCase("EAP")) {
                     Log.i(LOG_TAG, "Applying hotspot settings with security: EAP");
                     netConfig.SSID = SSID;
-                    netConfig.enterpriseConfig.setIdentity(netIdentity);
-                    netConfig.enterpriseConfig.setPassword(netPass);
+                    netConfig.enterpriseConfig.setIdentity(identity);
+                    netConfig.enterpriseConfig.setPassword(passWord);
                     netConfig.status = WifiConfiguration.Status.ENABLED;
                     netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.IEEE8021X);
                     netConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
