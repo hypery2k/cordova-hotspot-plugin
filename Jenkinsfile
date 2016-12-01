@@ -27,7 +27,7 @@ node('android') {
 
     stage('Test') {
       sh "PLATFORM=android npm run test"
-      junit 'test/android/build/reports/TEST-*.xml'
+      junit 'test/android/build/test-results/TEST-*.xml'
     }
 
     stage('Publish NPM snapshot') {
