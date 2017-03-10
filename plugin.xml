@@ -60,6 +60,7 @@ SOFTWARE.
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
             <uses-permission android:name="android.permission.INTERNET"/>
         </config-file>
+        <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
         <config-file target="AndroidManifest.xml" parent="application/activity">
             <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
         </config-file>
