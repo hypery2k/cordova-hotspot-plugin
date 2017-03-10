@@ -95,7 +95,7 @@ HotSpotPlugin.prototype = {
      * @param  {errorCB} error callback
      *      A callback function to be called when errors occurr
      */
-    requestWriteSettings: function(requestWriteSettingsCallback,errorCB) {
+    requestWriteSettings: function(successCB,errorCB) {
         cordova.exec(
             successCB,
             errorCB,
@@ -643,7 +643,7 @@ HotSpotPlugin.prototype = {
                 packetLoss: response.match(/\sreceived,\s(\d+(\.\d+)?)%\spacket\sloss/)[1],
                 time: response.match(/,\stime\s(\d+)ms/)[1]
             };
-            if (stats.match(statsPattern)) {
+            if (!!stats && stats.match(statsPattern)) {
                 result.stat.min = stats.match(statsPattern)[1];
                 result.stat.max = stats.match(statsPattern)[3];
                 result.stat.avg = stats.match(statsPattern)[2];

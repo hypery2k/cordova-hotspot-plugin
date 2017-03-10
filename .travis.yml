@@ -15,9 +15,9 @@ before_install:
   - source ~/.android-sdk-installer/env
   - android list targets
   # Create and start emulator
-  - echo no | android create avd --force -n android-19 -t android-19 --abi armeabi-v7a
-  - echo no | android create avd --force -n android-21 -t android-21 --abi armeabi-v7a
-  - echo no | android create avd --force -n android-22 -t android-22 --abi armeabi-v7a
-  - echo no | android create avd --force -n android-23 -t android-23 --abi armeabi-v7a
+  - echo no | android create avd --force -n android-19 -t android-19 --abi google_apis/armeabi-v7a
+  - echo no | android create avd --force -n android-21 -t android-21 --abi google_apis/armeabi-v7a
+  - echo no | android create avd --force -n android-22 -t android-22 --abi google_apis/armeabi-v7a
+  - echo no | android create avd --force -n android-23 -t android-23 --abi google_apis/armeabi-v7a
   - npm install -g cordova@$CORDOVA_VERSION
   - npm install
