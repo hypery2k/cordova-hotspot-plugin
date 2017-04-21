@@ -180,10 +180,10 @@ public class HotSpotPlugin extends CordovaPlugin {
             threadhelper(new HotspotFunction() {
                 @Override
                 public void run(JSONArray args, CallbackContext callback) throws Exception {
-                  if(temp)
-                    callback.success(1);
-                  else
-                    callback.success(0);
+                    if (temp)
+                        callback.success(1);
+                    else
+                        callback.success(0);
                 }
             }, rawArgs, callback);
             return true;
@@ -628,11 +628,12 @@ public class HotSpotPlugin extends CordovaPlugin {
     public void configureHotspot(JSONArray args, final CallbackContext callback) throws JSONException {
         final String ssid = args.getString(0);
         final String mode = args.getString(1);
-        final String password = args.getString(2);
+        final String identity = args.getString(2);
+        final String password = args.getString(3);
         final Activity activity = this.cordova.getActivity();
         if (isHotspotEnabled()) {
             WifiHotSpots hotspot = new WifiHotSpots(activity);
-            if (hotspot.setHotSpot(ssid, mode, password)) {
+            if (hotspot.setHotSpot(ssid, mode, identity, password)) {
                 callback.success();
             } else {
                 callback.error("Hotspot config was not successfull");
@@ -717,11 +718,12 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     public void addWifiNetwork(JSONArray args, final CallbackContext callback) throws JSONException {
         final String ssid = args.getString(0);
-        final String password = args.getString(1);
-        final String mode = args.getString(2);
+        final String identity = args.getString(1);
+        final String password = args.getString(2);
+        final String mode = args.getString(3);
         final Activity activity = this.cordova.getActivity();
         WifiHotSpots hotspot = new WifiHotSpots(activity);
-        hotspot.addWifiNetwork(ssid, password, mode);
+        hotspot.addWifiNetwork(ssid, identity, password, mode);
         callback.success();
     }
 
@@ -739,13 +741,14 @@ public class HotSpotPlugin extends CordovaPlugin {
         if (configure) {
             final String ssid = args.getString(0);
             final String mode = args.getString(1);
-            final String password = args.getString(2);
+            final String identity = args.getString(2);
+            final String password = args.getString(3);
             try {
                 WifiHotSpots hotspot = new WifiHotSpots(activity);
                 if (start) {
                     hotspot.startHotSpot(false);
                 }
-                if (hotspot.setHotSpot(ssid, mode, password)) {
+                if (hotspot.setHotSpot(ssid, mode, identity, password)) {
                     try {
                         if (start) {
                             // Wait to connect
@@ -833,15 +836,17 @@ public class HotSpotPlugin extends CordovaPlugin {
 
     public boolean connectToWifi(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
-        final String password = args.getString(1);
-        return connectToWifiNetwork(pCallback, ssid, password, null, null);
+        final String identity = args.getString(1);
+        final String password = args.getString(2);
+        return connectToWifiNetwork(pCallback, ssid, identity, password, null, null);
     }
 
     public boolean connectToWifiAuthEncrypt(JSONArray args, CallbackContext pCallback) throws JSONException {
         final String ssid = args.getString(0);
-        final String password = args.getString(1);
-        final String authentication = args.getString(2);
-        final JSONArray encryption = args.getJSONArray(3);
+        final String identity = args.getString(1);
+        final String password = args.getString(2);
+        final String authentication = args.getString(3);
+        final JSONArray encryption = args.getJSONArray(4);
         List<Integer> encryptions = new ArrayList<Integer>();
         for (int i = 0; i < encryption.length(); i++) {
 
@@ -860,21 +865,24 @@ public class HotSpotPlugin extends CordovaPlugin {
             authAlgorihm = WifiConfiguration.AuthAlgorithm.LEAP;
         } else if (authentication.equalsIgnoreCase("SHARED")) {
             authAlgorihm = WifiConfiguration.AuthAlgorithm.SHARED;
+        } else if (authentication.equalsIgnoreCase("EAP")) {
+            authAlgorihm = null;
         } else {
             authAlgorihm = WifiConfiguration.AuthAlgorithm.OPEN;
         }
-        return connectToWifiNetwork(pCallback, ssid, password, authAlgorihm, encryptions.toArray(new Integer[encryptions.size()]));
+        return connectToWifiNetwork(pCallback, ssid, identity, password, authAlgorihm, encryptions.toArray(new Integer[encryptions.size()]));
     }
 
     private boolean connectToWifiNetwork(final CallbackContext callback,
                                          final String ssid,
+                                         final String identity,
                                          final String password,
                                          final Integer authentication,
                                          final Integer[] encryption) {
         final Activity activity = this.cordova.getActivity();
         WifiHotSpots hotspot = new WifiHotSpots(activity);
         try {
-            if (hotspot.connectToHotspot(ssid, password, authentication, encryption)) {
+            if (hotspot.connectToHotspot(ssid, identity, password, authentication, encryption)) {
                 int retry = 130;
                 boolean connected = false;
                 // Wait to connect

@@ -73,10 +73,10 @@ HotSpotPlugin.prototype = {
      *
      * @param  {errorCallback} errorCB
      */
-    getWriteSettings: function(successCB,errorCB) {
+    getWriteSettings: function (successCB, errorCB) {
         cordova.exec(
-            function(val){
-                if(val === 1)
+            function (val) {
+                if (val === 1)
                     successCB(true);
                 else
                     successCB(false);
@@ -95,7 +95,7 @@ HotSpotPlugin.prototype = {
      * @param  {errorCB} error callback
      *      A callback function to be called when errors occurr
      */
-    requestWriteSettings: function(successCB,errorCB) {
+    requestWriteSettings: function (successCB, errorCB) {
         cordova.exec(
             successCB,
             errorCB,
@@ -145,18 +145,20 @@ HotSpotPlugin.prototype = {
      * @param {string} ssid
      *      SSID to connect
      * @param {string} mode
-     *      wireless mode (Open, WEP, WPA, WPA_PSK)
-     * @param {string} password
+     *      mode use (Open, WEP, WPA, WPA_PSK, EAP)
+     * @param {string|object} password to use or auth config for EAP
      *      password to use
      * @param {createHotspotCallback} successCB
      *      A callback function to be called when start was successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
-    createHotspot: function (ssid, mode, password, successCB, errorCB) {
+    createHotspot: function (ssid, mode, authObj, successCB, errorCB) {
+        var identity = authObj.identity,
+            password = identity ? authObj.password : authObj;
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "createHotspot", [ssid, mode, password]);
+        }, "HotSpotPlugin", "createHotspot", [ssid, mode, identity, password]);
     },
 
     /**
@@ -272,21 +274,23 @@ HotSpotPlugin.prototype = {
      *
      * @param {string} ssid
      *      SSID to connect
-     * @param {string} password
+     * @param {string|object} password to use or auth config for EAP
      *      password to use
      * @param {string} authentication
-     *      mode use (LEAP, SHARED, OPEN)
-     * @param {string[]} encryption
+     *      mode use (LEAP, SHARED, OPEN, EAP)
+     * @param {string[]} encryption (can be null for EAP)
      *      mode use (CCMP, TKIP, WEP104, WEP40)
      * @param {connectToWifiAuthEncryptCallback} successCB
      *      A callback function to be called when connected successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when connection was not successful
      */
-    connectToWifiAuthEncrypt: function (ssid, password, authentication, encryption, successCB, errorCB) {
+    connectToWifiAuthEncrypt: function (ssid, authObj, authentication, encryption, successCB, errorCB) {
+        var identity = authObj.identity,
+            password = identity ? authObj.password : authObj;
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "connectToWifiAuthEncrypt", [ssid, password, authentication, encryption]);
+        }, "HotSpotPlugin", "connectToWifiAuthEncrypt", [ssid, identity, password, authentication, encryption]);
     },
     /**
      * A callback function to be called when connected successful
@@ -299,18 +303,20 @@ HotSpotPlugin.prototype = {
      * @param {string} ssid
      *      SSID to connect
      * @param {string} mode
-     *      mode use (Open, WEP, WPA, WPA_PSK)
-     * @param {string} password
+     *      mode use (Open, WEP, WPA, WPA_PSK, EAP)
+     * @param {string|object} password to use or auth config for EAP
      *      password to use
      * @param {configureHotspotCallback} successCB
      *      A callback function to be called when connected successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when configuration was not successful
      */
-    configureHotspot: function (ssid, mode, password, successCB, errorCB) {
+    configureHotspot: function (ssid, mode, authObj, successCB, errorCB) {
+        var identity = authObj.identity,
+            password = identity ? authObj.password : authObj;
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "configureHotspot", [ssid, mode, password]);
+        }, "HotSpotPlugin", "configureHotspot", [ssid, mode, identity, password]);
     },
     /**
      * A callback function to be called when connected successful
@@ -323,18 +329,20 @@ HotSpotPlugin.prototype = {
      * @param {string} ssid
      *      SSID to connect
      * @param {string} mode
-     *      mode use (Open, WEP, WPA, WPA_PSK)
-     * @param {string} password
+     *      mode use (Open, WEP, WPA, WPA_PSK, EAP)
+     * @param {string|object} password to use or auth config for EAP
      *      password to use
      * @param {function} successCB
      *      A callback function to be called when adding successful
      * @param {errorCallback} errorCB
      *      A callback function to be called when adding was not successful
      */
-    addWifiNetwork: function (ssid, mode, password, successCB, errorCB) {
+    addWifiNetwork: function (ssid, mode, authObj, successCB, errorCB) {
+        var identity = authObj.identity,
+            password = identity ? authObj.password : authObj;
         cordova.exec(successCB, function (err) {
             errorCB(err);
-        }, "HotSpotPlugin", "addWifiNetwork", [ssid, password, mode]);
+        }, "HotSpotPlugin", "addWifiNetwork", [ssid, identity, password, mode]);
     },
     /**
      * A callback function function to be called when removal was successful
