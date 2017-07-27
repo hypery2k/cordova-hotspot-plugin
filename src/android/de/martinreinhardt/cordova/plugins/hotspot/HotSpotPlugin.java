@@ -117,8 +117,10 @@ public class HotSpotPlugin extends CordovaPlugin {
                 Log.d(LOG_TAG, "Can Write Settings: " + retVal);
                 if (!retVal && !action.equals("requestWriteSettings") && !action.equals("getWriteSettings")) {
                     //can't write Settings
-                    callback.error("write settings: false");
-                    return false;
+					// Removed return false, to avoid getting "write settings: false" in some cases.
+					// With Android Target API >= 23, permissions are explicitely granted during the app runtime.
+                    // callback.error("write settings: false");
+                    // return false;
                 }
                 this.writeSettings = retVal;
             } catch (Exception ignored) {
