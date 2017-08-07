@@ -117,8 +117,8 @@ public class HotSpotPlugin extends CordovaPlugin {
                 Log.d(LOG_TAG, "Can Write Settings: " + retVal);
                 if (!retVal && !action.equals("requestWriteSettings") && !action.equals("getWriteSettings")) {
                     //can't write Settings
-                    callback.error("write settings: false");
-                    return false;
+                    //callback.error("write settings: false");
+                    //return false;
                 }
                 this.writeSettings = retVal;
             } catch (Exception ignored) {
