@@ -1,10 +1,16 @@
-<a name="1.2.8"></a>
-## [1.2.8](https://github.com/hypery2k/cordova-hotspot-plugin/compare/v1.2.7...v1.2.8) (2017-02-24)
+<a name="1.2.9"></a>
+## [1.2.9](https://github.com/hypery2k/cordova-hotspot-plugin/compare/v1.2.7...v1.2.9) (2017-08-11)
 
 
 ### Bug Fixes
 
+* **API-23:** Corrected permission usage ([f4383ca](https://github.com/hypery2k/cordova-hotspot-plugin/commit/f4383ca))
 * **API-23:** Corrected permission usage ([d69a4b5](https://github.com/hypery2k/cordova-hotspot-plugin/commit/d69a4b5))
+
+
+### Features
+
+* **typescript:** Adding typescript support ([6a6b168](https://github.com/hypery2k/cordova-hotspot-plugin/commit/6a6b168))
 
 
 
