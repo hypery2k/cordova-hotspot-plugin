@@ -1,4 +1,4 @@
-# Cordova HotSpot Plugin
+# Cordova HotSpot Plugin ![android](https://cdn4.iconfinder.com/data/icons/logos-3/228/android-32.png)
 
 **DISCONTINUED**
 
