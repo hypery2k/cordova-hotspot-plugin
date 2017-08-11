@@ -1,23 +1,63 @@
-language: objective-c
+language: android
+android:
+  components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    # - tools
+    # - platform-tools
+
+    # The BuildTools version used by your project
+
+    - build-tools-23.0.1
+    - build-tools-22.0.0
+    - build-tools-22.0.1
+    - build-tools-21.1.2
+    - build-tools-21.1.1
+    - build-tools-20.0.1
+    - build-tools-19.1.0
+
+    # The SDK version used to compile your project
+    - android-23
+    - android-22
+    - android-21
+    - android-19
+    - android-20
+
+    # Additional components
+    - extra-android-support
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-23
+    - addon-google_apis-google-22
+    - addon-google_apis-google-21
+    - addon-google_apis-google-20
+    - addon-google_apis-google-19
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-armeabi-v7a-android-23
+    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-20
+    - sys-img-armeabi-v7a-android-19
+
+jdk:
+  - oraclejdk8
+before_install:
 env:
   - CORDOVA_VERSION=latest
   - CORDOVA_VERSION=6.1.1
   - CORDOVA_VERSION=6.0.0
 script:
-#  - npm test
+  - npm run prepare:test-app
+  - npm run test:plugin
 before_install:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
-  - echo $JAVA_HOME
-  # Install base Android SDK and components
-  - export LICENSES="android-sdk-license-c81a61d9|android-sdk-license-ed0d0a5b|android-sdk-license-5be876d5|mips-android-sysimage-license-15de68cc|intel-android-sysimage-license-1ea702d1"
-  - export COMPONENTS=android-19,android-20,android-21,android-22,android-23,sys-img-armeabi-v7a-android-19,sys-img-armeabi-v7a-android-21,sys-img-armeabi-v7a-android-22,sys-img-armeabi-v7a-android-23,extra-android-support,addon-google_apis-google-19,google-apis-19,addon-google_apis-google-20,google-apis-20,addon-google_apis-google-21,google-apis-21,addon-google_apis-google-22,google-apis-22,addon-google_apis-google-23,google-apis-23,extra-google-google_play_services,extra-google-gcm,build-tools-19.1.0,build-tools-20.0.1,build-tools-21.0.1,build-tools-22.0.5,build-tools-23.0.2,extra-google-m2repository,extra-android-m2repository
-  - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS --accept=$LICENSES
-  - source ~/.android-sdk-installer/env
+  - nvm install 6
+  - node --version
+  - gradle --version
   - android list targets
   # Create and start emulator
-  - echo no | android create avd --force -n android-19 -t android-19 --abi google_apis/armeabi-v7a
-  - echo no | android create avd --force -n android-21 -t android-21 --abi google_apis/armeabi-v7a
-  - echo no | android create avd --force -n android-22 -t android-22 --abi google_apis/armeabi-v7a
-  - echo no | android create avd --force -n android-23 -t android-23 --abi google_apis/armeabi-v7a
+  - echo no | android create avd --force -n android-19 -t android-19 --abi armeabi-v7a
   - npm install -g cordova@$CORDOVA_VERSION
   - npm install
+  - npm run prepare:sdk
