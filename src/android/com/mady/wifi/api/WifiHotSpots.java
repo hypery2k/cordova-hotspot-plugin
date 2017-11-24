@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class WifiHotSpots {
     /**
@@ -98,7 +99,6 @@ public class WifiHotSpots {
         isConnectToHotSpotRunning = true;
         WifiConfiguration wifiConf = new WifiConfiguration();
         if (authentication != null && encryptions != null && encryptions.length > 0) {
-            removeWifiNetwork(netSSID);
             if (WifiConfiguration.AuthAlgorithm.LEAP == authentication.intValue()) {
 
                 wifiConf.SSID = "\"" + netSSID + "\"";
@@ -106,11 +106,15 @@ public class WifiHotSpots {
                 for (int cipher : encryptions) {
                     wifiConf.allowedGroupCiphers.set(cipher);
                 }
+                mWifiManager.setWifiEnabled(true);
                 int res = mWifiManager.addNetwork(wifiConf);
+                mWifiManager.saveConfiguration();
+                if (res == -1) {
+                    res = getExistingNetworkId(netSSID);
+                }
                 mWifiManager.disconnect();
                 mWifiManager.enableNetwork(res, true);
                 mWifiManager.reconnect();
-                mWifiManager.setWifiEnabled(true);
                 isConnectToHotSpotRunning = false;
                 return true;
             } else if (WifiConfiguration.AuthAlgorithm.SHARED == authentication.intValue()) {
@@ -122,11 +126,15 @@ public class WifiHotSpots {
                 for (int cipher : encryptions) {
                     wifiConf.allowedGroupCiphers.set(cipher);
                 }
+                mWifiManager.setWifiEnabled(true);
                 int res = mWifiManager.addNetwork(wifiConf);
+                mWifiManager.saveConfiguration();
+                if (res == -1) {
+                    res = getExistingNetworkId(netSSID);
+                }
                 mWifiManager.disconnect();
                 mWifiManager.enableNetwork(res, true);
                 mWifiManager.reconnect();
-                mWifiManager.setWifiEnabled(true);
                 isConnectToHotSpotRunning = false;
                 return true;
 
@@ -144,12 +152,15 @@ public class WifiHotSpots {
                 wifiConf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
                 wifiConf.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
                 wifiConf.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+                mWifiManager.setWifiEnabled(true);
                 int res = mWifiManager.addNetwork(wifiConf);
+                mWifiManager.saveConfiguration();
+                if (res == -1) {
+                    res = getExistingNetworkId(netSSID);
+                }
                 mWifiManager.disconnect();
                 mWifiManager.enableNetwork(res, true);
                 mWifiManager.reconnect();
-                mWifiManager.saveConfiguration();
-                mWifiManager.setWifiEnabled(true);
                 isConnectToHotSpotRunning = false;
                 return true;
 
@@ -161,20 +172,23 @@ public class WifiHotSpots {
 
                 for (ScanResult result : scanResultList) {
 
-                    if (result.SSID.equals(netSSID)) {
+                    if (result.SSID.contains(netSSID)) {
 
-                        removeWifiNetwork(result.SSID);
                         String mode = getSecurityMode(result);
 
                         if (mode.equalsIgnoreCase("OPEN")) {
                             Log.i(LOG_TAG, "Connecting to  hotspot with security: OPEN");
                             wifiConf.SSID = "\"" + netSSID + "\"";
                             wifiConf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                            mWifiManager.setWifiEnabled(true);
                             int res = mWifiManager.addNetwork(wifiConf);
+                            mWifiManager.saveConfiguration();
+                            if (res == -1) {
+                                res = getExistingNetworkId(netSSID);
+                            }
                             mWifiManager.disconnect();
                             mWifiManager.enableNetwork(res, true);
                             mWifiManager.reconnect();
-                            mWifiManager.setWifiEnabled(true);
                             isConnectToHotSpotRunning = false;
                             return true;
 
@@ -186,11 +200,15 @@ public class WifiHotSpots {
                             wifiConf.wepTxKeyIndex = 0;
                             wifiConf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                             wifiConf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+                            mWifiManager.setWifiEnabled(true);
                             int res = mWifiManager.addNetwork(wifiConf);
+                            mWifiManager.saveConfiguration();
+                            if (res == -1) {
+                                res = getExistingNetworkId(netSSID);
+                            }
                             mWifiManager.disconnect();
                             mWifiManager.enableNetwork(res, true);
                             mWifiManager.reconnect();
-                            mWifiManager.setWifiEnabled(true);
                             isConnectToHotSpotRunning = false;
                             return true;
 
@@ -208,12 +226,15 @@ public class WifiHotSpots {
                             wifiConf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
                             wifiConf.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
                             wifiConf.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+                            mWifiManager.setWifiEnabled(true);
                             int res = mWifiManager.addNetwork(wifiConf);
+                            mWifiManager.saveConfiguration();
+                            if (res == -1) {
+                                res = getExistingNetworkId(netSSID);
+                            }
                             mWifiManager.disconnect();
                             mWifiManager.enableNetwork(res, true);
                             mWifiManager.reconnect();
-                            mWifiManager.saveConfiguration();
-                            mWifiManager.setWifiEnabled(true);
                             isConnectToHotSpotRunning = false;
                             return true;
 
@@ -224,6 +245,19 @@ public class WifiHotSpots {
         }
         isConnectToHotSpotRunning = false;
         return false;
+    }
+
+    private int getExistingNetworkId(String SSID) {
+        List<WifiConfiguration> configuredNetworks = mWifiManager.getConfiguredNetworks();
+        if (configuredNetworks != null) {
+            for (WifiConfiguration existingConfig : configuredNetworks) {
+                if (Pattern.matches("\"" + SSID + "\"", existingConfig.SSID) ||
+                    Pattern.matches(SSID, existingConfig.SSID)) {
+                    return existingConfig.networkId;
+                }
+            }
+        }
+        return -1;
     }
 
     /**
