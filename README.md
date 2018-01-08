@@ -1,5 +1,7 @@
 # Cordova HotSpot Plugin ![android](https://cdn4.iconfinder.com/data/icons/logos-3/228/android-32.png)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hypery2k/cordova-hotspot-plugin.svg)](https://greenkeeper.io/)
+
 **DISCONTINUED**
 
 > If anybody wants to takeover the project feel free to contact me
