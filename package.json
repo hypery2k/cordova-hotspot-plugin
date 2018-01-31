@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-hotspot",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "Cordova WiFi Hotspot Plugin",
   "cordova": {
     "id": "cordova-plugin-hotspot",
@@ -27,7 +27,6 @@
     "test": "npm run test:unit && npm run test:plugin",
     "test:unit": "cd test/android && ./gradlew clean build",
     "test:plugin": "cd tmp/cordova-app-hello-world && cordova plugin add ../..",
-    "posttest": "jsdoc -c jsdoc.json && jsdoc2md www/HotSpotPlugin.js | sed s/hotSpotPlugin/cordova.plugins.hotspot/g | sed s/HotSpotPlugin/cordova.plugins.hotspot/g > PLUGIN_USAGE.MD",
     "posttest": "jsdoc -c jsdoc.json && jsdoc2md www/HotSpotPlugin.js | sed s/hotSpotPlugin/cordova.plugins.hotspot/g | sed s/HotSpotPlugin/cordova.plugins.hotspot/g > PLUGIN_USAGE.MD",
     "jsdoc": "jsdoc -c ./jsdoc.json -t ./node_modules/ink-docstrap/template -R README.md ./src && jsdoc2md www/HotSpotPlugin.js | sed s/hotSpotPlugin/cordova.plugins.hotspot/g | sed s/HotSpotPlugin/cordova.plugins.hotspot/g > PLUGIN_USAGE.MD",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
