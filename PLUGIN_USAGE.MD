@@ -142,30 +142,30 @@ called with an array of JSON objects.</p>
 ### cordova.plugins.hotspot.isAvailable(callback)
 Check if plugin is available
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| callback | <code>[isAvailableCallback](#isAvailableCallback)</code> | A callback function which is invoked on success. |
+| callback | [<code>isAvailableCallback</code>](#isAvailableCallback) | A callback function which is invoked on success. |
 
 <a name="cordova.plugins.hotspot+getWriteSettings"></a>
 
 ### cordova.plugins.hotspot.getWriteSettings(successCB, errorCB)
 get the current write settings of the app
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type |
 | --- | --- |
-| successCB | <code>[getWriteSettingsCallback](#getWriteSettingsCallback)</code> | 
-| errorCB | <code>[errorCallback](#errorCallback)</code> | 
+| successCB | [<code>getWriteSettingsCallback</code>](#getWriteSettingsCallback) | 
+| errorCB | [<code>errorCallback</code>](#errorCallback) | 
 
 <a name="cordova.plugins.hotspot+requestWriteSettings"></a>
 
 ### cordova.plugins.hotspot.requestWriteSettings(callback, error)
 get the current write settings of the app
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -177,96 +177,96 @@ get the current write settings of the app
 ### cordova.plugins.hotspot.toggleWifi(callback, errorCB)
 Method to Toggle wifi ON/OFF
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| callback | <code>[toggleWifiCallback](#toggleWifiCallback)</code> | A callback function which is invoked on success. |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when errors occurr |
+| callback | [<code>toggleWifiCallback</code>](#toggleWifiCallback) | A callback function which is invoked on success. |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when errors occurr |
 
 <a name="cordova.plugins.hotspot+createHotspot"></a>
 
 ### cordova.plugins.hotspot.createHotspot(ssid, mode, password, successCB, errorCB)
 Create a WiFi Hotspot
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ssid | <code>string</code> | SSID to connect |
 | mode | <code>string</code> | wireless mode (Open, WEP, WPA, WPA_PSK) |
 | password | <code>string</code> | password to use |
-| successCB | <code>[createHotspotCallback](#createHotspotCallback)</code> | A callback function to be called when start was successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
+| successCB | [<code>createHotspotCallback</code>](#createHotspotCallback) | A callback function to be called when start was successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+startHotspot"></a>
 
 ### cordova.plugins.hotspot.startHotspot(successCB, errorCB)
 Start a default WiFi Hotspot
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[startHotspotCallback](#startHotspotCallback)</code> | A callback function to be called when start was successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when start was not successful |
+| successCB | [<code>startHotspotCallback</code>](#startHotspotCallback) | A callback function to be called when start was successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when start was not successful |
 
 <a name="cordova.plugins.hotspot+stopHotspot"></a>
 
 ### cordova.plugins.hotspot.stopHotspot(successCB, errorCB)
 Stop a running default WiFi Hotspot
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[stopHotspotCallback](#stopHotspotCallback)</code> | A callback function to be called when stop was successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when stop was not successful |
+| successCB | [<code>stopHotspotCallback</code>](#stopHotspotCallback) | A callback function to be called when stop was successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when stop was not successful |
 
 <a name="cordova.plugins.hotspot+isHotspotEnabled"></a>
 
 ### cordova.plugins.hotspot.isHotspotEnabled(successCB, errorCB)
 Checks if hot spot is enabled
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[isHotspotEnabledCallback](#isHotspotEnabledCallback)</code> | A callback function with the result |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A error callback function |
+| successCB | [<code>isHotspotEnabledCallback</code>](#isHotspotEnabledCallback) | A callback function with the result |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A error callback function |
 
 <a name="cordova.plugins.hotspot+getAllHotspotDevices"></a>
 
 ### cordova.plugins.hotspot.getAllHotspotDevices(A, errorCB)
 Get all connected devices
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| A | <code>[getAllHotspotDevicesCallback](#getAllHotspotDevicesCallback)</code> | callback function when hotspot connection is active and info was rad. |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| A | [<code>getAllHotspotDevicesCallback</code>](#getAllHotspotDevicesCallback) | callback function when hotspot connection is active and info was rad. |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+connectToWifi"></a>
 
 ### cordova.plugins.hotspot.connectToWifi(ssid, password, successCB, errorCB)
 Connect to a WiFi network
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ssid | <code>string</code> | SSID to connect |
 | password | <code>string</code> | password to use |
-| successCB | <code>[connectToWifiCallback](#connectToWifiCallback)</code> | A callback function to be called when connected successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
+| successCB | [<code>connectToWifiCallback</code>](#connectToWifiCallback) | A callback function to be called when connected successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+connectToWifiAuthEncrypt"></a>
 
 ### cordova.plugins.hotspot.connectToWifiAuthEncrypt(ssid, password, authentication, encryption, successCB, errorCB)
 configure current WiFi Hotspot
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -274,30 +274,30 @@ configure current WiFi Hotspot
 | password | <code>string</code> | password to use |
 | authentication | <code>string</code> | mode use (LEAP, SHARED, OPEN) |
 | encryption | <code>Array.&lt;string&gt;</code> | mode use (CCMP, TKIP, WEP104, WEP40) |
-| successCB | <code>[connectToWifiAuthEncryptCallback](#connectToWifiAuthEncryptCallback)</code> | A callback function to be called when connected successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when connection was not successful |
+| successCB | [<code>connectToWifiAuthEncryptCallback</code>](#connectToWifiAuthEncryptCallback) | A callback function to be called when connected successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when connection was not successful |
 
 <a name="cordova.plugins.hotspot+configureHotspot"></a>
 
 ### cordova.plugins.hotspot.configureHotspot(ssid, mode, password, successCB, errorCB)
 configure current WiFi Hotspot
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ssid | <code>string</code> | SSID to connect |
 | mode | <code>string</code> | mode use (Open, WEP, WPA, WPA_PSK) |
 | password | <code>string</code> | password to use |
-| successCB | <code>[configureHotspotCallback](#configureHotspotCallback)</code> | A callback function to be called when connected successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when configuration was not successful |
+| successCB | [<code>configureHotspotCallback</code>](#configureHotspotCallback) | A callback function to be called when connected successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when configuration was not successful |
 
 <a name="cordova.plugins.hotspot+addWifiNetwork"></a>
 
 ### cordova.plugins.hotspot.addWifiNetwork(ssid, mode, password, successCB, errorCB)
 add a WiFi network
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -305,218 +305,218 @@ add a WiFi network
 | mode | <code>string</code> | mode use (Open, WEP, WPA, WPA_PSK) |
 | password | <code>string</code> | password to use |
 | successCB | <code>function</code> | A callback function to be called when adding successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when adding was not successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when adding was not successful |
 
 <a name="cordova.plugins.hotspot+removeWifiNetwork"></a>
 
 ### cordova.plugins.hotspot.removeWifiNetwork(ssid, successCB, errorCB)
 Delete a WiFi network
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ssid | <code>string</code> | SSID to connect |
 | successCB | <code>function</code> | A callback function function to be called when removal was successful |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | A callback function to be called when removal was not successful |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | A callback function to be called when removal was not successful |
 
 <a name="cordova.plugins.hotspot+isConnectedToInternet"></a>
 
 ### cordova.plugins.hotspot.isConnectedToInternet(successCB, errorCB)
 Check if connection to internet is active
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[isConnectedToInternetCallback](#isConnectedToInternetCallback)</code> | A callback function to be called with the result |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>isConnectedToInternetCallback</code>](#isConnectedToInternetCallback) | A callback function to be called with the result |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+isConnectedToInternetViaWifi"></a>
 
 ### cordova.plugins.hotspot.isConnectedToInternetViaWifi(successCB, errorCB)
 Check if connection to internet is active via WiFi
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[isConnectedToInternetViaWifiCallback](#isConnectedToInternetViaWifiCallback)</code> | A callback function to be called with the result |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>isConnectedToInternetViaWifiCallback</code>](#isConnectedToInternetViaWifiCallback) | A callback function to be called with the result |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+isWifiOn"></a>
 
 ### cordova.plugins.hotspot.isWifiOn(successCB, errorCB)
 Check if WiFi is enabled
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[isWifiOnCallback](#isWifiOnCallback)</code> | A callback function with the result |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>isWifiOnCallback</code>](#isWifiOnCallback) | A callback function with the result |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+isWifiSupported"></a>
 
 ### cordova.plugins.hotspot.isWifiSupported(successCB, errorCB)
 Check if WiFi is supported
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[isWifiSupportedCallback](#isWifiSupportedCallback)</code> | A callback function with the result |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>isWifiSupportedCallback</code>](#isWifiSupportedCallback) | A callback function with the result |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+isWifiDirectSupported"></a>
 
 ### cordova.plugins.hotspot.isWifiDirectSupported(successCB, errorCB)
 Check if WiFi Direct is supported
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[isWifiDirectSupportedCallback](#isWifiDirectSupportedCallback)</code> | A callback function with the result |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>isWifiDirectSupportedCallback</code>](#isWifiDirectSupportedCallback) | A callback function with the result |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+scanWifi"></a>
 
 ### cordova.plugins.hotspot.scanWifi(successCB, errorCB)
 Scan wifi
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[scanWifiCallback](#scanWifiCallback)</code> | A callback function to be called when scan is started |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>scanWifiCallback</code>](#scanWifiCallback) | A callback function to be called when scan is started |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+scanWifiByLevel"></a>
 
 ### cordova.plugins.hotspot.scanWifiByLevel(successCB, errorCB)
 Scan wifi by level
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | successCB | <code>scanWifiByLevelCallback</code> | A callback function to be called when scan is started |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+startWifiPeriodicallyScan"></a>
 
 ### cordova.plugins.hotspot.startWifiPeriodicallyScan(interval, duration, successCB, errorCB)
 Start a periodically scan wifi
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | interval | <code>long</code> | interval to use |
 | duration | <code>long</code> | duration to use |
-| successCB | <code>[startWifiPeriodicallyScanCallback](#startWifiPeriodicallyScanCallback)</code> | A callback function to be called when scan is started |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>startWifiPeriodicallyScanCallback</code>](#startWifiPeriodicallyScanCallback) | A callback function to be called when scan is started |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+stopWifiPeriodicallyScan"></a>
 
 ### cordova.plugins.hotspot.stopWifiPeriodicallyScan(successCB, errorCB)
 Stop a periodically scan wifi
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[stopWifiPeriodicallyScanCallback](#stopWifiPeriodicallyScanCallback)</code> | A callback function to be called when scan is stopped |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>stopWifiPeriodicallyScanCallback</code>](#stopWifiPeriodicallyScanCallback) | A callback function to be called when scan is stopped |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+getNetConfig"></a>
 
 ### cordova.plugins.hotspot.getNetConfig(successCB, errorCB)
 Get network information, e.g Gateway Ip/Mac Device Mac/Ip etc
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[getNetConfigCallback](#getNetConfigCallback)</code> | A callback function to be called with all information |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>getNetConfigCallback</code>](#getNetConfigCallback) | A callback function to be called with all information |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+getConnectionInfo"></a>
 
 ### cordova.plugins.hotspot.getConnectionInfo(successCB, errorCB)
 Get current connection information, e.g SSID, linkSpeed,IPAddress etc
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[getConnectionInfoCallback](#getConnectionInfoCallback)</code> | A callback function with the connection details. |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>getConnectionInfoCallback</code>](#getConnectionInfoCallback) | A callback function with the connection details. |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+pingHost"></a>
 
 ### cordova.plugins.hotspot.pingHost(ip, successCB, errorCB)
 Ping a host
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
-| successCB | <code>[pingHostCallback](#pingHostCallback)</code> | A callback function to be called with all information |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>pingHostCallback</code>](#pingHostCallback) | A callback function to be called with all information |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+getMacAddressOfHost"></a>
 
 ### cordova.plugins.hotspot.getMacAddressOfHost(ip, successCB, errorCB)
 Get MAC address of host
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
 | successCB | <code>getMacAddressOfHost</code> | A callback function to be called with all information |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+isDnsLive"></a>
 
 ### cordova.plugins.hotspot.isDnsLive(ip, successCB, errorCB)
 dnsLive
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
 | successCB | <code>function</code> | A callback function to be called with the result |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+isPortLive"></a>
 
 ### cordova.plugins.hotspot.isPortLive(ip, successCB, errorCB)
 is port available
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ip | <code>string</code> | host IP |
-| successCB | <code>[isPortLiveCallback](#isPortLiveCallback)</code> | A callback function to be called with all information |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>isPortLiveCallback</code>](#isPortLiveCallback) | A callback function to be called with all information |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="cordova.plugins.hotspot+isRooted"></a>
 
 ### cordova.plugins.hotspot.isRooted(successCB, errorCB)
 Check Device is Rooted
 
-**Kind**: instance method of <code>[cordova.plugins.hotspot](#cordova.plugins.hotspot)</code>  
+**Kind**: instance method of [<code>cordova.plugins.hotspot</code>](#cordova.plugins.hotspot)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| successCB | <code>[isRootedCallback](#isRootedCallback)</code> | A callback function to be called with all information |
-| errorCB | <code>[errorCallback](#errorCallback)</code> | An error callback |
+| successCB | [<code>isRootedCallback</code>](#isRootedCallback) | A callback function to be called with all information |
+| errorCB | [<code>errorCallback</code>](#errorCallback) | An error callback |
 
 <a name="errorCallback"></a>
 
