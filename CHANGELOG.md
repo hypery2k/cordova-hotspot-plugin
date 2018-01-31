@@ -1,16 +1,27 @@
+<a name="1.2.10"></a>
+## [1.2.10](https://github.com/hypery2k/cordova-hotspot-plugin/compare/v1.2.9...v1.2.10) (2018-01-31)
+
+
+### Bug Fixes
+
+* example/hotspot-app/package.json & example/hotspot-app/.snyk to reduce vulnerabilities ([1acf4e6](https://github.com/hypery2k/cordova-hotspot-plugin/commit/1acf4e6))
+* **connection-error:** Minor fixes for connection errors ([891e546](https://github.com/hypery2k/cordova-hotspot-plugin/commit/891e546)), closes [#57](https://github.com/hypery2k/cordova-hotspot-plugin/issues/57) [#81](https://github.com/hypery2k/cordova-hotspot-plugin/issues/81)
+
+
+
 <a name="1.2.9"></a>
 ## [1.2.9](https://github.com/hypery2k/cordova-hotspot-plugin/compare/v1.2.7...v1.2.9) (2017-08-11)
 
 
 ### Bug Fixes
 
-* **API-23:** Corrected permission usage ([f4383ca](https://github.com/hypery2k/cordova-hotspot-plugin/commit/f4383ca))
-* **API-23:** Corrected permission usage ([d69a4b5](https://github.com/hypery2k/cordova-hotspot-plugin/commit/d69a4b5))
+* **API-23:** Corrected permission usage ([f4383ca](https://github.com/hypery2k/cordova-hotspot-plugin/commit/f4383ca)), closes [#55](https://github.com/hypery2k/cordova-hotspot-plugin/issues/55) [#56](https://github.com/hypery2k/cordova-hotspot-plugin/issues/56) [#62](https://github.com/hypery2k/cordova-hotspot-plugin/issues/62)
+* **API-23:** Corrected permission usage ([d69a4b5](https://github.com/hypery2k/cordova-hotspot-plugin/commit/d69a4b5)), closes [#55](https://github.com/hypery2k/cordova-hotspot-plugin/issues/55) [#56](https://github.com/hypery2k/cordova-hotspot-plugin/issues/56)
 
 
 ### Features
 
-* **typescript:** Adding typescript support ([6a6b168](https://github.com/hypery2k/cordova-hotspot-plugin/commit/6a6b168))
+* **typescript:** Adding typescript support ([6a6b168](https://github.com/hypery2k/cordova-hotspot-plugin/commit/6a6b168)), closes [#40](https://github.com/hypery2k/cordova-hotspot-plugin/issues/40)
 
 
 
