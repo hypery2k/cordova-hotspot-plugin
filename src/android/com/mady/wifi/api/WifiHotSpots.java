@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2013-2014 www.Andbrain.com
+/* 
+ * Copyright (C) 2013-2014 www.Andbrain.com 
  * Faster and more easily to create android apps
  *
  * */
@@ -17,12 +17,11 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.util.Log;
 
-import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.io.*;
 
 public class WifiHotSpots {
     /**
